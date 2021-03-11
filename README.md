@@ -7,3 +7,4 @@ This is the first prototype of a Data Ingest Tool from Datacite Commons to VIVO.
 It only contains one query for importing organization and its people.
 
 Run it on your computer with "mvn spring-boot:run" or use the Dockerfile.
+A minimal swagger-ui will be available at http://<host>:9000/swagger-ui/
