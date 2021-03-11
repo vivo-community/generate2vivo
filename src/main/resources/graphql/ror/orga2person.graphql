@@ -1,0 +1,17 @@
+query orga2person($ror: ID!) {
+    organization(id: $ror) {
+        id
+        name
+        country {
+            name
+        }
+
+        people {
+            nodes {
+                id
+                givenName
+                familyName
+            }
+        }
+    }
+}

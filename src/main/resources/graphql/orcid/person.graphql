@@ -1,0 +1,35 @@
+query person($orcid :ID!)
+{
+    person(id: $orcid){
+        alternateName
+        citationCount
+        country{
+            id
+            name
+        }
+        description
+        downloadCount
+        employment{
+            endDate
+            organizationId
+            organizationName
+            roleTitle
+            startDate
+        }
+        familyName
+        givenName
+        id
+        identifiers{
+            identifier
+            identifierType
+            identifierUrl
+        }
+        links{
+            name
+            url
+        }
+        name
+        type
+        viewCount
+    }
+}

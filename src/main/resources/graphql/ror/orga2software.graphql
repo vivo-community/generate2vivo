@@ -1,0 +1,18 @@
+query orga2software($ror: ID!) {
+    organization(id: $ror) {
+        id
+        name
+        country {
+            id
+            name
+        }
+
+        softwares{
+            nodes{
+                bibtex
+                doi
+                id
+            }
+        }
+    }
+}

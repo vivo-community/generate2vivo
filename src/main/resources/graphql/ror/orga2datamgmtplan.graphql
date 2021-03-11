@@ -1,0 +1,23 @@
+query orga2datamgmtplan($ror: ID!) {
+    organization(id: $ror) {
+        id
+        name
+        country {
+            id
+            name
+        }
+
+        dataManagementPlans {
+            nodes {
+                titles {
+                    title
+                }
+                types {
+                    bibtex
+                }
+                doi
+                publicationYear
+            }
+        }
+    }
+}

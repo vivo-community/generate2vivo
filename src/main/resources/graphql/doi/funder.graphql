@@ -1,0 +1,18 @@
+query funder($fid: ID!) {
+    funder(id: $fid) {
+        address {
+            country
+            locality
+            postalCode
+            region
+            streetAddress
+            type
+        }
+        alternateName
+        citationCount
+        downloadCount
+        name
+        type
+        viewCount
+    }
+}

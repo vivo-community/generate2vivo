@@ -1,0 +1,23 @@
+query orga2work($ror: ID!) {
+    organization(id: $ror) {
+        id
+        name
+        country {
+            id
+            name
+        }
+
+        works {
+            nodes {
+                titles {
+                    title
+                }
+                types {
+                    bibtex
+                }
+                doi
+                publicationYear
+            }
+        }
+    }
+}
