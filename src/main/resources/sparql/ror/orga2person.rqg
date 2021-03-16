@@ -11,8 +11,8 @@ PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
 GENERATE {
     <{?ror}> a foaf:Organization ;
-        rdfs:label ?name ;
-        obo:RO_0001025 ?geocountry . #
+        rdfs:label ?name .
+     #   obo:RO_0001025 ?geocountry . 
 
     <{?orcid}-to-{?ror}> a vivo:Position ;
         rdfs:label "Unknown" ;
@@ -43,9 +43,9 @@ WHERE {
    # basic properties of organization in json
    BIND(REPLACE(fun:JSONPath(?orga, '$.id' ), "https://ror.org/" , "" ) AS ?ror)
    BIND(fun:JSONPath(?orga, '$.name' ) AS ?name)
-   BIND(fun:JSONPath(?orga, '$.country.name' ) AS ?country)
+   #BIND(fun:JSONPath(?orga, '$.country.name' ) AS ?country)
    # processed properties
-   BIND(URI(CONCAT(STR(geo:), ?country))  as ?geocountry)
+   #BIND(URI(CONCAT(STR(geo:), ?country))  as ?geocountry)
 
    # basic properties of a person in json
    BIND(REPLACE(fun:JSONPath(?person, '$.id' ), "https://orcid.org/" , "" ) AS ?orcid)
