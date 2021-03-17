@@ -1,9 +1,9 @@
-##datacitecommons2vivo
+## datacitecommons2vivo
 datacitecommons2vivo is a Data Ingest Tool from Datacite Commons to VIVO.
 It queries metadata from datacite commons' PID graph via its [GraphQL API](https://api.datacite.org/graphql), maps it to the VIVO ontology and optionally imports it into a VIVO instance.
 
 
-###Status
+### Status
 This is the first prototype of a Data Ingest Tool from Datacite Commons to VIVO.
 It only contains one query for importing an organization and its people.
 
@@ -23,7 +23,7 @@ It only contains one query for importing an organization and its people.
 
 5. A minimal swagger-ui will be available at `http://localhost:9000/swagger-ui/`.
 
-###Usage
+### Usage
 * Go to `http://localhost:9000/swagger-ui/` in your browser. In the category "organization" there is one query for adding an organization and its people. 
 * Enter a valid ROR-URL and click on Execute. 
 * The program will return a 200 Status, if the data was imported to VIVO or if you chose not to provide your VIVO details, it will return the RDF-data as a result in format json-ld.
