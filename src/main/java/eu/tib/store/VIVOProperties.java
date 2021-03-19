@@ -36,9 +36,6 @@ public class VIVOProperties {
     }
 
     public boolean isValid() {
-        System.out.println(email);
-        System.out.println(password);
-
         return !(StringUtils.isEmpty(email) || StringUtils.isEmpty(password) || StringUtils.isEmpty(url));
     }
 }
