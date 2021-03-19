@@ -25,8 +25,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("DataCite Commons Query Tool for GraphQL API")
-                .description("Query Tool for Datacite Commons' GraphQL API")
+                .title("datacitecommons2vivo")
+                .description("Data Ingest Tool for datacite commons to VIVO")
                 .version("1.0.0-SNAPSHOT")
                 .build();
     }
