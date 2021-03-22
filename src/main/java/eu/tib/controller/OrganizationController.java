@@ -3,13 +3,11 @@ package eu.tib.controller;
 import eu.tib.error.GraphqlRequestException;
 import eu.tib.error.SparqlExecutionException;
 import eu.tib.error.SparqlParsingException;
-import eu.tib.service.OrganizationService;
+import eu.tib.service.ResponseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.jena.rdf.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
-import java.io.StringWriter;
 import java.util.Collections;
 
 @Slf4j
@@ -31,7 +28,7 @@ import java.util.Collections;
 public class OrganizationController {
 
     @Autowired
-    private OrganizationService orgaService;
+    private ResponseService responseService;
 
     @PostMapping(produces = "application/json")
     public ResponseEntity<String> getOrganizationPlusPersons(
@@ -45,8 +42,7 @@ public class OrganizationController {
         StopWatch stopWatch = new StopWatch(id);
         stopWatch.start(id);
 
-        String output = orgaService.getOrganizationPlusPersons(id, Collections.singletonMap("ror", ror));
-        ResponseEntity result = ResponseEntity.status(HttpStatus.OK).body(output);
+        ResponseEntity result = responseService.buildResponse(id, Collections.singletonMap("ror", ror));
 
         stopWatch.stop();
         log.info(id + " took " + stopWatch.getTotalTimeSeconds() + "s");

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class VIVOExport {
 
     //@ToDo Error Handling
-    public String addOrganizationPlusPersons(Model data, VIVOProperties vivo) {
+    public String insertData(Model data, VIVOProperties vivo) {
         Map prefixMap = data.getNsPrefixMap();
         String prefixes = prefixes2String(prefixMap);
         StringWriter stringWriter = new StringWriter();
@@ -28,12 +28,11 @@ public class VIVOExport {
                 triples +
                 "}}";
 
-        System.out.println("\n" + query + "\n");
-
         Try<String> response = Try.apply(() -> new SparqlRequest(vivo, query).send());
-        if (response.isFailure())
-            throw new VIVOExportException(VIVOExport.class, "id", "addOrganizationPlusPersons",
-                    "vivo", vivo.toString());
+        if (response.isFailure()){
+            System.out.println("error while exporting data to VIVO: "+ response.get());
+            throw new VIVOExportException(VIVOExport.class, "id", "insertData",
+                    "vivo", vivo.toString());}
         else return response.get();
     }
 
