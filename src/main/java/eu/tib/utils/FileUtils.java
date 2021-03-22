@@ -17,8 +17,6 @@ public class FileUtils {
 
     public String getGraphqlQuery(String id) throws IOException {
         String resourcePath = String.format(graphqlFilePath, id);
-        System.out.println(resourcePath);
-
         return readResourceNoWhitespace(resourcePath);
     }
 

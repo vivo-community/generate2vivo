@@ -16,7 +16,6 @@ public class SparqlRequest {
         String requestBody = "email=" + URLEncoder.encode(vivo.getEmail(), StandardCharsets.UTF_8)
                 + "&password=" + URLEncoder.encode(vivo.getPassword(), StandardCharsets.UTF_8)
                 + "&update=" + URLEncoder.encode(sparqlQuery, StandardCharsets.UTF_8);
-        System.out.println(requestBody);
 
         // @TODO error handling
         request = HttpRequest.newBuilder()
