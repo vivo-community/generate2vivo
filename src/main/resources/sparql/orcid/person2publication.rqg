@@ -35,7 +35,7 @@ GENERATE {
         vivo:relates <{?doi}> .
 
 ## triples for publication
-    <{?doi}> a <http://purl.org/ontology/bibo/Article> ; ####
+    <{?doi}> a ?pubtype ;
         rdfs:label ?title ;
         bibo:doi ?doi ;
         vivo:dateTimeValue <{?doi}-dtv> .
@@ -59,7 +59,16 @@ WHERE {
    # basic properties of a publication in json
    BIND(fun:JSONPath(?pub, '$.doi' ) AS ?doi)
    BIND(fun:JSONPath(?pub, '$.titles[0].title' ) AS ?title)
+
    BIND(fun:JSONPath(?pub, '$.publicationYear' ) AS ?pubyear)
-   #processed properties
    BIND(CONCAT(?pubyear, "-01-01T00:00:00")  AS ?pubyear_dtv)
+
+   BIND(fun:JSONPath(?pub, '$.types.citeproc' ) AS ?citeproc)
+   BIND (
+     IRI(COALESCE(
+       IF(STRSTARTS(?citeproc, "article"), bibo:Article, 1/0),
+       IF(?citeproc = "book", bibo:Book, 1/0),
+       bibo:Document
+     )) AS ?pubtype
+   )
 }
