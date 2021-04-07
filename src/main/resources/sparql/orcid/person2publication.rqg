@@ -41,7 +41,7 @@ GENERATE {
         vivo:dateTimeValue <{?doi}-dtv> .
 
     <{?doi}-dtv> a vivo:DateTimeValue ;
-        vivo:dateTime ${ fun:dateTime( ?pubyear_dtv ) };
+        vivo:dateTime ${fun:dateTime(?pubyear_dtv, "ISO_DATE_TIME")} ;
         vivo:dateTimePrecision vivo:yearPrecision .
 
 }
@@ -61,7 +61,7 @@ WHERE {
    BIND(fun:JSONPath(?pub, '$.titles[0].title' ) AS ?title)
 
    BIND(fun:JSONPath(?pub, '$.publicationYear' ) AS ?pubyear)
-   BIND(CONCAT(?pubyear, "-01-01T00:00:00")  AS ?pubyear_dtv)
+   BIND(CONCAT(STR(?pubyear), "-01-01T00:00:00")  AS ?pubyear_dtv)
 
    BIND(fun:JSONPath(?pub, '$.types.citeproc' ) AS ?citeproc)
    BIND (
