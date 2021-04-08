@@ -30,18 +30,18 @@ GENERATE {
         vcard:givenName ?givenName .
 
 ## connection person -> publication
-    <{?orcid}-to-{?doi}> a vivo:Authorship ;
+    <{?orcid}-to-{?doi_clean}> a vivo:Authorship ;
         vivo:relates <{?orcid}> ;
-        vivo:relates <{?doi}> .
+        vivo:relates <{?doi_clean}> .
 
 ## triples for publication
-    <{?doi}> a ?pubtype ;
+    <{?doi_clean}> a ?pubtype ;
         rdfs:label ?title ;
         bibo:doi ?doi ;
-        vivo:dateTimeValue <{?doi}-dtv> .
+        vivo:dateTimeValue <{?doi_clean}-dtv> .
 
-    <{?doi}-dtv> a vivo:DateTimeValue ;
-        vivo:dateTime ${fun:dateTime(?pubyear_dtv, "ISO_DATE_TIME")} ;
+    <{?doi_clean}-dtv> a vivo:DateTimeValue ;
+        vivo:dateTime ?pubyear_dtv ;
         vivo:dateTimePrecision vivo:yearPrecision .
 
 }
@@ -58,12 +58,14 @@ WHERE {
 
    # basic properties of a publication in json
    BIND(fun:JSONPath(?pub, '$.doi' ) AS ?doi)
+   BIND(REPLACE(?doi, "/", "") AS ?doi_clean)
    BIND(fun:JSONPath(?pub, '$.titles[0].title' ) AS ?title)
 
    BIND(fun:JSONPath(?pub, '$.publicationYear' ) AS ?pubyear)
-   BIND(CONCAT(STR(?pubyear), "-01-01T00:00:00")  AS ?pubyear_dtv)
+   BIND(xsd:dateTime(CONCAT(STR(?pubyear), "-01-01T00:00:00"))  AS ?pubyear_dtv)
 
    BIND(fun:JSONPath(?pub, '$.types.citeproc' ) AS ?citeproc)
+   # mapping taken from VIVO (claim DOI)
    BIND (
      IRI(COALESCE(
        IF(?citeproc = "article-journal", bibo:AcademicArticle, 1/0),
@@ -87,6 +89,18 @@ WHERE {
        IF(?citeproc = "speech", vivo:Speech, 1/0),
        IF(?citeproc = "thesis", bibo:Thesis, 1/0),
        IF(?citeproc = "webpage", bibo:Webpage, 1/0),
+
+     # mapping leftover types
+       IF(STRSTARTS(?citeproc, "article"), bibo:Article, 1/0),
+       IF(?citeproc = "bill", bibo:Bill, 1/0),
+       IF(STRSTARTS(?citeproc, "entry"), bibo:DocumentPart, 1/0),
+       IF(?citeproc = "interview", bibo:Interview, 1/0),
+       IF(?citeproc = "motion_picture", bibo:Film, 1/0),
+       IF(?citeproc = "post", vivo:BlogPosting, 1/0),
+       IF(?citeproc = "review-book", vivo:Review, 1/0),
+       IF(?citeproc = "song", bibo:AudioDocument, 1/0),
+       IF(?citeproc = "treaty", bibo:LegalDocument, 1/0),
+
        bibo:Document  #default if nothing else fits
      )) AS ?pubtype
    )
