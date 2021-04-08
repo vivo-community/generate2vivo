@@ -1,0 +1,23 @@
+query person($orcid :ID!)
+{
+    person(id: $orcid){
+        familyName
+        givenName
+        id
+
+        publications{
+            edges{
+                node{
+                    doi
+                    titles {
+                        title
+                    }
+                    publicationYear
+                    types {
+                        citeproc
+                    }
+                }
+            }
+        }
+    }
+}
