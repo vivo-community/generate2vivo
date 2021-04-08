@@ -58,7 +58,7 @@ WHERE {
 
    # basic properties of a publication in json
    BIND(fun:JSONPath(?pub, '$.doi' ) AS ?doi)
-   BIND(REPLACE(?doi, "/", "") AS ?doi_clean)
+   BIND(REPLACE(?doi,  "\\W", "", "i") AS ?doi_clean)
    BIND(fun:JSONPath(?pub, '$.titles[0].title' ) AS ?title)
 
    BIND(fun:JSONPath(?pub, '$.publicationYear' ) AS ?pubyear)
