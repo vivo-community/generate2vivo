@@ -5,7 +5,7 @@ It queries metadata from datacite commons' PID graph via its [GraphQL API](https
 
 ### Status
 This is the first prototype of a Data Ingest Tool from Datacite Commons to VIVO.
-It only contains one query for importing an organization and its people.
+It contains one query for importing an organization and its people and one query for importing a person and their publications.
 
 
 ### Installation
@@ -24,6 +24,7 @@ It only contains one query for importing an organization and its people.
 5. A minimal swagger-ui will be available at `http://localhost:9000/swagger-ui/`.
 
 ### Usage
-* Go to `http://localhost:9000/swagger-ui/` in your browser. In the category "organization" there is one query for adding an organization and its people. 
-* Enter a valid ROR-URL and click on Execute. 
-* The program will return a 200 Status, if the data was imported to VIVO or if you chose not to provide your VIVO details, it will return the RDF-data as a result in format json-ld.
+* Go to `http://localhost:9000/swagger-ui/` in your browser.
+* Choose category "organization" for adding an organization and its people or category "person" for adding a person and their publications. 
+* Enter a valid ROR-URL (organization) or ORCID (person) and click on Execute. 
+* The program will return a 200 Status, if the data was imported to VIVO or if you chose not to provide your VIVO details, it will return the RDF-data as a result in format JSON-LD.
