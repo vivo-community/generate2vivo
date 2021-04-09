@@ -47,7 +47,7 @@ GENERATE {
 }
 SOURCE <http://tib.eu/default.json> AS ?source
 ITERATOR iter:JSONPath(?source, '$.data.person') AS ?person
-ITERATOR iter:JSONPath(?person, '$.publications.edges[*].node') AS ?pub
+ITERATOR iter:JSONPath(?person, '$.publications.edges[*].node[?(!@.versions.nodes[0])]') AS ?pub
 WHERE {
    # basic properties of a person in json
    BIND(REPLACE(fun:JSONPath(?person, '$.id' ), "https://orcid.org/" , "" ) AS ?orcid)
