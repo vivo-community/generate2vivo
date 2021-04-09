@@ -16,6 +16,11 @@ query person($orcid :ID!)
                     types {
                         citeproc
                     }
+                    versions{
+                        nodes{
+                            doi
+                        }
+                    }
                 }
             }
         }
