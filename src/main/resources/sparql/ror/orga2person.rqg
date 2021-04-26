@@ -14,31 +14,32 @@ GENERATE  <orga2person>(?ror, ?after) {
                rdfs:label ?name .
 
     GENERATE {
-        <{?orcid}-to-{?rorid}> a vivo:Position ;
+        <{?orcidid}-to-{?rorid}> a vivo:Position ;
             rdfs:label "Unknown" ;
-            vivo:relates <{?orcid}> ;
+            vivo:relates <{?orcidid}> ;
             vivo:relates <{?rorid}> .
 
-        <{?orcid}> a foaf:Person ;
+        <{?orcidid}> a foaf:Person ;
             rdfs:label ?completeName ;
             vivo:orcidId <https://orcid.org/{?orcid}> ;
-            obo:ARG_2000028 <{?orcid}-vcard-dc> . #
+            obo:ARG_2000028 <{?orcid}-vcard-dc> .
 
-        <https://orcid.org/{?orcid}> a owl:Thing ;
-            vivo:confirmedOrcidId <{?orcid}> .
+        <{?orcid}> a owl:Thing ;
+            vivo:confirmedOrcidId <{?orcidid}> .
 
-        <{?orcid}-vcard-dc> a vcard:Individual ;
-            obo:ARG_2000029 <{?orcid}> ;
-            vcard:hasName <{?orcid}-vcard-name-dc> .
+        <{?orcidid}-vcard> a vcard:Individual ;
+            obo:ARG_2000029 <{?orcidid}> ;
+            vcard:hasName <{?orcidid}-vcard-name> .
 
-        <{?orcid}-vcard-name-dc> a vcard:Name ;
+        <{?orcidid}-vcard-name> a vcard:Name ;
             vcard:familyName ?familyName ;
             vcard:givenName ?givenName .
     }
     ITERATOR iter:JSONPath(?orga, '$.people.nodes[*]') AS ?person
     WHERE{
        # basic properties of a person in json
-      BIND(REPLACE(fun:JSONPath(?person, '$.id' ), "https://orcid.org/" , "" ) AS ?orcid)
+      BIND(fun:JSONPath(?person, '$.id' ) AS ?orcid)
+      BIND(REPLACE(?orcid, "https://orcid.org/" , "" ) AS ?orcidid)
       BIND(fun:JSONPath(?person, '$.givenName' ) AS ?givenName)
       BIND(fun:JSONPath(?person, '$.familyName' ) AS ?familyName)
       # processed properties
