@@ -1,6 +1,5 @@
 package eu.tib.controller;
 
-import eu.tib.error.GraphqlRequestException;
 import eu.tib.error.SparqlExecutionException;
 import eu.tib.error.SparqlParsingException;
 import eu.tib.service.ResponseService;
@@ -35,7 +34,7 @@ public class PersonController {
             @Valid @Pattern(regexp = "^https://orcid.org/\\d{4}-\\d{4}-\\d{4}-\\d{4}")
             @ApiParam("Complete Orcid URL consisting of https://orcid.org/ plus id")
             @RequestParam String orcid)
-            throws SparqlParsingException, SparqlExecutionException, GraphqlRequestException {
+            throws SparqlParsingException, SparqlExecutionException {
 
         final String id = "orcid/person2publication";
         log.info("Incoming Request for " + id + " with orcid: " + orcid);

@@ -69,14 +69,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    @ExceptionHandler(GraphqlRequestException.class)
-    protected ResponseEntity<Object> handleEntityNotFound(
-            GraphqlRequestException ex) {
-        ApiError apiError = new ApiError(NOT_FOUND);
-        apiError.setMessage(ex.getMessage());
-        return buildResponseEntity(apiError);
-    }
-
     @ExceptionHandler(SparqlExecutionException.class)
     protected ResponseEntity<Object> handleEntityNotFound(
             SparqlExecutionException ex) {
