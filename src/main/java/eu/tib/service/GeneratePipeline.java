@@ -1,18 +1,15 @@
 package eu.tib.service;
 
 import com.lambdista.util.Try;
-import eu.tib.error.GraphqlRequestException;
 import eu.tib.error.SparqlExecutionException;
 import eu.tib.error.SparqlParsingException;
 import eu.tib.utils.FileUtils;
-import eu.tib.utils.GraphqlRequest;
 import fr.mines_stetienne.ci.sparql_generate.SPARQLExt;
 import fr.mines_stetienne.ci.sparql_generate.engine.PlanFactory;
 import fr.mines_stetienne.ci.sparql_generate.engine.RootPlan;
 import fr.mines_stetienne.ci.sparql_generate.query.SPARQLExtQuery;
 import fr.mines_stetienne.ci.sparql_generate.stream.LocationMapperAccept;
 import fr.mines_stetienne.ci.sparql_generate.stream.LocatorFileAccept;
-import fr.mines_stetienne.ci.sparql_generate.stream.LocatorURLAccept;
 import fr.mines_stetienne.ci.sparql_generate.stream.SPARQLExtStreamManager;
 import fr.mines_stetienne.ci.sparql_generate.utils.ContextUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +24,6 @@ import org.apache.jena.sparql.util.Context;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +68,8 @@ public class GeneratePipeline {
         mapper.addAltEntry("https://projects.tib.eu/tapir/graphql/orga2person.graphql", "graphql/ror/orga2person.graphql");
         mapper.addAltEntry("https://projects.tib.eu/tapir/graphql/orga2person.rqg", "sparql/ror/orga2person.rqg");
 
+        mapper.addAltEntry("https://projects.tib.eu/tapir/graphql/person2publication.graphql", "graphql/orcid/person2publication.graphql");
+        mapper.addAltEntry("https://projects.tib.eu/tapir/graphql/person2publication.rqg", "sparql/orcid/person2publication.rqg");
         SPARQLExtStreamManager sm = SPARQLExtStreamManager.makeStreamManager(locator, mapper);
 
         // create the context
