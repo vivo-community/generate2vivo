@@ -71,7 +71,9 @@ public class GeneratePipeline {
         // replace source in sparql-generate (default.json) with GraphQL URI
         LocatorFileAccept locator = new LocatorFileAccept(new File("resources").toURI().getPath());
         LocationMapperAccept mapper = new LocationMapperAccept();
-        mapper.addAltEntry("https://projects.tib.eu/tapir/graphql/orga2person", "graphql/ror/orga2person.graphql");
+        mapper.addAltEntry("https://projects.tib.eu/tapir/graphql/orga2person.graphql", "graphql/ror/orga2person.graphql");
+        mapper.addAltEntry("https://projects.tib.eu/tapir/graphql/orga2person.rqg", "sparql/ror/orga2person.rqg");
+
         SPARQLExtStreamManager sm = SPARQLExtStreamManager.makeStreamManager(locator, mapper);
 
         // create the context
