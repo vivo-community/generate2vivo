@@ -1,25 +1,27 @@
-query person($orcid :ID!)
-{
-    person(id: $orcid){
+query person($orcid :ID!, $after:String){
+    person(id: $orcid) {
         familyName
         givenName
         id
 
-        publications{
-            edges{
-                node{
-                    doi
-                    titles {
-                        title
-                    }
-                    publicationYear
-                    types {
-                        citeproc
-                    }
-                    versions{
-                        nodes{
-                            doi
-                        }
+        publications(after: $after) {
+            pageInfo {
+                endCursor
+                hasNextPage
+            }
+
+            nodes {
+                doi
+                titles {
+                    title
+                }
+                publicationYear
+                types {
+                    citeproc
+                }
+                versions {
+                    nodes {
+                        doi
                     }
                 }
             }
