@@ -3,54 +3,26 @@ PREFIX iter: <http://w3id.org/sparql-generate/iter/>
 PREFIX fun: <http://w3id.org/sparql-generate/fn/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-PREFIX obo: <http://purl.obolibrary.org/obo/>
-PREFIX geo: <http://aims.fao.org/aos/geopolitical.owl#>
-PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
-PREFIX vivo: <http://vivoweb.org/ontology/core#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
-GENERATE {
-    <{?ror}> a foaf:Organization ;
-        rdfs:label ?name .
-     #   obo:RO_0001025 ?geocountry . 
+GENERATE  <orga2person>(?ror) {
 
-    <{?orcid}-to-{?ror}> a vivo:Position ;
-        rdfs:label "Unknown" ;
-        vivo:relates <{?orcid}> ;
-        vivo:relates <{?ror}> .
-
-    <{?orcid}> a foaf:Person ;
-        rdfs:label ?completeName ;
-        vivo:orcidId <https://orcid.org/{?orcid}> ;
-        obo:ARG_2000028 <{?orcid}-vcard-dc> . #
-
-    <https://orcid.org/{?orcid}> a owl:Thing ;
-        vivo:confirmedOrcidId <{?orcid}> .
-
-    <{?orcid}-vcard-dc> a vcard:Individual ;
-        obo:ARG_2000029 <{?orcid}> ;
-        vcard:hasName <{?orcid}-vcard-name-dc> .
-
-    <{?orcid}-vcard-name-dc> a vcard:Name ;
-        vcard:familyName ?familyName ;
-        vcard:givenName ?givenName .
+    <{?rorid}> a foaf:Organization ;
+               rdfs:label ?name .
 
 }
-SOURCE <http://tib.eu/default.json> AS ?source
-ITERATOR iter:JSONPath(?source, '$.data.organization') AS ?orga
-ITERATOR iter:JSONPath(?orga, '$.people.nodes[*]') AS ?person
+SOURCE <https://projects.tib.eu/tapir/graphql/orga2person> AS ?graphqlquery
 WHERE {
-   # basic properties of organization in json
-   BIND(REPLACE(fun:JSONPath(?orga, '$.id' ), "https://ror.org/" , "" ) AS ?ror)
-   BIND(fun:JSONPath(?orga, '$.name' ) AS ?name)
-   #BIND(fun:JSONPath(?orga, '$.country.name' ) AS ?country)
-   # processed properties
-   #BIND(URI(CONCAT(STR(geo:), ?country))  as ?geocountry)
+    #replace whitespace in graphql (compress message)
+    BIND(REPLACE(?graphqlquery, "\\s+", " ") AS ?graphql)
+    BIND ("""\{"variables":\{"ror":"{?ror}"},"query":"{?graphql}"}""" AS ?postbody)
 
-   # basic properties of a person in json
-   BIND(REPLACE(fun:JSONPath(?person, '$.id' ), "https://orcid.org/" , "" ) AS ?orcid)
-   BIND(fun:JSONPath(?person, '$.givenName' ) AS ?givenName)
-   BIND(fun:JSONPath(?person, '$.familyName' ) AS ?familyName)
-   # processed properties
-   BIND(CONCAT(?familyName, ", ", ?givenName)  AS ?completeName)
+
+  BIND(  fun:HTTPPost(<https://api.datacite.org/graphql>, "Content-type: application/json" , ?postbody) AS ?response )
+  FILTER( fun:HTTPExtractResponseCode( ?response ) = 200 )
+  BIND( fun:HTTPExtractBody( ?response ) AS ?body )
+  BIND( fun:JSONPath( ?body, "$.data.organization" ) AS ?orga )
+
+   # basic properties of organization in json
+   BIND(REPLACE(fun:JSONPath(?orga, '$.id' ), "https://ror.org/" , "" ) AS ?rorid)
+   BIND(fun:JSONPath(?orga, '$.name' ) AS ?name)
 }
