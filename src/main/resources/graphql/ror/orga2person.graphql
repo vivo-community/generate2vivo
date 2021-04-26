@@ -1,12 +1,13 @@
-query orga2person($ror: ID!) {
+query orga2person($ror: ID!, $after: String) {
     organization(id: $ror) {
         id
         name
-        country {
-            name
-        }
 
-        people {
+        people(after: $after) {
+            pageInfo {
+                endCursor
+                hasNextPage
+            }
             nodes {
                 id
                 givenName

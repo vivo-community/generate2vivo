@@ -22,11 +22,11 @@ public class ResponseService {
     @Autowired
     private VIVOProperties vivoProperties;
 
-    public ResponseEntity<String> buildResponse(String queryName, Map variables) {
+    public ResponseEntity<String> buildResponse(String queryName, Map<String,String> input) {
 
         log.info("Starting pipeline for " + queryName);
         GeneratePipeline pipeline = new GeneratePipeline();
-        Model result = pipeline.run(queryName, variables);
+        Model result = pipeline.run(queryName, input);
         log.info("Finished pipeline for " + queryName);
 
         if (vivoProperties.isValid()) {
