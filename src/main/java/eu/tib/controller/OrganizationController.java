@@ -1,6 +1,5 @@
 package eu.tib.controller;
 
-import eu.tib.error.GraphqlRequestException;
 import eu.tib.error.SparqlExecutionException;
 import eu.tib.error.SparqlParsingException;
 import eu.tib.service.ResponseService;
@@ -35,7 +34,7 @@ public class OrganizationController {
             @Valid @Pattern(regexp = "^https://ror.org/\\d{2}[a-z0-9]{5}\\d{2}")
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror)
-            throws SparqlParsingException, SparqlExecutionException, GraphqlRequestException {
+            throws SparqlParsingException, SparqlExecutionException {
 
         final String id = "ror/orga2person";
         log.info("Incoming Request for " + id + " with ror: " + ror);
