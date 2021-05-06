@@ -1,0 +1,14 @@
+{
+  "base": "http://vivo.mydomain.edu/individual/",
+  "query": "person2publication.rqg",
+  "documentset": [
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/person2publication/person2publication.rqg",
+      "path": "person2publication.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/person2publication/documentset/person2publication.graphql",
+      "path": "documentset/person2publication.graphql"
+    }
+  ]
+}

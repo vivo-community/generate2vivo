@@ -99,7 +99,7 @@ GENERATE  <person2publication>(?orcid, ?after) {
     }.
 
     GENERATE{
-      GENERATE <https://projects.tib.eu/tapir/graphql/person2publication.rqg>( ?orcid, ?cursor ) .
+      GENERATE <https://projects.tib.eu/tapir/datacitecommons/person2publication/person2publication.rqg>( ?orcid, ?cursor ) .
     }
     WHERE{
       BIND(fun:JSONPath(?person, '$.publications.pageInfo.hasNextPage' ) AS ?hasNextPage)
@@ -109,7 +109,7 @@ GENERATE  <person2publication>(?orcid, ?after) {
      }.
 
 }
-SOURCE <https://projects.tib.eu/tapir/graphql/person2publication.graphql> AS ?graphqlquery
+SOURCE <https://projects.tib.eu/tapir/datacitecommons/person2publication/documentset/person2publication.graphql> AS ?graphqlquery
 WHERE {
     # replace whitespace in graphql query (compress message)
     BIND(REPLACE(?graphqlquery, "\\s+", " ") AS ?graphql)
