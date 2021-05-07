@@ -1,0 +1,31 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+
+### address (city, state, country) : SUB-QUERY TO ADD ADDRESS DATA
+GENERATE <orga_address> (?id, ?orga) {
+  <{?id}> obo:ARG_2000028 <{?id}-vcard> .
+
+  <{?id}-vcard> a vcard:Individual ;
+      obo:ARG_2000029 <{?id}> .
+
+  <{?id}-vcard> vcard:hasAddress <{?id}-vcard-address> .
+
+  <{?id}-vcard-address> a vcard:Address ;
+      vcard:locality ?city_with_tag ;
+      vcard:region ?state_with_tag ;
+      vcard:country ?country_with_tag .
+}
+WHERE {
+  BIND(fun:JSONPath(?orga, '$.country.country_name' ) AS ?country)
+  BIND(STRLANG(?country, "en") AS ?country_with_tag)
+
+  BIND(fun:JSONPath(?orga, '$.addresses[0]' ) AS ?address)
+  BIND(fun:JSONPath(?address, '$.city' ) AS ?city)
+  BIND(STRLANG(?city, "en") AS ?city_with_tag)
+
+  BIND(fun:JSONPath(?address, '$.geonames_city.geonames_admin1.name' ) AS ?state)
+  BIND(STRLANG(?state, "en") AS ?state_with_tag)
+
+  FILTER( BOUND(?city) || BOUND(?city) || BOUND(?state) )
+}

@@ -1,0 +1,8 @@
+PREFIX iter: <http://w3id.org/sparql-generate/iter/>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+
+### acronyms: SUB-QUERY TO ADD ABBREVIATION
+GENERATE <orga_acronym> (?id, ?orga) {
+    <{?id}> vivo:abbreviation ?acronym .
+}
+ITERATOR iter:JSONPath(?orga, '$.acronyms[*]') AS ?acronym

@@ -1,0 +1,24 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+### address (lat,lng) : SUB-QUERY TO ADD LATITUDE & LONGITUDE
+GENERATE  <orga_geo> (?id, ?orga) {
+  <{?id}> obo:ARG_2000028 <{?id}-vcard> .
+
+  <{?id}-vcard> a vcard:Individual ;
+      obo:ARG_2000029 <{?id}> .
+
+  <{?id}-vcard> vcard:hasGeo <{?id}-vcard-geo> .
+
+  <{?id}-vcard-geo> a vcard:Geo ;
+      vcard:geo "geo:{?lat},{?lng}" .
+}
+WHERE {
+  BIND(fun:JSONPath(?orga, '$.addresses[0]' ) AS ?address)
+  BIND(xsd:decimal(fun:JSONPath(?address, '$.lat' )) AS ?lat)
+  BIND(xsd:decimal(fun:JSONPath(?address, '$.lng' )) AS ?lng)
+
+  FILTER( BOUND(?lat) && BOUND(?lng) )
+}
