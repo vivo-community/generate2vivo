@@ -1,0 +1,20 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+### established : SUB-QUERY TO ADD THE DATE THE ORGANIZATION WAS ESTABLISHED
+GENERATE <orga_established> (?id, ?orga) {
+    <{?id}> vivo:dateTimeInterval <{?id}-dti> .
+
+    <{?id}-dti> a vivo:DateTimeInterval ;
+        vivo:start <{?id}-dtv> .
+
+    <{?id}-dtv> a vivo:DateTimeValue ;
+        vivo:dateTime ?established_dtv ;
+        vivo:dateTimePrecision vivo:yearPrecision .
+}
+WHERE {
+    BIND(fun:JSONPath(?orga, '$.established' ) AS ?established)
+    BIND(xsd:dateTime(CONCAT(STR(?established), "-01-01T00:00:00"))  AS ?established_dtv)
+    FILTER( BOUND(?established) )
+}

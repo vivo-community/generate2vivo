@@ -1,0 +1,23 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+### links : SUB-QUERY TO ADD WEBSITE
+GENERATE <orga_website> (?id, ?orga) {
+  <{?id}> obo:ARG_2000028 <{?id}-vcard> .
+
+  <{?id}-vcard> a vcard:Individual ;
+      obo:ARG_2000029 <{?id}> .
+
+  <{?id}-vcard> vcard:hasURL <{?id}-vcard-url> .
+
+  <{?id}-vcard-url> a vcard:URL ;
+      vivo:rank 1 ;
+      vcard:url "{?url}"^^xsd:anyURI .
+}
+WHERE {
+  BIND(fun:JSONPath(?orga, '$.links[0]' ) AS ?url)
+  FILTER( BOUND(?url) )
+}
