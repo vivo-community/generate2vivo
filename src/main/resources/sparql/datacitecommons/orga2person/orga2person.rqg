@@ -47,7 +47,7 @@ GENERATE  <orga2person>(?ror, ?after) {
     }.
 
     GENERATE{
-      GENERATE <https://projects.tib.eu/tapir/graphql/orga2person.rqg>( ?ror, ?cursor ) .
+      GENERATE <https://projects.tib.eu/tapir/datacitecommons/orga2person/orga2person.rqg>( ?ror, ?cursor ) .
     }
     WHERE{
       BIND(fun:JSONPath(?orga, '$.people.pageInfo.hasNextPage' ) AS ?hasNextPage)
@@ -56,7 +56,7 @@ GENERATE  <orga2person>(?ror, ?after) {
       FILTER( BOUND(?cursor) ).
      }.
 }
-SOURCE <https://projects.tib.eu/tapir/graphql/orga2person.graphql> AS ?graphqlquery
+SOURCE <https://projects.tib.eu/tapir/datacitecommons/orga2person/documentset/orga2person.graphql> AS ?graphqlquery
 WHERE {
     # replace whitespace in graphql query (compress message)
     BIND(REPLACE(?graphqlquery, "\\s+", " ") AS ?graphql)
