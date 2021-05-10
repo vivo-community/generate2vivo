@@ -4,7 +4,7 @@ query person($orcid :ID!, $after:String){
         givenName
         id
 
-        publications(after: $after) {
+        publications(first:100, after: $after) {
             pageInfo {
                 endCursor
                 hasNextPage
