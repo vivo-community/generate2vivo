@@ -13,8 +13,8 @@
 
     <groupId>eu.tib</groupId>
     <artifactId>datacitecommons2vivo</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <description>Data Ingest from datacite-commons GraphQL API to VIVO</description>
+    <version>1.0.0</version>
+    <description>Data Ingest from Datacite Commons GraphQL API to VIVO</description>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

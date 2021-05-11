@@ -3,7 +3,7 @@ query orga2person($ror: ID!, $after: String) {
         id
         name
 
-        people(after: $after) {
+        people(first:100, after: $after) {
             pageInfo {
                 endCursor
                 hasNextPage
