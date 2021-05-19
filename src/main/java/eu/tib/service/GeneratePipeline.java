@@ -13,7 +13,7 @@ import fr.mines_stetienne.ci.sparql_generate.engine.PlanFactory;
 import fr.mines_stetienne.ci.sparql_generate.engine.RootPlan;
 import fr.mines_stetienne.ci.sparql_generate.query.SPARQLExtQuery;
 import fr.mines_stetienne.ci.sparql_generate.stream.LocationMapperAccept;
-import fr.mines_stetienne.ci.sparql_generate.stream.LocatorFileAccept;
+import fr.mines_stetienne.ci.sparql_generate.stream.LocatorClassLoaderAccept;
 import fr.mines_stetienne.ci.sparql_generate.stream.SPARQLExtStreamManager;
 import fr.mines_stetienne.ci.sparql_generate.utils.ContextUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -100,12 +100,14 @@ public class GeneratePipeline {
 
     public Dataset getDataset(String confPath, FileConfigurations config) {
         Dataset ds = DatasetFactory.create();
-        ResourceUtils futils = new ResourceUtils();
 
         if (config.graph != null) {
             try {
-                File dsFromResource = futils.resource2File(confPath + File.separator + config.graph);
-                ds.setDefaultModel(RDFDataMgr.loadModel(dsFromResource.toString(), Lang.TTL));
+                String dsPath = confPath + File.separator + config.graph;
+                Model model = ModelFactory.createDefaultModel();
+                RDFDataMgr.read(model, new ResourceUtils().getStreamForResource(dsPath), Lang.TTL);
+                ds.setDefaultModel(model);
+                log.info("Loaded Graph from resource " + config.graph);
             } catch (Exception ex) {
                 log.debug("Graph could not be loaded: " + ex.getMessage());
             }
@@ -114,9 +116,11 @@ public class GeneratePipeline {
         if (config.namedgraphs != null) {
             config.namedgraphs.forEach((ng) -> {
                 try {
-                    File ngFromResource = futils.resource2File(confPath + File.separator + ng.path);
-                    Model model = RDFDataMgr.loadModel(ngFromResource.toString(), Lang.TTL);
+                    String ngPath = confPath + File.separator + ng.path;
+                    Model model = ModelFactory.createDefaultModel();
+                    RDFDataMgr.read(model, new ResourceUtils().getStreamForResource(ngPath), Lang.TTL);
                     ds.addNamedModel(ng.uri, model);
+                    log.info("Loaded named graph from resource " + ng.path);
                 } catch (Exception ex) {
                     log.debug("Cannot load named graph " + ng.path + ": " + ex.getMessage());
                 }
@@ -126,24 +130,20 @@ public class GeneratePipeline {
     }
 
     public SPARQLExtStreamManager prepareStreamManager(String confPath, FileConfigurations config) {
-        String resPath = System.getProperty("java.io.tmpdir");
-        LocatorFileAccept locator = new LocatorFileAccept(resPath);
+        LocatorClassLoaderAccept locator = new LocatorClassLoaderAccept(getClass().getClassLoader());
         LocationMapperAccept mapper = new LocationMapperAccept();
         SPARQLExtStreamManager sm = SPARQLExtStreamManager.makeStreamManager(locator);
         sm.setLocationMapper(mapper);
-
-        ResourceUtils futils = new ResourceUtils();
 
         if (config.namedqueries != null) {
             log.debug("Mapping namedqueries..");
             config.namedqueries.forEach((doc) -> {
                 String docpath = confPath + File.separator + doc.path;
                 try {
-                    File f = futils.resource2File(docpath);
-                    mapper.addAltEntry(doc.uri, f.getAbsolutePath());
-                } catch (IOException e) {
+                    mapper.addAltEntry(doc.uri, docpath);
+                } catch (Exception e) {
                     log.error(String.format("No named query was found at %s.", docpath), e);
-                    throw new StreamManagerException(GeneratePipeline.class, "namedQuery", doc.toString());
+                    throw new StreamManagerException(GeneratePipeline.class, "namedQuery", docpath);
                 }
             });
         }
@@ -152,11 +152,10 @@ public class GeneratePipeline {
             config.documentset.forEach((doc) -> {
                 String docpath = confPath + File.separator + doc.path;
                 try {
-                    File f = futils.resource2File(docpath);
-                    mapper.addAltEntry(doc.uri, f.getAbsolutePath());
-                } catch (IOException e) {
-                    log.error(String.format("No document was found at %s.", docpath), e);
-                    throw new StreamManagerException(GeneratePipeline.class, "documentset", doc.toString());
+                    mapper.addAltEntry(doc.uri, docpath);
+                } catch (Exception e) {
+                    log.error(String.format("No documentset was found at %s.", docpath), e);
+                    throw new StreamManagerException(GeneratePipeline.class, "documentset", docpath);
                 }
             });
         }
@@ -165,11 +164,10 @@ public class GeneratePipeline {
             config.namedgraphs.forEach((doc) -> {
                 String docpath = confPath + File.separator + doc.path;
                 try {
-                    File f = futils.resource2File(docpath);
-                    mapper.addAltEntry(doc.uri, f.getAbsolutePath());
-                } catch (IOException e) {
+                    mapper.addAltEntry(doc.uri, docpath);
+                } catch (Exception e) {
                     log.error(String.format("No named graph was found at %s.", docpath), e);
-                    throw new StreamManagerException(GeneratePipeline.class, "namedGraph", doc.toString());
+                    throw new StreamManagerException(GeneratePipeline.class, "namedGraph", docpath);
                 }
             });
         }
