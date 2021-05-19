@@ -107,6 +107,7 @@ public class GeneratePipeline {
                 Model model = ModelFactory.createDefaultModel();
                 RDFDataMgr.read(model, new ResourceUtils().getStreamForResource(dsPath), Lang.TTL);
                 ds.setDefaultModel(model);
+                log.info("Loaded Graph from resource " + config.graph);
             } catch (Exception ex) {
                 log.debug("Graph could not be loaded: " + ex.getMessage());
             }
@@ -119,6 +120,7 @@ public class GeneratePipeline {
                     Model model = ModelFactory.createDefaultModel();
                     RDFDataMgr.read(model, new ResourceUtils().getStreamForResource(ngPath), Lang.TTL);
                     ds.addNamedModel(ng.uri, model);
+                    log.info("Loaded named graph from resource " + ng.path);
                 } catch (Exception ex) {
                     log.debug("Cannot load named graph " + ng.path + ": " + ex.getMessage());
                 }

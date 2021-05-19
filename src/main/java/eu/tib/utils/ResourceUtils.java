@@ -20,7 +20,7 @@ public class ResourceUtils {
 
     public String readResource(String filename, String delimiter) throws IOException {
 
-        try (InputStream inputStream = getClass().getResourceAsStream(filename);
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filename);
              InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
              BufferedReader reader = new BufferedReader(streamReader);) {
 
@@ -30,6 +30,6 @@ public class ResourceUtils {
     }
 
     public InputStream getStreamForResource(String filename) {
-        return getClass().getResourceAsStream(filename);
+        return getClass().getClassLoader().getResourceAsStream(filename);
     }
 }
