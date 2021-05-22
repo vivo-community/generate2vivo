@@ -9,18 +9,12 @@ import java.util.stream.Collectors;
 
 public class ResourceUtils {
 
-    public String readResourceNoWhitespace(String filename) throws IOException {
-        return readResource(filename, "\n")
-                .replaceAll("\\s+", " ");
-    }
-
     public String readResource(String filename) throws IOException {
         return readResource(filename, "\n");
     }
 
-    public String readResource(String filename, String delimiter) throws IOException {
-
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filename);
+    private String readResource(String filename, String delimiter) throws IOException {
+        try (InputStream inputStream = getStreamForResource(filename);
              InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
              BufferedReader reader = new BufferedReader(streamReader);) {
 
