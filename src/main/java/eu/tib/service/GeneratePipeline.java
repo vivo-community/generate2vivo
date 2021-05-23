@@ -17,10 +17,7 @@ import fr.mines_stetienne.ci.sparql_generate.stream.LocatorClassLoaderAccept;
 import fr.mines_stetienne.ci.sparql_generate.stream.SPARQLExtStreamManager;
 import fr.mines_stetienne.ci.sparql_generate.utils.ContextUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.jena.query.Dataset;
-import org.apache.jena.query.DatasetFactory;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.QuerySolutionMap;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
@@ -43,11 +40,12 @@ public class GeneratePipeline {
 
     public Model run(String confPath, Map<String, String> input) {
         log.info("Read config for " + confPath);
-        FileConfigurations config = readConfig(confPath + File.separator + CONF_FILE);
+        String confFilePath = confPath + File.separator + CONF_FILE;
+        FileConfigurations config = readConfig(confFilePath);
 
         log.info("Read-in Generate Query for " + config.query);
         String queryPath = confPath + File.separator + config.query;
-        SPARQLExtQuery query = parseSparqlGenerateQuery(queryPath, config.base);
+        SPARQLExtQuery query = parseSparqlGenerateQuery(queryPath, config);
 
         log.info("Initialize stream manager");
         SPARQLExtStreamManager sm = prepareStreamManager(confPath, config);
@@ -75,26 +73,29 @@ public class GeneratePipeline {
         }
     }
 
-    public FileConfigurations readConfig(String resPath2config) {
+    public FileConfigurations readConfig(String confFilePath) {
         try {
-            String conf = new ResourceUtils().readResource(resPath2config);
+            String conf = new ResourceUtils().readResource(confFilePath);
             FileConfigurations config = (new Gson()).fromJson(conf, FileConfigurations.class);
             return config;
-        } catch (IOException | JsonSyntaxException e) {
+        } catch (IOException | NullPointerException | JsonSyntaxException e) {
             log.error("Error while reading the config file.", e);
-            throw new ConfigLoadingException(GeneratePipeline.class, "configFile", resPath2config);
+            throw new ConfigLoadingException(GeneratePipeline.class, "configFile", confFilePath);
         }
     }
 
-    public SPARQLExtQuery parseSparqlGenerateQuery(String queryName, String base) {
+    public SPARQLExtQuery parseSparqlGenerateQuery(String queryPath, FileConfigurations config) {
         try {
-            String sparqlGenerateString = new ResourceUtils().readResource(queryName);
-            SPARQLExtQuery q = (SPARQLExtQuery) QueryFactory.create(sparqlGenerateString, base, SPARQLExt.SYNTAX);
-            if (!q.explicitlySetBaseURI()) q.setBaseURI(base);
+            String sparqlGenerateString = new ResourceUtils().readResource(queryPath);
+            SPARQLExtQuery q = (SPARQLExtQuery) QueryFactory.create(sparqlGenerateString, config.base, SPARQLExt.SYNTAX);
+            if (!q.explicitlySetBaseURI() && config.base != null) q.setBaseURI(config.base);
             return q;
         } catch (IOException | NullPointerException e) {
-            log.error(String.format("No query file named %s was found.", queryName), e);
-            throw new SparqlParsingException(GeneratePipeline.class, "queryName", queryName);
+            log.error(String.format("No query file %s was found.", queryPath), e);
+            throw new SparqlParsingException(GeneratePipeline.class, "queryName", queryPath);
+        } catch (QueryException e) {
+            log.error(String.format("Query %s could not be parsed.", queryPath), e);
+            throw new SparqlParsingException(GeneratePipeline.class, "queryName", queryPath);
         }
     }
 
@@ -176,6 +177,8 @@ public class GeneratePipeline {
     }
 
     public List<Binding> input2Bindings(Map<String, String> input) {
+        if (input == null) return null;
+
         // transfer input parameters into query via binding
         QuerySolutionMap initialBinding = new QuerySolutionMap();
         Model model = ModelFactory.createDefaultModel();

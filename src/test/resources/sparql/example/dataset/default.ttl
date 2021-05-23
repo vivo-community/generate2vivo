@@ -1,0 +1,16 @@
+@base          <http://example.org/> .
+@prefix geo:   <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix iter:  <http://w3id.org/sparql-generate/iter/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix aqio:  <https://ci.mines-stetienne.fr/aqi/ontology#> .
+@prefix fun:   <http://w3id.org/sparql-generate/fn/> .
+@prefix ssn:   <http://purl.oclc.org/NET/ssnx/ssn#> .
+@prefix sosa:  <http://www.w3.org/ns/sosa/> .
+
+<https://ci.mines-stetienne.fr/aqi/data/loc/0>
+        a             sosa:FeatureOfInterest ;
+        rdfs:label    "Barrie, Ontario" ;
+        rdfs:seeAlso  <http://aqicn.org/city/canada/ontario/barrie/> ;
+        geo:lat       44.382361 ;
+        geo:long      -79.702306 .
