@@ -29,6 +29,8 @@ public class IntegrationTest {
         String expectedPath = confPath + File.separator + "expected_output.ttl";
         InputStream expectedStream = getClass().getClassLoader().getResourceAsStream(expectedPath);
         String expectedData = IOUtils.toString(expectedStream, StandardCharsets.UTF_8);
+        System.out.println(expectedData);
+        System.out.println(actualData);
         assertEquals(expectedData, actualData);
     }
 }

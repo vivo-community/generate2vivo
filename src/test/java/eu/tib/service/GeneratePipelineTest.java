@@ -1,7 +1,7 @@
 package eu.tib.service;
 
-import eu.tib.error.ConfigLoadingException;
-import eu.tib.error.SparqlParsingException;
+import eu.tib.exception.ConfigLoadingException;
+import eu.tib.exception.SparqlParsingException;
 import fr.mines_stetienne.ci.sparql_generate.FileConfigurations;
 import fr.mines_stetienne.ci.sparql_generate.stream.LocationMapperAccept;
 import fr.mines_stetienne.ci.sparql_generate.stream.LookUpRequest;
