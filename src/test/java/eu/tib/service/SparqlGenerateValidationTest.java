@@ -1,4 +1,4 @@
-package eu.tib;
+package eu.tib.service;
 
 import fr.mines_stetienne.ci.sparql_generate.SPARQLExt;
 import fr.mines_stetienne.ci.sparql_generate.query.SPARQLExtQuery;

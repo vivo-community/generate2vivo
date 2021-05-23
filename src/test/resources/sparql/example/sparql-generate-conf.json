@@ -1,0 +1,11 @@
+{
+  "base": "http://example.com/",
+  "query": "query.rqg",
+  "graph": "dataset/default.ttl",
+  "documentset": [
+    {
+      "uri": "https://example.com/test.json",
+      "path": "test.json"
+    }
+  ]
+}
