@@ -31,7 +31,7 @@ public class ResponseService {
 
         if (vivoProperties.isValid()) {
             log.info("Found VIVO properties");
-            vivoExport.insertData(result, vivoProperties);
+            vivoExport.exportData(result, vivoProperties);
             return ResponseEntity.status(HttpStatus.OK).body("{\"status\":\"SPARQL update accepted.\"}");
         } else {
             log.info("Returning JSON-LD");
