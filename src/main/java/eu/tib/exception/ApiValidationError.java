@@ -1,4 +1,4 @@
-package eu.tib.error;
+package eu.tib.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

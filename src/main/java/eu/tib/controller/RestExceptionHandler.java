@@ -1,6 +1,6 @@
 package eu.tib.controller;
 
-import eu.tib.error.*;
+import eu.tib.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

@@ -1,7 +1,7 @@
-package eu.tib.store;
+package eu.tib.storage;
 
 import com.lambdista.util.Try;
-import eu.tib.error.VIVOExportException;
+import eu.tib.exception.VIVOExportException;
 import org.apache.jena.rdf.model.Model;
 import org.springframework.stereotype.Repository;
 

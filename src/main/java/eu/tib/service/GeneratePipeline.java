@@ -2,10 +2,10 @@ package eu.tib.service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import eu.tib.error.ConfigLoadingException;
-import eu.tib.error.SparqlExecutionException;
-import eu.tib.error.SparqlParsingException;
-import eu.tib.error.StreamManagerException;
+import eu.tib.exception.ConfigLoadingException;
+import eu.tib.exception.SparqlExecutionException;
+import eu.tib.exception.SparqlParsingException;
+import eu.tib.exception.StreamManagerException;
 import eu.tib.utils.ResourceUtils;
 import fr.mines_stetienne.ci.sparql_generate.FileConfigurations;
 import fr.mines_stetienne.ci.sparql_generate.SPARQLExt;

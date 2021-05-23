@@ -1,4 +1,4 @@
-package eu.tib.error;
+package eu.tib.exception;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -6,15 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-public class StreamManagerException extends RuntimeException {
+public class SparqlExecutionException extends RuntimeException {
 
-    public StreamManagerException(Class clazz, String... searchParamsMap) {
-        super(StreamManagerException.generateMessage(clazz.getSimpleName(), toMap(String.class, String.class, searchParamsMap)));
+    public SparqlExecutionException(Class clazz, String... searchParamsMap) {
+        super(SparqlExecutionException.generateMessage(clazz.getSimpleName(), toMap(String.class, String.class, searchParamsMap)));
     }
 
     private static String generateMessage(String entity, Map<String, String> searchParams) {
         return StringUtils.capitalize(entity) +
-                " could not create StreamManager properly for parameters " +
+                " could not execute SparQL-Generate for parameters " +
                 searchParams;
     }
 

@@ -1,4 +1,4 @@
-package eu.tib.store;
+package eu.tib.storage;
 
 import java.io.IOException;
 import java.net.URI;

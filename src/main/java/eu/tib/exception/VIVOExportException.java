@@ -1,4 +1,4 @@
-package eu.tib.error;
+package eu.tib.exception;
 
 import org.apache.commons.lang3.StringUtils;
 

@@ -1,7 +1,7 @@
 package eu.tib.controller;
 
-import eu.tib.error.SparqlExecutionException;
-import eu.tib.error.SparqlParsingException;
+import eu.tib.exception.SparqlExecutionException;
+import eu.tib.exception.SparqlParsingException;
 import eu.tib.service.ResponseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -24,7 +24,7 @@ import java.util.Collections;
 @RestController
 @RequestMapping(value = "/datacitecommons")
 @Api(value = "Controller", tags = {"datacitecommons"})
-public class DataciteController {
+public class DataciteCommonsController {
 
     @Autowired
     private ResponseService responseService;
