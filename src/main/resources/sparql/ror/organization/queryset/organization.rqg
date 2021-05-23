@@ -8,7 +8,7 @@ PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
 
 
-GENERATE <organization>(?ror) {
+GENERATE <organization>(?orga) {
 
     <{?id}> a foaf:Organization ;
         rdfs:label ?name_with_tag .
@@ -35,7 +35,6 @@ GENERATE <organization>(?ror) {
   GENERATE <https://projects.tib.eu/tapir/ror/organization/queryset/orga_geo.rqg>( ?id, ?orga ) .
 
 }
-SOURCE <https://api.ror.org/organizations/{?ror}> AS ?orga
 WHERE {
     # basic properties of organization
     BIND(REPLACE(fun:JSONPath(?orga, '$.id' ), "https://ror.org/" , "" ) AS ?id)
