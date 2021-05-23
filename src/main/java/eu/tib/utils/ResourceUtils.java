@@ -1,9 +1,9 @@
 package eu.tib.utils;
 
-import org.apache.commons.io.FilenameUtils;
-
-import java.io.*;
-import java.net.URL;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
@@ -20,7 +20,7 @@ public class ResourceUtils {
 
     public String readResource(String filename, String delimiter) throws IOException {
 
-        try (InputStream inputStream = getClass().getResourceAsStream(filename);
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filename);
              InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
              BufferedReader reader = new BufferedReader(streamReader);) {
 
@@ -29,30 +29,7 @@ public class ResourceUtils {
         }
     }
 
-    public File resource2File(String resPath) throws IOException {
-        URL res = getClass().getResource(resPath);
-
-        if (res.toString().startsWith("jar:")) {
-            try (InputStream input = getClass().getResourceAsStream(resPath);) {
-
-                String basename = FilenameUtils.getBaseName(resPath);
-                String extension = FilenameUtils.getExtension(resPath);
-                File file = File.createTempFile(basename, "." + extension);
-
-                OutputStream out = new FileOutputStream(file);
-                int read;
-                byte[] bytes = new byte[1024];
-
-                while ((read = input.read(bytes)) != -1) {
-                    out.write(bytes, 0, read);
-                }
-                out.flush();
-                out.close();
-                file.deleteOnExit();
-                return file;
-            }
-        } else {
-            return new File(res.getFile());
-        }
+    public InputStream getStreamForResource(String filename) {
+        return getClass().getClassLoader().getResourceAsStream(filename);
     }
 }
