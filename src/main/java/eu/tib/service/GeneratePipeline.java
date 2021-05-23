@@ -88,7 +88,7 @@ public class GeneratePipeline {
         try {
             String sparqlGenerateString = new ResourceUtils().readResource(queryPath);
             SPARQLExtQuery q = (SPARQLExtQuery) QueryFactory.create(sparqlGenerateString, config.base, SPARQLExt.SYNTAX);
-            if (!q.explicitlySetBaseURI()) q.setBaseURI(config.base);
+            if (!q.explicitlySetBaseURI() && config.base != null) q.setBaseURI(config.base);
             return q;
         } catch (IOException | NullPointerException e) {
             log.error(String.format("No query file %s was found.", queryPath), e);
@@ -177,6 +177,8 @@ public class GeneratePipeline {
     }
 
     public List<Binding> input2Bindings(Map<String, String> input) {
+        if (input == null) return null;
+
         // transfer input parameters into query via binding
         QuerySolutionMap initialBinding = new QuerySolutionMap();
         Model model = ModelFactory.createDefaultModel();
