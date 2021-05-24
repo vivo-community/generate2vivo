@@ -36,7 +36,7 @@ public class DataciteCommonsController {
             @RequestParam String ror)
             throws SparqlParsingException, SparqlExecutionException {
 
-        final String id = "sparql/datacitecommons/orga2person";
+        final String id = "sparqlg/datacitecommons/orga2person";
         log.info("Incoming Request for " + id + " with ror: " + ror);
         StopWatch stopWatch = new StopWatch(id);
         stopWatch.start(id);
@@ -55,7 +55,7 @@ public class DataciteCommonsController {
             @RequestParam String orcid)
             throws SparqlParsingException, SparqlExecutionException {
 
-        final String id = "sparql/datacitecommons/person2publication";
+        final String id = "sparqlg/datacitecommons/person2publication";
         log.info("Incoming Request for " + id + " with orcid: " + orcid);
         StopWatch stopWatch = new StopWatch(id);
         stopWatch.start(id);

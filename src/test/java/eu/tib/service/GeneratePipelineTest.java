@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GeneratePipelineTest {
 
-    private static final String confPath = "sparql/example";
+    private static final String confPath = "sparqlg/example";
     private static final String CONF_FILE = "sparql-generate-conf.json";
     private static FileConfigurations config;
     private static GeneratePipeline pip = new GeneratePipeline();

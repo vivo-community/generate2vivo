@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class IntegrationTest {
 
-    private static final String confPath = "sparql/example";
+    private static final String confPath = "sparqlg/example";
 
     @Test
     void test() throws IOException {

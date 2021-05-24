@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class SparqlGenerateValidationTest {
 
-    final String resPath = "sparql/**/*.rqg";
+    final String resPath = "sparqlg/**/*.rqg";
 
     @Test
     void validateRQGFilesInResourceDir() throws IOException {
