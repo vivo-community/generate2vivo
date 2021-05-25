@@ -5,6 +5,13 @@ datacitecommons2vivo is a Data Ingest Tool for the Open-Source-Software VIVO.
 It queries metadata from the Datacite Commons PID-Graph and the ROR API, 
 maps it to the VIVO ontology using [sparql-generate](https://ci.mines-stetienne.fr/sparql-generate/index.html) and optionally imports it into a VIVO instance.
 
+- [Installation](#installation)
+- [Usage](#usage)
+    + [Datacite Commons](#datacite-commons)
+    + [ROR](#ror)
+- [Run in Command Line](#run-in-command-line)
+- [Extensible](#extensible)
+
 ### Installation
 1. Clone the repository to a local folder using `git clone https://github.com/vivo-community/datacitecommons2vivo.git`
 2. Change into the folder where the repository has been cloned. 
