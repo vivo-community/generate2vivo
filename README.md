@@ -24,12 +24,12 @@ maps it to the VIVO ontology using [sparql-generate](https://ci.mines-stetienne.
     ```dockerfile
     # with Java setup:
     mvn package
-    docker build -t dc .
-    docker run -p 9000:9000 -t dc
+    docker build -t g2v .
+    docker run -p 9000:9000 -t g2v
     
     # without Java setup
-    docker build -f DockerfileBuild -t dc .
-    docker run -p 9000:9000 -t dc
+    docker build -f DockerfileBuild -t g2v .
+    docker run -p 9000:9000 -t g2v
 
 5. A minimal swagger-ui will be available at `http://localhost:9000/swagger-ui/`.
 

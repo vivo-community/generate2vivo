@@ -12,9 +12,9 @@
     </parent>
 
     <groupId>eu.tib</groupId>
-    <artifactId>datacitecommons2vivo</artifactId>
+    <artifactId>generate2vivo</artifactId>
     <version>1.0.0</version>
-    <description>Data Ingest from Datacite Commons GraphQL API to VIVO</description>
+    <description>Data Ingest from different datasources like Datacite Commons or ROR to VIVO</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

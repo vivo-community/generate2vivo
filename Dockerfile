@@ -1,6 +1,6 @@
 FROM adoptopenjdk/openjdk11:jre-11.0.9.1_1-alpine AS execute-env
 WORKDIR /app
-COPY ./target/datacitecommons2vivo-*.jar ./app.jar
+COPY ./target/generate2vivo-*.jar ./app.jar
 
 #give dumb-init pid=1
 RUN apk add dumb-init

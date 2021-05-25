@@ -25,9 +25,9 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("datacitecommons2vivo")
-                .description("Data Ingest Tool for datacite commons to VIVO")
-                .version("1.0.0-SNAPSHOT")
+                .title("generate2vivo")
+                .description("Data Ingest from different datasources like Datacite Commons or ROR to VIVO")
+                .version("1.0.0")
                 .build();
     }
 }
