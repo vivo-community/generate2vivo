@@ -1,4 +1,4 @@
-package eu.tib.error;
+package eu.tib.exception;
 
 public abstract class ApiSubError {
 

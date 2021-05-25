@@ -35,7 +35,7 @@ public class RORController {
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) throws IOException, URISyntaxException {
 
-        final String id = "sparql/ror/orga2children";
+        final String id = "sparqlg/ror/orga2children";
         log.info("Incoming Request for " + id + " with ror: " + ror);
         StopWatch stopWatch = new StopWatch(id);
         stopWatch.start(id);
@@ -53,7 +53,7 @@ public class RORController {
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) throws IOException, URISyntaxException {
 
-        final String id = "sparql/ror/organization";
+        final String id = "sparqlg/ror/organization";
         log.info("Incoming Request for " + id + " with ror: " + ror);
         StopWatch stopWatch = new StopWatch(id);
         stopWatch.start(id);

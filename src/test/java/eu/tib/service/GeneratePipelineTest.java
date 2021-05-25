@@ -1,7 +1,7 @@
 package eu.tib.service;
 
-import eu.tib.error.ConfigLoadingException;
-import eu.tib.error.SparqlParsingException;
+import eu.tib.exception.ConfigLoadingException;
+import eu.tib.exception.SparqlParsingException;
 import fr.mines_stetienne.ci.sparql_generate.FileConfigurations;
 import fr.mines_stetienne.ci.sparql_generate.stream.LocationMapperAccept;
 import fr.mines_stetienne.ci.sparql_generate.stream.LookUpRequest;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GeneratePipelineTest {
 
-    private static final String confPath = "sparql/example";
+    private static final String confPath = "sparqlg/example";
     private static final String CONF_FILE = "sparql-generate-conf.json";
     private static FileConfigurations config;
     private static GeneratePipeline pip = new GeneratePipeline();

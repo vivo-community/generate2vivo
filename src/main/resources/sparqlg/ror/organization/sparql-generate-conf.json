@@ -1,7 +1,11 @@
 {
   "base": "http://vivo.mydomain.edu/individual/",
-  "query": "organization.rqg",
+  "query": "orga_source.rqg",
   "namedqueries": [
+    {
+      "uri": "https://projects.tib.eu/tapir/ror/organization/queryset/organization.rqg",
+      "path": "queryset/organization.rqg"
+    },
     {
       "uri": "https://projects.tib.eu/tapir/ror/organization/queryset/orga_email.rqg",
       "path": "queryset/orga_email.rqg"

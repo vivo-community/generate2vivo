@@ -1,4 +1,4 @@
-package eu.tib.error;
+package eu.tib.exception;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -6,15 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-public class ConfigLoadingException extends RuntimeException {
+public class StreamManagerException extends RuntimeException {
 
-    public ConfigLoadingException(Class clazz, String... searchParamsMap) {
-        super(ConfigLoadingException.generateMessage(clazz.getSimpleName(), toMap(String.class, String.class, searchParamsMap)));
+    public StreamManagerException(Class clazz, String... searchParamsMap) {
+        super(StreamManagerException.generateMessage(clazz.getSimpleName(), toMap(String.class, String.class, searchParamsMap)));
     }
 
     private static String generateMessage(String entity, Map<String, String> searchParams) {
         return StringUtils.capitalize(entity) +
-                " could not read FileConfigurations for parameters " +
+                " could not create StreamManager properly for parameters " +
                 searchParams;
     }
 

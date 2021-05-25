@@ -1,4 +1,4 @@
-package eu.tib.error;
+package eu.tib.exception;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.jsontype.impl.TypeIdResolverBase;

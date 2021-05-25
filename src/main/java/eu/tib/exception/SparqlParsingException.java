@@ -1,4 +1,4 @@
-package eu.tib.error;
+package eu.tib.exception;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-public class SparqlExecutionException extends RuntimeException {
+public class SparqlParsingException extends RuntimeException {
 
-    public SparqlExecutionException(Class clazz, String... searchParamsMap) {
-        super(SparqlExecutionException.generateMessage(clazz.getSimpleName(), toMap(String.class, String.class, searchParamsMap)));
+    public SparqlParsingException(Class clazz, String... searchParamsMap) {
+        super(SparqlParsingException.generateMessage(clazz.getSimpleName(), toMap(String.class, String.class, searchParamsMap)));
     }
 
     private static String generateMessage(String entity, Map<String, String> searchParams) {

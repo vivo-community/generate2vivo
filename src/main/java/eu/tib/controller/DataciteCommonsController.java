@@ -1,7 +1,7 @@
 package eu.tib.controller;
 
-import eu.tib.error.SparqlExecutionException;
-import eu.tib.error.SparqlParsingException;
+import eu.tib.exception.SparqlExecutionException;
+import eu.tib.exception.SparqlParsingException;
 import eu.tib.service.ResponseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -24,7 +24,7 @@ import java.util.Collections;
 @RestController
 @RequestMapping(value = "/datacitecommons")
 @Api(value = "Controller", tags = {"datacitecommons"})
-public class DataciteController {
+public class DataciteCommonsController {
 
     @Autowired
     private ResponseService responseService;
@@ -36,7 +36,7 @@ public class DataciteController {
             @RequestParam String ror)
             throws SparqlParsingException, SparqlExecutionException {
 
-        final String id = "sparql/datacitecommons/orga2person";
+        final String id = "sparqlg/datacitecommons/orga2person";
         log.info("Incoming Request for " + id + " with ror: " + ror);
         StopWatch stopWatch = new StopWatch(id);
         stopWatch.start(id);
@@ -55,7 +55,7 @@ public class DataciteController {
             @RequestParam String orcid)
             throws SparqlParsingException, SparqlExecutionException {
 
-        final String id = "sparql/datacitecommons/person2publication";
+        final String id = "sparqlg/datacitecommons/person2publication";
         log.info("Incoming Request for " + id + " with orcid: " + orcid);
         StopWatch stopWatch = new StopWatch(id);
         stopWatch.start(id);
