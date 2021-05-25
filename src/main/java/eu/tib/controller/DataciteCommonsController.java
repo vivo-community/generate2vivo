@@ -1,7 +1,5 @@
 package eu.tib.controller;
 
-import eu.tib.exception.SparqlExecutionException;
-import eu.tib.exception.SparqlParsingException;
 import eu.tib.service.ResponseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -33,8 +31,7 @@ public class DataciteCommonsController {
     public ResponseEntity<String> getOrganizationPlusPersons(
             @Valid @Pattern(regexp = "^https://ror.org/\\d{2}[a-z0-9]{5}\\d{2}")
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
-            @RequestParam String ror)
-            throws SparqlParsingException, SparqlExecutionException {
+            @RequestParam String ror) {
 
         final String id = "sparqlg/datacitecommons/orga2person";
         log.info("Incoming Request for " + id + " with ror: " + ror);
@@ -52,8 +49,7 @@ public class DataciteCommonsController {
     public ResponseEntity<String> getPersonPlusPublications(
             @Valid @Pattern(regexp = "^https://orcid.org/\\d{4}-\\d{4}-\\d{4}-\\d{4}")
             @ApiParam("Complete Orcid URL consisting of https://orcid.org/ plus id")
-            @RequestParam String orcid)
-            throws SparqlParsingException, SparqlExecutionException {
+            @RequestParam String orcid) {
 
         final String id = "sparqlg/datacitecommons/person2publication";
         log.info("Incoming Request for " + id + " with orcid: " + orcid);

@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Collections;
 
 @Slf4j
@@ -33,7 +31,7 @@ public class RORController {
     public ResponseEntity<String> getOrganizationPlusChildren(
             @Valid @Pattern(regexp = "^https://ror.org/\\d{2}[a-z0-9]{5}\\d{2}")
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
-            @RequestParam String ror) throws IOException, URISyntaxException {
+            @RequestParam String ror) {
 
         final String id = "sparqlg/ror/orga2children";
         log.info("Incoming Request for " + id + " with ror: " + ror);
@@ -51,7 +49,7 @@ public class RORController {
     public ResponseEntity<String> getOrganization(
             @Valid @Pattern(regexp = "^https://ror.org/\\d{2}[a-z0-9]{5}\\d{2}")
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
-            @RequestParam String ror) throws IOException, URISyntaxException {
+            @RequestParam String ror) {
 
         final String id = "sparqlg/ror/organization";
         log.info("Incoming Request for " + id + " with ror: " + ror);
