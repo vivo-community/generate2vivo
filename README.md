@@ -1,7 +1,7 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
-## datacitecommons2vivo
-datacitecommons2vivo is a Data Ingest Tool for the Open-Source-Software VIVO. 
+## generate2vivo
+generate2vivo is a Data Ingest Tool for the Open-Source-Software VIVO. 
 It queries metadata from the Datacite Commons PID-Graph and the ROR API, 
 maps it to the VIVO ontology using [sparql-generate](https://ci.mines-stetienne.fr/sparql-generate/index.html) and optionally imports it into a VIVO instance.
 
@@ -13,7 +13,7 @@ maps it to the VIVO ontology using [sparql-generate](https://ci.mines-stetienne.
 - [Extensible](#extensible)
 
 ### Installation
-1. Clone the repository to a local folder using `git clone https://github.com/vivo-community/datacitecommons2vivo.git`
+1. Clone the repository to a local folder using `git clone https://github.com/vivo-community/generate2vivo.git`
 2. Change into the folder where the repository has been cloned. 
 3. Open `src/main/resources/application.properties` and change your VIVO details accordingly. 
    If you don't provide a vivo.url, vivo.email or vivo.password, the application will not import the mapped data to VIVO but return the triples in format JSON-LD.
