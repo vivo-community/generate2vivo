@@ -1,6 +1,6 @@
 package eu.tib.controller;
 
-import eu.tib.error.*;
+import eu.tib.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -80,6 +80,22 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(SparqlParsingException.class)
     protected ResponseEntity<Object> handleEntityNotFound(
             SparqlParsingException ex) {
+        ApiError apiError = new ApiError(INTERNAL_SERVER_ERROR);
+        apiError.setMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(ConfigLoadingException.class)
+    protected ResponseEntity<Object> handleEntityNotFound(
+            ConfigLoadingException ex) {
+        ApiError apiError = new ApiError(INTERNAL_SERVER_ERROR);
+        apiError.setMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(StreamManagerException.class)
+    protected ResponseEntity<Object> handleEntityNotFound(
+            StreamManagerException ex) {
         ApiError apiError = new ApiError(INTERNAL_SERVER_ERROR);
         apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);

@@ -1,0 +1,4 @@
+GENERATE <orga_source>(?ror) {
+    GENERATE <https://projects.tib.eu/tapir/ror/organization/queryset/organization.rqg>( ?orga ) .
+}
+SOURCE <https://api.ror.org/organizations/{?ror}> AS ?orga

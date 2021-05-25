@@ -1,0 +1,75 @@
+PREFIX iter: <http://w3id.org/sparql-generate/iter/>
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+GENERATE  <orga2person>(?ror, ?after) {
+
+    <{?rorid}> a foaf:Organization ;
+               rdfs:label ?name .
+
+    GENERATE {
+        <{?orcidid}-to-{?rorid}> a vivo:Position ;
+            rdfs:label "Unknown" ;
+            vivo:relates <{?orcidid}> ;
+            vivo:relates <{?rorid}> .
+
+        <{?orcidid}> a foaf:Person ;
+            rdfs:label ?completeName ;
+            vivo:orcidId <https://orcid.org/{?orcid}> ;
+            obo:ARG_2000028 <{?orcid}-vcard-dc> .
+
+        <{?orcid}> a owl:Thing ;
+            vivo:confirmedOrcidId <{?orcidid}> .
+
+        <{?orcidid}-vcard> a vcard:Individual ;
+            obo:ARG_2000029 <{?orcidid}> ;
+            vcard:hasName <{?orcidid}-vcard-name> .
+
+        <{?orcidid}-vcard-name> a vcard:Name ;
+            vcard:familyName ?familyName ;
+            vcard:givenName ?givenName .
+    }
+    ITERATOR iter:JSONPath(?orga, '$.people.nodes[*]') AS ?person
+    WHERE{
+       # basic properties of a person in json
+      BIND(fun:JSONPath(?person, '$.id' ) AS ?orcid)
+      BIND(REPLACE(?orcid, "https://orcid.org/" , "" ) AS ?orcidid)
+      BIND(fun:JSONPath(?person, '$.givenName' ) AS ?givenName)
+      BIND(fun:JSONPath(?person, '$.familyName' ) AS ?familyName)
+      # processed properties
+      BIND(CONCAT(?familyName, ", ", ?givenName)  AS ?completeName)
+    }.
+
+    GENERATE{
+      GENERATE <https://projects.tib.eu/tapir/datacitecommons/orga2person/orga2person.rqg>( ?ror, ?cursor ) .
+    }
+    WHERE{
+      BIND(fun:JSONPath(?orga, '$.people.pageInfo.hasNextPage' ) AS ?hasNextPage)
+      BIND(fun:JSONPath(?orga, '$.people.pageInfo.endCursor' ) AS ?endCursor)
+      BIND(IF(STR(?hasNextPage)="true", ?endCursor, ?undef) AS ?cursor )
+      FILTER( BOUND(?cursor) ).
+     }.
+}
+SOURCE <https://projects.tib.eu/tapir/datacitecommons/orga2person/documentset/orga2person.graphql> AS ?graphqlquery
+WHERE {
+    # replace whitespace in graphql query (compress message)
+    BIND(REPLACE(?graphqlquery, "\\s+", " ") AS ?graphql)
+    BIND(IF(BOUND(?after), ?after, "") AS ?after)
+    BIND ("""\{"variables":\{"ror":"{?ror}", "after":"{?after}"},"query":"{?graphql}"}""" AS ?postbody)
+
+    # build http post request
+    BIND(  fun:HTTPPost(<https://api.datacite.org/graphql>, "Content-type: application/json" , ?postbody) AS ?response )
+    FILTER( fun:HTTPExtractResponseCode( ?response ) = 200 )
+    BIND( fun:HTTPExtractBody( ?response ) AS ?body )
+    BIND( fun:JSONPath( ?body, "$.data.organization" ) AS ?orga )
+
+    # basic properties of organization in json
+    BIND(fun:JSONPath(?orga, '$.id' ) AS ?ror)
+    BIND(REPLACE(?ror, "https://ror.org/" , "" ) AS ?rorid)
+    BIND(fun:JSONPath(?orga, '$.name' ) AS ?name)
+}

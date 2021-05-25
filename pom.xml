@@ -13,10 +13,11 @@
 
     <groupId>eu.tib</groupId>
     <artifactId>datacitecommons2vivo</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <description>Data Ingest from datacite-commons GraphQL API to VIVO</description>
+    <version>1.0.0</version>
+    <description>Data Ingest from Datacite Commons GraphQL API to VIVO</description>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
@@ -37,6 +38,11 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
         <dependency>
@@ -68,17 +74,17 @@
         </dependency>
 
         <dependency>
-            <groupId>com.lambdista</groupId>
-            <artifactId>try</artifactId>
-            <version>0.3.1</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>6.0.16.Final</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.graphql-java</groupId>
+            <artifactId>graphql-java</artifactId>
+            <scope>test</scope>
+            <version>16.2</version>
+        </dependency>
     </dependencies>
 
     <build>

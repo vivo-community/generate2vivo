@@ -1,0 +1,130 @@
+PREFIX iter: <http://w3id.org/sparql-generate/iter/>
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX bibo: <http://purl.org/ontology/bibo/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+GENERATE  <person2publication>(?orcid, ?after) {
+
+## triples for person
+    <{?orcidid}> a foaf:Person ;
+        rdfs:label ?completeName ;
+        vivo:orcidId <{?orcid}> ;
+        obo:ARG_2000028 <{?orcidid}-vcard> .
+
+    <{?orcid}> a owl:Thing ;
+        vivo:confirmedOrcidId <{?orcidid}> .
+
+    <{?orcidid}-vcard> a vcard:Individual ;
+        obo:ARG_2000029 <{?orcidid}> ;
+        vcard:hasName <{?orcidid}-vcard-name> .
+
+    <{?orcidid}-vcard-name> a vcard:Name ;
+        vcard:familyName ?familyName ;
+        vcard:givenName ?givenName .
+
+
+    GENERATE {
+        ## connection person -> publication
+            <{?orcidid}-to-{?doi_clean}> a vivo:Authorship ;
+                vivo:relates <{?orcidid}> ;
+                vivo:relates <{?doi_clean}> .
+
+        ## triples for publication
+            <{?doi_clean}> a ?pubtype ;
+                rdfs:label ?title ;
+                bibo:doi ?doi ;
+                vivo:dateTimeValue <{?doi_clean}-dtv> .
+
+            <{?doi_clean}-dtv> a vivo:DateTimeValue ;
+                vivo:dateTime ?pubyear_dtv ;
+                vivo:dateTimePrecision vivo:yearPrecision .
+    }
+    ITERATOR iter:JSONPath(?person, '$.publications.nodes[*][?(!@.versions.nodes[0])]') AS ?pub
+    WHERE{
+       # basic properties of a publication in json
+       BIND(fun:JSONPath(?pub, '$.doi' ) AS ?doi)
+       BIND(REPLACE(?doi,  "\\W", "", "i") AS ?doi_clean)
+       BIND(fun:JSONPath(?pub, '$.titles[0].title' ) AS ?title)
+
+       BIND(fun:JSONPath(?pub, '$.publicationYear' ) AS ?pubyear)
+       BIND(xsd:dateTime(CONCAT(STR(?pubyear), "-01-01T00:00:00"))  AS ?pubyear_dtv)
+
+       BIND(fun:JSONPath(?pub, '$.types.citeproc' ) AS ?citeproc)
+       # mapping taken from VIVO (claim DOI)
+       BIND (
+         IRI(COALESCE(
+           IF(?citeproc = "article-journal", bibo:AcademicArticle, 1/0),
+           IF(?citeproc = "article", bibo:Article, 1/0),
+           IF(?citeproc = "book", bibo:Book, 1/0),
+           IF(?citeproc = "chapter", bibo:Chapter, 1/0),
+           IF(?citeproc = "dataset", vivo:Dataset, 1/0),
+           IF(?citeproc = "figure", bibo:Image, 1/0),
+           IF(?citeproc = "graphic", bibo:Image, 1/0),
+           IF(?citeproc = "legal_case", bibo:LegalCaseDocument, 1/0),
+           IF(?citeproc = "legislation", bibo:Legislation, 1/0),
+           IF(?citeproc = "manuscript", bibo:Manuscript, 1/0),
+           IF(?citeproc = "map", bibo:Map, 1/0),
+           IF(?citeproc = "musical_score", vivo:Score, 1/0),
+           IF(?citeproc = "paper-conference", vivo:ConferencePaper, 1/0),
+           IF(?citeproc = "patent", bibo:Patent, 1/0),
+           IF(?citeproc = "personal_communication", bibo:PersonalCommunicationDocument, 1/0),
+           IF(?citeproc = "post-weblog", vivo:BlogPosting, 1/0),
+           IF(?citeproc = "report", bibo:Report, 1/0),
+           IF(?citeproc = "review", vivo:Review, 1/0),
+           IF(?citeproc = "speech", vivo:Speech, 1/0),
+           IF(?citeproc = "thesis", bibo:Thesis, 1/0),
+           IF(?citeproc = "webpage", bibo:Webpage, 1/0),
+
+         # mapping leftover types
+           IF(STRSTARTS(?citeproc, "article"), bibo:Article, 1/0),
+           IF(?citeproc = "bill", bibo:Bill, 1/0),
+           IF(STRSTARTS(?citeproc, "entry"), bibo:DocumentPart, 1/0),
+           IF(?citeproc = "interview", bibo:Interview, 1/0),
+           IF(?citeproc = "motion_picture", bibo:Film, 1/0),
+           IF(?citeproc = "post", vivo:BlogPosting, 1/0),
+           IF(?citeproc = "review-book", vivo:Review, 1/0),
+           IF(?citeproc = "song", bibo:AudioDocument, 1/0),
+           IF(?citeproc = "treaty", bibo:LegalDocument, 1/0),
+
+           bibo:Document  #default if nothing else fits
+         )) AS ?pubtype
+       )
+    }.
+
+    GENERATE{
+      GENERATE <https://projects.tib.eu/tapir/datacitecommons/person2publication/person2publication.rqg>( ?orcid, ?cursor ) .
+    }
+    WHERE{
+      BIND(fun:JSONPath(?person, '$.publications.pageInfo.hasNextPage' ) AS ?hasNextPage)
+      BIND(fun:JSONPath(?person, '$.publications.pageInfo.endCursor' ) AS ?endCursor)
+      BIND(IF(STR(?hasNextPage)="true", ?endCursor, ?undef) AS ?cursor )
+      FILTER( BOUND(?cursor) ).
+     }.
+
+}
+SOURCE <https://projects.tib.eu/tapir/datacitecommons/person2publication/documentset/person2publication.graphql> AS ?graphqlquery
+WHERE {
+    # replace whitespace in graphql query (compress message)
+    BIND(REPLACE(?graphqlquery, "\\s+", " ") AS ?graphql)
+    BIND(IF(BOUND(?after), ?after, "") AS ?after)
+    BIND ("""\{"variables":\{"orcid":"{?orcid}", "after":"{?after}"},"query":"{?graphql}"}""" AS ?postbody)
+
+    # build http post request
+    BIND(  fun:HTTPPost(<https://api.datacite.org/graphql>, "Content-type: application/json" , ?postbody) AS ?response )
+    FILTER( fun:HTTPExtractResponseCode( ?response ) = 200 )
+    BIND( fun:HTTPExtractBody( ?response ) AS ?body )
+
+    BIND( fun:JSONPath( ?body, "$.data.person" ) AS ?person )
+   # basic properties of a person in json
+   BIND(fun:JSONPath(?person, '$.id' ) AS ?orcid)
+   BIND(REPLACE(?orcid, "https://orcid.org/" , "" ) AS ?orcidid)
+   BIND(fun:JSONPath(?person, '$.givenName' ) AS ?givenName)
+   BIND(fun:JSONPath(?person, '$.familyName' ) AS ?familyName)
+   BIND(CONCAT(?familyName, ", ", ?givenName)  AS ?completeName)
+}

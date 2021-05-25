@@ -1,0 +1,38 @@
+{
+  "base": "http://vivo.mydomain.edu/individual/",
+  "query": "orga_source.rqg",
+  "namedqueries": [
+    {
+      "uri": "https://projects.tib.eu/tapir/ror/organization/queryset/organization.rqg",
+      "path": "queryset/organization.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/ror/organization/queryset/orga_email.rqg",
+      "path": "queryset/orga_email.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/ror/organization/queryset/orga_website.rqg",
+      "path": "queryset/orga_website.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/ror/organization/queryset/orga_geo.rqg",
+      "path": "queryset/orga_geo.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/ror/organization/queryset/orga_labels.rqg",
+      "path": "queryset/orga_labels.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/ror/organization/queryset/orga_established.rqg",
+      "path": "queryset/orga_established.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/ror/organization/queryset/orga_acronym.rqg",
+      "path": "queryset/orga_acronym.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/ror/organization/queryset/orga_address.rqg",
+      "path": "queryset/orga_address.rqg"
+    }
+  ]
+}

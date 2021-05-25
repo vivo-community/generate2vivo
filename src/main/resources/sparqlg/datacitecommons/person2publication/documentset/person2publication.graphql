@@ -1,0 +1,30 @@
+query person($orcid :ID!, $after:String){
+    person(id: $orcid) {
+        familyName
+        givenName
+        id
+
+        publications(first:100, after: $after) {
+            pageInfo {
+                endCursor
+                hasNextPage
+            }
+
+            nodes {
+                doi
+                titles {
+                    title
+                }
+                publicationYear
+                types {
+                    citeproc
+                }
+                versions {
+                    nodes {
+                        doi
+                    }
+                }
+            }
+        }
+    }
+}

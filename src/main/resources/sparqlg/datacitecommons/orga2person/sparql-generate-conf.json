@@ -1,0 +1,14 @@
+{
+  "base": "http://vivo.mydomain.edu/individual/",
+  "query": "orga2person.rqg",
+  "documentset": [
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/orga2person/orga2person.rqg",
+      "path": "orga2person.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/orga2person/documentset/orga2person.graphql",
+      "path": "documentset/orga2person.graphql"
+    }
+  ]
+}

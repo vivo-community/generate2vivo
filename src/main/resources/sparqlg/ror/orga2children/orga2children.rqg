@@ -1,0 +1,32 @@
+PREFIX iter: <http://w3id.org/sparql-generate/iter/>
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+
+GENERATE <orga2children>(?ror) {
+
+  GENERATE <https://projects.tib.eu/tapir/ror/organization/queryset/organization.rqg>( ?orga ) .
+
+  GENERATE {
+    <{?id}> obo:BFO_0000051 <{?child_id}> .
+
+    GENERATE <https://projects.tib.eu/tapir/ror/orga2children/orga2children.rqg>(?child_ror ) .
+  }
+  ITERATOR iter:JSONPath(?orga, '$.relationships[*]') AS ?relationships
+  WHERE {
+    BIND(fun:JSONPath(?relationships, '$.label' ) AS ?rel_label)
+    BIND(fun:JSONPath(?relationships, '$.type' ) AS ?rel_type)
+    BIND(fun:JSONPath(?relationships, '$.id' ) AS ?rel_id)
+
+    BIND( IF( STR(?rel_type)="Child" , ?rel_id , ?undef ) AS ?child_ror )
+    BIND(REPLACE(?child_ror, "https://ror.org/" , "" ) AS ?child_id)
+    BIND( IF( STR(?rel_type)="Child" , ?rel_label , ?undef ) AS ?child_name )
+    FILTER( BOUND(?child_ror) )
+  }  .
+
+}
+SOURCE <https://api.ror.org/organizations/{?ror}> AS ?orga
+WHERE {
+    BIND(REPLACE(fun:JSONPath(?orga, '$.id' ), "https://ror.org/" , "" ) AS ?id)
+}

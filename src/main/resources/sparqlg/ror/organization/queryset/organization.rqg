@@ -1,0 +1,43 @@
+PREFIX iter: <http://w3id.org/sparql-generate/iter/>
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+
+
+GENERATE <organization>(?orga) {
+
+    <{?id}> a foaf:Organization ;
+        rdfs:label ?name_with_tag .
+
+### labels: SUB-QUERY TO ADD NAMES IN DIFFERENT LANGUAGES
+  GENERATE <https://projects.tib.eu/tapir/ror/organization/queryset/orga_labels.rqg>( ?id, ?orga ) .
+
+### acronyms: SUB-QUERY TO ADD ABBREVIATION
+  GENERATE <https://projects.tib.eu/tapir/ror/organization/queryset/orga_acronym.rqg>( ?id, ?orga ) .
+
+### established : SUB-QUERY TO ADD THE DATE THE ORGANIZATION WAS ESTABLISHED
+  GENERATE <https://projects.tib.eu/tapir/ror/organization/queryset/orga_established.rqg>( ?id, ?orga ) .
+
+### email_address : SUB-QUERY TO ADD EMAIL
+  GENERATE <https://projects.tib.eu/tapir/ror/organization/queryset/orga_email.rqg>( ?id, ?orga ) .
+
+### links : SUB-QUERY TO ADD WEBSITE
+  GENERATE <https://projects.tib.eu/tapir/ror/organization/queryset/orga_website.rqg>( ?id, ?orga ) .
+
+### address (city, state, country) : SUB-QUERY TO ADD ADDRESS DATA
+  GENERATE <https://projects.tib.eu/tapir/ror/organization/queryset/orga_address.rqg>( ?id, ?orga ) .
+
+### geo (lat,lng) : SUB-QUERY TO ADD LATITUDE & LONGITUDE
+  GENERATE <https://projects.tib.eu/tapir/ror/organization/queryset/orga_geo.rqg>( ?id, ?orga ) .
+
+}
+WHERE {
+    # basic properties of organization
+    BIND(REPLACE(fun:JSONPath(?orga, '$.id' ), "https://ror.org/" , "" ) AS ?id)
+    BIND(fun:JSONPath(?orga, '$.name' ) AS ?name)
+    BIND(STRLANG(?name, "en") AS ?name_with_tag)
+}

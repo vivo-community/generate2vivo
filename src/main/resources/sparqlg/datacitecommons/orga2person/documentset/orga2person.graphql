@@ -1,0 +1,18 @@
+query orga2person($ror: ID!, $after: String) {
+    organization(id: $ror) {
+        id
+        name
+
+        people(first:100, after: $after) {
+            pageInfo {
+                endCursor
+                hasNextPage
+            }
+            nodes {
+                id
+                givenName
+                familyName
+            }
+        }
+    }
+}

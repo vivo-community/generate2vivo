@@ -1,0 +1,15 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX iter: <http://w3id.org/sparql-generate/iter/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+### labels: SUB-QUERY TO ADD NAMES IN DIFFERENT LANGUAGES
+GENERATE  <orga_labels> (?id, ?orga) {
+    <{?id}> rdfs:label ?label_with_tag .
+}
+ITERATOR iter:JSONPath(?orga, '$.labels[*]') AS ?labels
+WHERE {
+    # alternative labels in different languages
+    BIND(fun:JSONPath(?labels, '$.label' ) AS ?label)
+    BIND(fun:JSONPath(?labels, '$.iso639' ) AS ?iso639)
+    BIND(STRLANG(?label, ?iso639) AS ?label_with_tag)
+}

@@ -1,0 +1,20 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+
+### email_address : SUB-QUERY TO ADD EMAIL
+GENERATE <orga_email> (?id, ?orga) {
+    <{?id}> obo:ARG_2000028 <{?id}-vcard> .
+
+    <{?id}-vcard> a vcard:Individual ;
+        obo:ARG_2000029 <{?id}> .
+
+    <{?id}-vcard> vcard:hasEmail <{?id}-vcard-email> .
+
+    <{?id}-vcard-email> a vcard:Email ;
+        vcard:email ?email .
+}
+  WHERE {
+    BIND(fun:JSONPath(?orga, '$.email_address' ) AS ?email)
+    FILTER( BOUND(?email) )
+}

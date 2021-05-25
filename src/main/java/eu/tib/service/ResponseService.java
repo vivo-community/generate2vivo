@@ -1,7 +1,7 @@
 package eu.tib.service;
 
-import eu.tib.store.VIVOExport;
-import eu.tib.store.VIVOProperties;
+import eu.tib.storage.VIVOExport;
+import eu.tib.storage.VIVOProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.jena.rdf.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class ResponseService {
 
         if (vivoProperties.isValid()) {
             log.info("Found VIVO properties");
-            vivoExport.insertData(result, vivoProperties);
+            vivoExport.exportData(result, vivoProperties);
             return ResponseEntity.status(HttpStatus.OK).body("{\"status\":\"SPARQL update accepted.\"}");
         } else {
             log.info("Returning JSON-LD");
