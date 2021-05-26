@@ -1,0 +1,10 @@
+{
+  "base": "http://vivo.mydomain.edu/individual/",
+  "query": "orga_source.rqg",
+  "namedqueries": [
+    {
+      "uri": "https://projects.tib.eu/tapir/orcid/employees/currentEmployees.rqg",
+      "path": "currentEmployees.rqg"
+    }
+  ]
+}

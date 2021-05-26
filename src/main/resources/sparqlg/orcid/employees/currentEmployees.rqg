@@ -1,0 +1,29 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX iter: <http://w3id.org/sparql-generate/iter/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+GENERATE <currentEmployees>( ?grid_id, ?ringgold_id, ?orcid ) {
+
+    GENERATE {
+        <{?orcid}> a foaf:Person ;
+        rdfs:label ?name.
+    }
+    ITERATOR iter:JSONPath(?body, '$.affiliation-group[*]') AS ?employment
+    WHERE{
+    # filter only employees where orga_id is same as ringgold or grid AND no end-date (=current)
+        BIND(fun:JSONPath(?employment, '$.summaries[0].employment-summary.organization.disambiguated-organization.disambiguated-organization-identifier' ) AS ?orga_id)
+        BIND(fun:JSONPath(?employment, '$.summaries[0].employment-summary.end-date' ) AS ?end_date)
+        FILTER( !BOUND(?end_date) && (?orga_id = ?grid_id || ?orga_id = ?ringgold_id) ).
+
+        BIND(fun:JSONPath(?body, '$.affiliation-group[0].summaries[0].employment-summary.source.source-name.value' ) AS ?name)
+    }.
+
+}
+WHERE{
+    # query employments of orcid for every person
+    BIND(<https://pub.orcid.org/v3.0/{?orcid}/employments> as ?geturl)
+    BIND(  fun:HTTPGet(?geturl, "Accept: application/json") AS ?response )
+    FILTER( fun:HTTPExtractResponseCode( ?response ) = 200 )
+    BIND( fun:HTTPExtractBody( ?response ) AS ?body )
+}
