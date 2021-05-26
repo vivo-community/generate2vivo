@@ -22,23 +22,28 @@ public class ResponseService {
     @Autowired
     private VIVOProperties vivoProperties;
 
-    public ResponseEntity<String> buildResponse(String queryName, Map<String,String> input) {
+    public ResponseEntity<String> buildResponse(String queryName, Map<String, String> input) {
 
         log.info("Starting pipeline for " + queryName);
         GeneratePipeline pipeline = new GeneratePipeline();
         Model result = pipeline.run(queryName, input);
         log.info("Finished pipeline for " + queryName);
 
-        if (vivoProperties.isValid()) {
+        String bodyTxt = "";
+        if (result.isEmpty()) {
+            log.info("No data was generated, Model is empty.");
+            bodyTxt = "{\"status\":\"No data was generated.\"}";
+        } else if (vivoProperties.isValid()) {
             log.info("Found VIVO properties");
             vivoExport.exportData(result, vivoProperties);
-            return ResponseEntity.status(HttpStatus.OK).body("{\"status\":\"SPARQL update accepted.\"}");
+            bodyTxt = "{\"status\":\"SPARQL update accepted.\"}";
         } else {
             log.info("Returning JSON-LD");
             StringWriter stringWriter = new StringWriter();
             result.write(stringWriter, "JSON-LD");
-            String dataJson = stringWriter.toString();
-            return ResponseEntity.status(HttpStatus.OK).body(dataJson);
+            bodyTxt = stringWriter.toString();
         }
+
+        return ResponseEntity.status(HttpStatus.OK).body(bodyTxt);
     }
 }
