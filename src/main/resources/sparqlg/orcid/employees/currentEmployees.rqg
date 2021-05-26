@@ -11,7 +11,7 @@ GENERATE <currentEmployees>( ?grid_id, ?ringgold_id, ?orcid ) {
     }
     ITERATOR iter:JSONPath(?body, '$.affiliation-group[*]') AS ?employment
     WHERE{
-        # filter only employees where orga_id is same as ringgold or grid AND no end-date (=current)
+    # filter only employees where orga_id is same as ringgold or grid AND no end-date (=current)
         BIND(fun:JSONPath(?employment, '$.summaries[0].employment-summary.organization.disambiguated-organization.disambiguated-organization-identifier' ) AS ?orga_id)
         BIND(fun:JSONPath(?employment, '$.summaries[0].employment-summary.end-date' ) AS ?end_date)
         FILTER( !BOUND(?end_date) && (?orga_id = ?grid_id || ?orga_id = ?ringgold_id) ).
@@ -21,7 +21,7 @@ GENERATE <currentEmployees>( ?grid_id, ?ringgold_id, ?orcid ) {
 
 }
 WHERE{
-    # query employments of orcid
+    # query employments of orcid for every person
     BIND(<https://pub.orcid.org/v3.0/{?orcid}/employments> as ?geturl)
     BIND(  fun:HTTPGet(?geturl, "Accept: application/json") AS ?response )
     FILTER( fun:HTTPExtractResponseCode( ?response ) = 200 )

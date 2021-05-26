@@ -1,9 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2021-05-25
+## [Unreleased]
 ### Added
-- Playground for transformations from JSON to RDF.
+- Query ORCID and filter for current employees.
 
 ## [Renamed Project] - 2021-05-25
 As new datsources were integrated and the name datacitecommons2vivo was not reflecting
