@@ -3,8 +3,12 @@
   "query": "orga_source.rqg",
   "namedqueries": [
     {
-      "uri": "https://projects.tib.eu/tapir/ror/organization/orga_mapping.rqg",
-      "path": "orga_mapping.rqg"
+      "uri": "https://projects.tib.eu/tapir/ror/mapping/orga_mapping.rqg",
+      "path": "../mapping/orga_mapping.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/ror/mapping/orga_id.rqg",
+      "path": "../mapping/orga_id.rqg"
     },
     {
       "uri": "https://projects.tib.eu/tapir/objects/organization.rqg",

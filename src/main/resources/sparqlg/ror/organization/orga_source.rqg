@@ -1,6 +1,6 @@
 ### query data about organization from ROR
 
 GENERATE <orga_source>(?ror) {
-    GENERATE <https://projects.tib.eu/tapir/ror/organization/orga_mapping.rqg>( ?undef, ?orga ) .
+    GENERATE <https://projects.tib.eu/tapir/ror/mapping/orga_mapping.rqg>( ?orga ) .
 }
 SOURCE <https://api.ror.org/organizations/{?ror}> AS ?orga

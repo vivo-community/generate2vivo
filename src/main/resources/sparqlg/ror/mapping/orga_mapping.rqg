@@ -1,19 +1,16 @@
 PREFIX fun: <http://w3id.org/sparql-generate/fn/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-GENERATE <orga_mapping>(?parent_ror, ?orga) {
+GENERATE <orga_mapping>(?orga) {
 
     ## fill in blanks in organization definition in vivo ontology
-    GENERATE <https://projects.tib.eu/tapir/objects/organization.rqg>(?parent_id, ?id, ?name, ?established_dtv, ?email, ?website, ?city, ?state, ?country, ?lat, ?lng) .
+    GENERATE <https://projects.tib.eu/tapir/objects/organization.rqg>( ?id, ?name, ?established_dtv, ?email, ?website, ?city, ?state, ?country, ?lat, ?lng) .
 
 }
 WHERE {
     ### basic properties of organization
-    BIND(REPLACE(fun:JSONPath(?orga, '$.id' ), "https://ror.org/" , "" ) AS ?id)
+    BIND(<https://projects.tib.eu/tapir/ror/mapping/orga_id.rqg>(?orga) AS ?id)
     BIND(fun:JSONPath(?orga, '$.name' ) AS ?name)
-
-    ### super organization
-    BIND(REPLACE(?parent_ror, "https://ror.org/" , "" ) AS ?parent_id)
 
     ### established
     BIND(fun:JSONPath(?orga, '$.established' ) AS ?established)

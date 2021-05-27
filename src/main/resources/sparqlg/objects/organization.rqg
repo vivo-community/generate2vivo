@@ -1,5 +1,3 @@
-PREFIX iter: <http://w3id.org/sparql-generate/iter/>
-PREFIX fun: <http://w3id.org/sparql-generate/fn/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX vivo: <http://vivoweb.org/ontology/core#>
@@ -8,20 +6,12 @@ PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
 
 
-GENERATE <organization>(?parent_id, ?id, ?name, ?established_dtv, ?email, ?website, ?city, ?state, ?country, ?lat, ?lng) {
+GENERATE <organization>(?id, ?name, ?established_dtv, ?email, ?website, ?city, ?state, ?country, ?lat, ?lng) {
 
 ### id, name : basic attributes of an organization
     <{?id}> a foaf:Organization ;
         rdfs:label ?name .
 
-
-### parent : TRIPLES TO ADD SUPER-ORGANISATION
-  GENERATE{
-     <{?parent_id}> obo:BFO_0000051 <{?id}> .
-  }
-  WHERE {
-     FILTER( BOUND(?parent_id) ).
-  } .
 
 ### established : TRIPLES TO ADD THE DATE THE ORGANIZATION WAS ESTABLISHED
   GENERATE{
@@ -101,4 +91,7 @@ GENERATE <organization>(?parent_id, ?id, ?name, ?established_dtv, ?email, ?websi
      FILTER( BOUND(?lat) && BOUND(?lng)  ).
   } .
 
+}
+WHERE {
+  FILTER( BOUND(?id) ).
 }
