@@ -1,0 +1,36 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+GENERATE <orga_mapping>(?parent_ror, ?orga) {
+
+    ## fill in blanks in organization definition in vivo ontology
+    GENERATE <https://projects.tib.eu/tapir/objects/organization.rqg>(?parent_id, ?id, ?name, ?established_dtv, ?email, ?website, ?city, ?state, ?country, ?lat, ?lng) .
+
+}
+WHERE {
+    ### basic properties of organization
+    BIND(REPLACE(fun:JSONPath(?orga, '$.id' ), "https://ror.org/" , "" ) AS ?id)
+    BIND(fun:JSONPath(?orga, '$.name' ) AS ?name)
+
+    ### super organization
+    BIND(REPLACE(?parent_ror, "https://ror.org/" , "" ) AS ?parent_id)
+
+    ### established
+    BIND(fun:JSONPath(?orga, '$.established' ) AS ?established)
+    BIND(xsd:dateTime(CONCAT(STR(?established), "-01-01T00:00:00"))  AS ?established_dtv)
+
+    ### email
+    BIND(fun:JSONPath(?orga, '$.email_address' ) AS ?email)
+
+    ### website
+    BIND(fun:JSONPath(?orga, '$.links[0]' ) AS ?website)
+
+    ### address (city, state, country, lat, lng)
+    BIND(fun:JSONPath(?orga, '$.country.country_name' ) AS ?country)
+
+    BIND(fun:JSONPath(?orga, '$.addresses[0]' ) AS ?address)
+    BIND(fun:JSONPath(?address, '$.city' ) AS ?city)
+    BIND(fun:JSONPath(?address, '$.geonames_city.geonames_admin1.name' ) AS ?state)
+    BIND(xsd:decimal(fun:JSONPath(?address, '$.lat' )) AS ?lat)
+    BIND(xsd:decimal(fun:JSONPath(?address, '$.lng' )) AS ?lng)
+}
