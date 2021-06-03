@@ -1,0 +1,17 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+GENERATE <person_mapping>(?orcid_data) {
+
+    ## fill in blanks in person definition in vivo ontology
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/person.rqg>(?id, ?name) .
+
+}
+WHERE {
+    ### extract properties of person
+    BIND(<https://projects.tib.eu/tapir/orcid/person/person_id.rqg>(?orcid_data) AS ?id)
+
+    BIND(fun:JSONPath(?orcid_data, '$.person.name.given-names.value' ) AS ?givenName)
+    BIND(fun:JSONPath(?orcid_data, '$.person.name.family-name.value' ) AS ?familyName)
+    BIND(CONCAT(?familyName, ", ", ?givenName)  AS ?name)
+}

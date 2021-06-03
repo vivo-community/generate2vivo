@@ -1,0 +1,9 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+GENERATE <person> (?id, ?name){
+
+### id, name : basic attributes of a person
+    <{?id}> a foaf:Person ;
+     rdfs:label ?name .
+}

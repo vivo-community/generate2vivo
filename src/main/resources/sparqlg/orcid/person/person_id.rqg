@@ -1,0 +1,5 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+
+FUNCTION <func>(?orcid_data) {
+    fun:JSONPath(?orcid_data, '$.orcid-identifier.path' )
+}

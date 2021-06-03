@@ -27,18 +27,39 @@ public class OrcidController {
     @Autowired
     private ResponseService responseService;
 
-    @PostMapping(value = "/getCurrentEmployees", produces = "application/json")
-    public ResponseEntity<String> getCurrentEmployees(
-            @Valid @Pattern(regexp = "^Q[1-9]\\d*$")
-            @ApiParam("Wikidata id for a research organization starting with Q")
-            @RequestParam String wikidata) {
+    @PostMapping(value = "/getPerson", produces = "application/json")
+    public ResponseEntity<String> getPerson(
+            @Valid @Pattern(regexp = "^https://orcid.org/\\d{4}-\\d{4}-\\d{4}-\\d{4}")
+            @ApiParam("Complete Orcid URL consisting of https://orcid.org/ plus id")
+            @RequestParam String orcid) {
 
-        final String id = "sparqlg/orcid/employees";
-        log.info("Incoming Request for " + id + " with wikidata: " + wikidata);
+        final String id = "sparqlg/orcid/person";
+        log.info("Incoming Request for " + id + " with orcid: " + orcid);
         StopWatch stopWatch = new StopWatch(id);
         stopWatch.start(id);
 
-        ResponseEntity result = responseService.buildResponse(id, Collections.singletonMap("wikidata", wikidata));
+        String orcid_id = orcid.replaceFirst("https://orcid.org/","");
+        ResponseEntity result = responseService.buildResponse(id,
+                Collections.singletonMap("orcid", orcid_id));
+
+        stopWatch.stop();
+        log.info(id + " took " + stopWatch.getTotalTimeSeconds() + "s");
+        return result;
+    }
+
+
+    @PostMapping(value = "/getCurrentEmployees", produces = "application/json")
+    public ResponseEntity<String> getCurrentEmployees(
+            @Valid @Pattern(regexp = "^https://ror.org/\\d{2}[a-z0-9]{5}\\d{2}")
+            @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
+            @RequestParam String ror) {
+
+        final String id = "sparqlg/orcid/employees";
+        log.info("Incoming Request for " + id + " with ror: " + ror);
+        StopWatch stopWatch = new StopWatch(id);
+        stopWatch.start(id);
+
+        ResponseEntity result = responseService.buildResponse(id, Collections.singletonMap("ror", ror));
 
         stopWatch.stop();
         log.info(id + " took " + stopWatch.getTotalTimeSeconds() + "s");
