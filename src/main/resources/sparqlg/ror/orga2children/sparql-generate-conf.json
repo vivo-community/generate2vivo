@@ -7,16 +7,16 @@
       "path": "orga2children.rqg"
     },
     {
-      "uri": "https://projects.tib.eu/tapir/ror/mapping/orga_mapping.rqg",
-      "path": "../mapping/orga_mapping.rqg"
+      "uri": "https://projects.tib.eu/tapir/ror/organization/orga_mapping.rqg",
+      "path": "../organization/orga_mapping.rqg"
     },
     {
-      "uri": "https://projects.tib.eu/tapir/ror/mapping/orga_id.rqg",
-      "path": "../mapping/orga_id.rqg"
+      "uri": "https://projects.tib.eu/tapir/ror/organization/orga_id.rqg",
+      "path": "../organization/orga_id.rqg"
     },
     {
       "uri": "https://projects.tib.eu/tapir/objects/organization.rqg",
-      "path": "../../objects/organization.rqg"
+      "path": "../../vivo-rdf/organization.rqg"
     }
   ]
 }

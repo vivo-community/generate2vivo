@@ -4,8 +4,8 @@ PREFIX obo: <http://purl.obolibrary.org/obo/>
 
 GENERATE <orga2children>(?parent_id, ?ror) {
 
-  ### use the organization mapping already defined in /ror/organization/orga_mapping.rqg
-  GENERATE <https://projects.tib.eu/tapir/ror/mapping/orga_mapping.rqg>( ?orga_data ) .
+  ### use the organization mapping already defined in orga_mapping.rqg
+  GENERATE <https://projects.tib.eu/tapir/ror/organization/orga_mapping.rqg>( ?orga_data ) .
 
   ### connection organization & sub-organization
   <{?parent_id}> obo:BFO_0000051 <{?id}> .
@@ -27,5 +27,5 @@ GENERATE <orga2children>(?parent_id, ?ror) {
 }
 SOURCE <https://api.ror.org/organizations/{?ror}> AS ?orga_data
 WHERE{
-    BIND(<https://projects.tib.eu/tapir/ror/mapping/orga_id.rqg>(?orga_data) AS ?id)
+    BIND(<https://projects.tib.eu/tapir/ror/organization/orga_id.rqg>(?orga_data) AS ?id)
 }
