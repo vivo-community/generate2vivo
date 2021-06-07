@@ -1,6 +1,5 @@
 PREFIX iter: <http://w3id.org/sparql-generate/iter/>
 PREFIX fun: <http://w3id.org/sparql-generate/fn/>
-PREFIX obo: <http://purl.obolibrary.org/obo/>
 
 GENERATE <orga2children>(?parent_id, ?ror) {
 
@@ -8,7 +7,7 @@ GENERATE <orga2children>(?parent_id, ?ror) {
   GENERATE <https://projects.tib.eu/tapir/ror/organization/orga_mapping.rqg>( ?orga_data ) .
 
   ### connection organization & sub-organization
-  <{?parent_id}> obo:BFO_0000051 <{?id}> .
+  GENERATE <https://projects.tib.eu/tapir/vivo-rdf/orga2suborga.rqg>(?parent_id, ?id ) .
 
   ### call this query recursively for all children
   GENERATE <https://projects.tib.eu/tapir/ror/orga2children/orga2children.rqg>(?id, ?child_ror )

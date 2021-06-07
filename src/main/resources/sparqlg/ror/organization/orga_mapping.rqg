@@ -4,7 +4,10 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 GENERATE <orga_mapping>(?ror_data) {
 
     ## fill in blanks in organization definition in vivo ontology
-    GENERATE <https://projects.tib.eu/tapir/objects/organization.rqg>( ?id, ?name, ?established_dtv, ?email, ?website, ?city, ?state, ?country, ?lat, ?lng) .
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/organization.rqg>( ?id, ?name, ?established_dtv, ?email, ?website, ?city, ?state, ?country, ?lat, ?lng) .
+
+    ## add ROR as PID
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg>(?id, "https://ror.org/", ?id) .
 
 }
 WHERE {
