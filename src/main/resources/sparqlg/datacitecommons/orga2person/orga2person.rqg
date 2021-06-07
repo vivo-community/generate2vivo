@@ -1,11 +1,5 @@
 PREFIX iter: <http://w3id.org/sparql-generate/iter/>
 PREFIX fun: <http://w3id.org/sparql-generate/fn/>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-PREFIX obo: <http://purl.obolibrary.org/obo/>
-PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
-PREFIX vivo: <http://vivoweb.org/ontology/core#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
 GENERATE  <orga2person>(?ror, ?after) {
 
