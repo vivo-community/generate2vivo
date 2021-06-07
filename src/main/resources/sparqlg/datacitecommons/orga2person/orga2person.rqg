@@ -9,48 +9,31 @@ PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
 GENERATE  <orga2person>(?ror, ?after) {
 
-    <{?rorid}> a foaf:Organization ;
-               rdfs:label ?name .
+### map organization data
+    GENERATE <https://projects.tib.eu/tapir/datacitecommons/organization/orga_mapping.rqg>( ?orga_data ) .
 
+
+### map person data
+### and for every person: create a connection to organization
     GENERATE {
-        <{?orcidid}-to-{?rorid}> a vivo:Position ;
-            rdfs:label "Unknown" ;
-            vivo:relates <{?orcidid}> ;
-            vivo:relates <{?rorid}> .
+        GENERATE <https://projects.tib.eu/tapir/datacitecommons/person/person_mapping.rqg>( ?person_data ) .
 
-        <{?orcidid}> a foaf:Person ;
-            rdfs:label ?completeName ;
-            vivo:orcidId <https://orcid.org/{?orcid}> ;
-            obo:ARG_2000028 <{?orcid}-vcard-dc> .
-
-        <{?orcid}> a owl:Thing ;
-            vivo:confirmedOrcidId <{?orcidid}> .
-
-        <{?orcidid}-vcard> a vcard:Individual ;
-            obo:ARG_2000029 <{?orcidid}> ;
-            vcard:hasName <{?orcidid}-vcard-name> .
-
-        <{?orcidid}-vcard-name> a vcard:Name ;
-            vcard:familyName ?familyName ;
-            vcard:givenName ?givenName .
+        GENERATE <https://projects.tib.eu/tapir/vivo-rdf/position.rqg>(?person_id, ?orga_id, ?role, ?start_date, ?end_date) .
     }
-    ITERATOR iter:JSONPath(?orga, '$.people.nodes[*]') AS ?person
+    ITERATOR iter:JSONPath(?orga_data, '$.people.nodes[*]') AS ?person_data
     WHERE{
-       # basic properties of a person in json
-      BIND(fun:JSONPath(?person, '$.id' ) AS ?orcid)
-      BIND(REPLACE(?orcid, "https://orcid.org/" , "" ) AS ?orcidid)
-      BIND(fun:JSONPath(?person, '$.givenName' ) AS ?givenName)
-      BIND(fun:JSONPath(?person, '$.familyName' ) AS ?familyName)
-      # processed properties
-      BIND(CONCAT(?familyName, ", ", ?givenName)  AS ?completeName)
-    }.
+        BIND(<https://projects.tib.eu/tapir/datacitecommons/organization/orga_id.rqg>(?orga_data) AS ?orga_id)
+        BIND(<https://projects.tib.eu/tapir/datacitecommons/person/person_id.rqg>(?person_data) AS ?person_id)
+    } .
 
+
+############################# call this query again if hasNextPage =true  #############################################
     GENERATE{
       GENERATE <https://projects.tib.eu/tapir/datacitecommons/orga2person/orga2person.rqg>( ?ror, ?cursor ) .
     }
     WHERE{
-      BIND(fun:JSONPath(?orga, '$.people.pageInfo.hasNextPage' ) AS ?hasNextPage)
-      BIND(fun:JSONPath(?orga, '$.people.pageInfo.endCursor' ) AS ?endCursor)
+      BIND(fun:JSONPath(?orga_data, '$.people.pageInfo.hasNextPage' ) AS ?hasNextPage)
+      BIND(fun:JSONPath(?orga_data, '$.people.pageInfo.endCursor' ) AS ?endCursor)
       BIND(IF(STR(?hasNextPage)="true", ?endCursor, ?undef) AS ?cursor )
       FILTER( BOUND(?cursor) ).
      }.
@@ -66,10 +49,5 @@ WHERE {
     BIND(  fun:HTTPPost(<https://api.datacite.org/graphql>, "Content-type: application/json" , ?postbody) AS ?response )
     FILTER( fun:HTTPExtractResponseCode( ?response ) = 200 )
     BIND( fun:HTTPExtractBody( ?response ) AS ?body )
-    BIND( fun:JSONPath( ?body, "$.data.organization" ) AS ?orga )
-
-    # basic properties of organization in json
-    BIND(fun:JSONPath(?orga, '$.id' ) AS ?ror)
-    BIND(REPLACE(?ror, "https://ror.org/" , "" ) AS ?rorid)
-    BIND(fun:JSONPath(?orga, '$.name' ) AS ?name)
+    BIND( fun:JSONPath( ?body, "$.data.organization" ) AS ?orga_data )
 }

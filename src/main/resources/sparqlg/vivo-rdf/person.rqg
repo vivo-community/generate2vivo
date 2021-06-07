@@ -1,9 +1,41 @@
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
 
-GENERATE <person> (?id, ?name){
+GENERATE <person> (?id, ?orcid, ?familyName, ?givenName){
 
-### id, name : basic attributes of a person
     <{?id}> a foaf:Person ;
-     rdfs:label ?name .
+        rdfs:label ?completeName ;
+        vivo:orcidId <https://orcid.org/{?orcid}> .
+
+
+### vcard : TRIPLES TO ADD VCARD
+    GENERATE{
+       <{?id}> obo:ARG_2000028 <{?id}-vcard> .
+
+       <{?id}-vcard> a vcard:Individual ;
+           obo:ARG_2000029 <{?id}> .
+    }
+    WHERE {
+       FILTER( BOUND(?familyName) || BOUND(?givenName)  ).
+    } .
+
+
+### name : TRIPLES TO ADD NAME
+    GENERATE{
+       <{?id}-vcard> vcard:hasName <{?id}-vcard-name> .
+
+       <{?id}-vcard-name> a vcard:Name ;
+           vcard:familyName ?familyName ;
+           vcard:givenName ?givenName .
+    }
+    WHERE {
+       FILTER( BOUND(?familyName) || BOUND(?givenName)  ).
+    } .
+}
+WHERE{
+    BIND(CONCAT(?familyName, ", ", ?givenName)  AS ?completeName)
+    FILTER( BOUND(?id) ).
 }

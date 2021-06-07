@@ -4,7 +4,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 GENERATE <person_mapping>(?orcid_data) {
 
     ## fill in blanks in person definition in vivo ontology
-    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/person.rqg>(?id, ?name) .
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/person.rqg>(?id, ?orcid, ?familyName, ?givenName) .
 
     ## add ORCID as data source
     GENERATE <https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg>(?id, "https://orcid.org/", ?id) .
@@ -13,8 +13,8 @@ GENERATE <person_mapping>(?orcid_data) {
 WHERE {
     ### extract properties of person
     BIND(<https://projects.tib.eu/tapir/orcid/person/person_id.rqg>(?orcid_data) AS ?id)
+    BIND(?id AS ?orcid)
 
     BIND(fun:JSONPath(?orcid_data, '$.person.name.given-names.value' ) AS ?givenName)
     BIND(fun:JSONPath(?orcid_data, '$.person.name.family-name.value' ) AS ?familyName)
-    BIND(CONCAT(?familyName, ", ", ?givenName)  AS ?name)
 }
