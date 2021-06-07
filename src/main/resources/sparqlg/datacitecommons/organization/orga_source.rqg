@@ -1,0 +1,17 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+
+GENERATE <orga_source>(?ror) {
+    GENERATE <https://projects.tib.eu/tapir/datacitecommons/organization/orga_mapping.rqg>( ?orga_data ) .
+}
+SOURCE <https://projects.tib.eu/tapir/datacitecommons/organization/queryset/organization.graphql> AS ?graphqlquery
+WHERE {
+    # replace whitespace in graphql query (compress message)
+    BIND(REPLACE(?graphqlquery, "\\s+", " ") AS ?graphql)
+    BIND ("""\{"variables":\{"ror":"{?ror}"},"query":"{?graphql}"}""" AS ?postbody)
+
+    # build http post request
+    BIND( fun:HTTPPost(<https://api.datacite.org/graphql>, "Content-type: application/json" , ?postbody) AS ?response )
+    FILTER( fun:HTTPExtractResponseCode( ?response ) = 200 )
+    BIND( fun:HTTPExtractBody( ?response ) AS ?body )
+    BIND( fun:JSONPath( ?body, "$.data.organization" ) AS ?orga_data )
+}

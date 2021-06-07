@@ -1,0 +1,26 @@
+{
+  "base": "http://vivo.mydomain.edu/individual/",
+  "query": "orga_source.rqg",
+  "namedqueries": [
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/organization/queryset/organization.graphql",
+      "path": "queryset/organization.graphql"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/organization/orga_mapping.rqg",
+      "path": "orga_mapping.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/organization/orga_id.rqg",
+      "path": "orga_id.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/vivo-rdf/organization.rqg",
+      "path": "../../vivo-rdf/organization.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg",
+      "path": "../../vivo-rdf/agent_pid.rqg"
+    }
+  ]
+}

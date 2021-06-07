@@ -1,0 +1,5 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+
+FUNCTION <func>(?person_data) {
+    REPLACE(fun:JSONPath(?person_data, '$.id' ), "https://orcid.org/" , "" )
+}

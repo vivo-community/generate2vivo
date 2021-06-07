@@ -1,0 +1,17 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+
+GENERATE <work_source>(?doi) {
+    GENERATE <https://projects.tib.eu/tapir/datacitecommons/work/work_mapping.rqg>( ?work_data ) .
+}
+SOURCE <https://projects.tib.eu/tapir/datacitecommons/work/queryset/work.graphql> AS ?graphqlquery
+WHERE {
+    # replace whitespace in graphql query (compress message)
+    BIND(REPLACE(?graphqlquery, "\\s+", " ") AS ?graphql)
+    BIND ("""\{"variables":\{"doi":"{?doi}"},"query":"{?graphql}"}""" AS ?postbody)
+
+    # build http post request
+    BIND( fun:HTTPPost(<https://api.datacite.org/graphql>, "Content-type: application/json" , ?postbody) AS ?response )
+    FILTER( fun:HTTPExtractResponseCode( ?response ) = 200 )
+    BIND( fun:HTTPExtractBody( ?response ) AS ?body )
+    BIND( fun:JSONPath( ?body, "$.data.work" ) AS ?work_data )
+}

@@ -1,0 +1,18 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+
+GENERATE <person_mapping>(?person_data) {
+
+    ## fill in blanks in person definition in vivo ontology
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/person.rqg>(?id, ?name) .
+
+    ## add ORCID as PID
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg>(?id, "https://orcid.org/", ?id) .
+}
+WHERE {
+    ### basic properties of organization
+    BIND(<https://projects.tib.eu/tapir/datacitecommons/person/person_id.rqg>(?person_data) AS ?id)
+
+    BIND(fun:JSONPath(?person_data, '$.givenName' ) AS ?givenName)
+    BIND(fun:JSONPath(?person_data, '$.familyName' ) AS ?familyName)
+    BIND(CONCAT(?familyName, ", ", ?givenName)  AS ?name)
+}
