@@ -3,7 +3,7 @@ PREFIX fun: <http://w3id.org/sparql-generate/fn/>
 GENERATE <work_source>(?doi) {
     GENERATE <https://projects.tib.eu/tapir/datacitecommons/work/work_mapping.rqg>( ?work_data ) .
 }
-SOURCE <https://projects.tib.eu/tapir/datacitecommons/work/queryset/work.graphql> AS ?graphqlquery
+SOURCE <https://projects.tib.eu/tapir/datacitecommons/work/documentset/work.graphql> AS ?graphqlquery
 WHERE {
     # replace whitespace in graphql query (compress message)
     BIND(REPLACE(?graphqlquery, "\\s+", " ") AS ?graphql)

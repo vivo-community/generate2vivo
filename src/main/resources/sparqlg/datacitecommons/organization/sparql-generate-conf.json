@@ -3,8 +3,8 @@
   "query": "orga_source.rqg",
   "namedqueries": [
     {
-      "uri": "https://projects.tib.eu/tapir/datacitecommons/organization/queryset/organization.graphql",
-      "path": "queryset/organization.graphql"
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/organization/documentset/organization.graphql",
+      "path": "documentset/organization.graphql"
     },
     {
       "uri": "https://projects.tib.eu/tapir/datacitecommons/organization/orga_mapping.rqg",

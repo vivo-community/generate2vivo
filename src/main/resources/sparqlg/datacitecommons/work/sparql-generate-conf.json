@@ -3,8 +3,8 @@
   "query": "work_source.rqg",
   "namedqueries": [
     {
-      "uri": "https://projects.tib.eu/tapir/datacitecommons/work/queryset/work.graphql",
-      "path": "queryset/work.graphql"
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/work/documentset/work.graphql",
+      "path": "documentset/work.graphql"
     },
     {
       "uri": "https://projects.tib.eu/tapir/datacitecommons/work/work_mapping.rqg",
