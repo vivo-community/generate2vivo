@@ -13,6 +13,10 @@
     {
       "uri": "https://projects.tib.eu/tapir/vivo-rdf/person.rqg",
       "path": "../../vivo-rdf/person.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg",
+      "path": "../../vivo-rdf/agent_pid.rqg"
     }
   ]
 }

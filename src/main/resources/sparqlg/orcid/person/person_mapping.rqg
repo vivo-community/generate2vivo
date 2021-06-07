@@ -6,6 +6,9 @@ GENERATE <person_mapping>(?orcid_data) {
     ## fill in blanks in person definition in vivo ontology
     GENERATE <https://projects.tib.eu/tapir/vivo-rdf/person.rqg>(?id, ?name) .
 
+    ## add ORCID as data source
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg>(?id, "https://orcid.org/", ?id) .
+
 }
 WHERE {
     ### extract properties of person
