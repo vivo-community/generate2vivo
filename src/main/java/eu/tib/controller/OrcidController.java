@@ -1,5 +1,6 @@
 package eu.tib.controller;
 
+import eu.tib.controller.validation.Validator;
 import eu.tib.service.ResponseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -8,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
@@ -27,9 +25,9 @@ public class OrcidController {
     @Autowired
     private ResponseService responseService;
 
-    @PostMapping(value = "/getPerson", produces = "application/json")
+    @GetMapping(value = "/person", produces = "application/json")
     public ResponseEntity<String> getPerson(
-            @Valid @Pattern(regexp = "^https://orcid.org/\\d{4}-\\d{4}-\\d{4}-\\d{4}")
+            @Valid @Pattern(regexp = Validator.orcid)
             @ApiParam("Complete Orcid URL consisting of https://orcid.org/ plus id")
             @RequestParam String orcid) {
 
@@ -48,9 +46,9 @@ public class OrcidController {
     }
 
 
-    @PostMapping(value = "/getCurrentEmployees", produces = "application/json")
+    @GetMapping(value = "/currentEmployees", produces = "application/json")
     public ResponseEntity<String> getCurrentEmployees(
-            @Valid @Pattern(regexp = "^https://ror.org/\\d{2}[a-z0-9]{5}\\d{2}")
+            @Valid @Pattern(regexp = Validator.ror)
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) {
 

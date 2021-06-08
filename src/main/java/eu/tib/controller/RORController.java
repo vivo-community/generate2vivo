@@ -1,5 +1,6 @@
 package eu.tib.controller;
 
+import eu.tib.controller.validation.Validator;
 import eu.tib.service.ResponseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -8,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
@@ -27,9 +25,9 @@ public class RORController {
     @Autowired
     private ResponseService responseService;
 
-    @PostMapping(value = "/getOrganizationPlusChildren", produces = "application/json")
+    @GetMapping(value = "/organizationPlusChildren", produces = "application/json")
     public ResponseEntity<String> getOrganizationPlusChildren(
-            @Valid @Pattern(regexp = "^https://ror.org/\\d{2}[a-z0-9]{5}\\d{2}")
+            @Valid @Pattern(regexp = Validator.ror)
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) {
 
@@ -45,9 +43,9 @@ public class RORController {
         return result;
     }
 
-    @PostMapping(value = "/getOrganization", produces = "application/json")
+    @GetMapping(value = "/organization", produces = "application/json")
     public ResponseEntity<String> getOrganization(
-            @Valid @Pattern(regexp = "^https://ror.org/\\d{2}[a-z0-9]{5}\\d{2}")
+            @Valid @Pattern(regexp = Validator.ror)
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) {
 
