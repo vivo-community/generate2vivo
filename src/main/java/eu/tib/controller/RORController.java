@@ -1,6 +1,6 @@
 package eu.tib.controller;
 
-import eu.tib.controller.validation.Validator;
+import eu.tib.controller.validation.InputValidator;
 import eu.tib.service.ResponseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -27,7 +27,7 @@ public class RORController {
 
     @GetMapping(value = "/organizationPlusChildren", produces = "application/json")
     public ResponseEntity<String> getOrganizationPlusChildren(
-            @Valid @Pattern(regexp = Validator.ror)
+            @Valid @Pattern(regexp = InputValidator.ror)
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) {
 
@@ -45,7 +45,7 @@ public class RORController {
 
     @GetMapping(value = "/organization", produces = "application/json")
     public ResponseEntity<String> getOrganization(
-            @Valid @Pattern(regexp = Validator.ror)
+            @Valid @Pattern(regexp = InputValidator.ror)
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) {
 
