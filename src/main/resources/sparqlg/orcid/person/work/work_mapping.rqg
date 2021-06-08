@@ -1,0 +1,20 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX bibo: <http://purl.org/ontology/bibo/>
+
+GENERATE <work_mapping>(?person_id, ?work_data) {
+
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/research.rqg> (?work_id, ?pubtype, ?title, ?doi, ?pubyear_dtv) .
+
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/authorship.rqg>(?person_id, ?work_id) .
+
+}
+WHERE {
+    BIND(fun:JSONPath(?work_data, '$.work-summary[0]' ) AS ?work_summary)
+    BIND(fun:JSONPath(?work_summary, '$.title.title.value' ) AS ?title)
+    BIND(fun:JSONPath(?work_summary, '$.publication-date.year.value' ) AS ?pubyear)
+    BIND(fun:JSONPath(?work_summary, '$.external-ids.external-id[?(@.external-id-type==\'doi\')]' ) AS ?all_dois)
+    BIND(fun:JSONPath(?all_dois, '$.[0].external-id-value' ) AS ?doi)
+    BIND(bibo:Document AS ?pubtype)
+
+    BIND(REPLACE(?doi,  "\\W", "", "i") AS ?work_id)
+}
