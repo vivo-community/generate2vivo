@@ -27,7 +27,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("generate2vivo")
                 .description("Data Ingest from different datasources like Datacite Commons or ROR to VIVO")
-                .version("1.0.0")
+                .version("1.1.0-SNAPSHOT")
                 .build();
     }
 }
