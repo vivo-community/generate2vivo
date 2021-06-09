@@ -3,12 +3,8 @@
   "query": "orga_source.rqg",
   "namedqueries": [
     {
-      "uri": "https://projects.tib.eu/tapir/datacitecommons/orga2person/orga2person.rqg",
-      "path": "orga2person.rqg"
-    },
-    {
-      "uri": "https://projects.tib.eu/tapir/datacitecommons/organization/orga_source.rqg",
-      "path": "../organization/orga_source.rqg"
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/orga2person2publication/orga2person2publication.rqg",
+      "path": "orga2person2publication.rqg"
     },
     {
       "uri": "https://projects.tib.eu/tapir/datacitecommons/organization/orga_mapping.rqg",
@@ -31,6 +27,10 @@
       "path": "../person/person_id.rqg"
     },
     {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/person2publication/person2publication.rqg",
+      "path": "../person2publication/person2publication.rqg"
+    },
+    {
       "uri": "https://projects.tib.eu/tapir/vivo-rdf/person.rqg",
       "path": "../../vivo-rdf/person.rqg"
     },
@@ -41,12 +41,32 @@
     {
       "uri": "https://projects.tib.eu/tapir/vivo-rdf/position.rqg",
       "path": "../../vivo-rdf/position.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/vivo-rdf/authorship.rqg",
+      "path": "../../vivo-rdf/authorship.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/vivo-rdf/research.rqg",
+      "path": "../../vivo-rdf/research.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/work/work_mapping.rqg",
+      "path": "../work/work_mapping.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/work/work_id.rqg",
+      "path": "../work/work_id.rqg"
     }
   ],
   "documentset": [
     {
-      "uri": "https://projects.tib.eu/tapir/datacitecommons/orga2person/documentset/orga2person.graphql",
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/orga2person2publication/documentset/orga2person.graphql",
       "path": "documentset/orga2person.graphql"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/person2publication/documentset/person2publication.graphql",
+      "path": "../person2publication/documentset/person2publication.graphql"
     },
     {
       "uri": "https://projects.tib.eu/tapir/datacitecommons/organization/documentset/organization.graphql",

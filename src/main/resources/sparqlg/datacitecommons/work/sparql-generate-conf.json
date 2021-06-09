@@ -3,10 +3,6 @@
   "query": "work_source.rqg",
   "namedqueries": [
     {
-      "uri": "https://projects.tib.eu/tapir/datacitecommons/work/documentset/work.graphql",
-      "path": "documentset/work.graphql"
-    },
-    {
       "uri": "https://projects.tib.eu/tapir/datacitecommons/work/work_mapping.rqg",
       "path": "work_mapping.rqg"
     },
@@ -17,6 +13,12 @@
     {
       "uri": "https://projects.tib.eu/tapir/vivo-rdf/research.rqg",
       "path": "../../vivo-rdf/research.rqg"
+    }
+  ],
+  "documentset": [
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/work/documentset/work.graphql",
+      "path": "documentset/work.graphql"
     }
   ]
 }

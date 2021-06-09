@@ -1,6 +1,6 @@
 {
   "base": "http://vivo.mydomain.edu/individual/",
-  "query": "person2publication.rqg",
+  "query": "person_source.rqg",
   "namedqueries": [
     {
       "uri": "https://projects.tib.eu/tapir/datacitecommons/person2publication/person2publication.rqg",
@@ -43,6 +43,10 @@
     {
       "uri": "https://projects.tib.eu/tapir/datacitecommons/person2publication/documentset/person2publication.graphql",
       "path": "documentset/person2publication.graphql"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/person/documentset/person.graphql",
+      "path": "../person/documentset/person.graphql"
     }
   ]
 }

@@ -3,10 +3,6 @@
   "query": "orga_source.rqg",
   "namedqueries": [
     {
-      "uri": "https://projects.tib.eu/tapir/datacitecommons/organization/documentset/organization.graphql",
-      "path": "documentset/organization.graphql"
-    },
-    {
       "uri": "https://projects.tib.eu/tapir/datacitecommons/organization/orga_mapping.rqg",
       "path": "orga_mapping.rqg"
     },
@@ -21,6 +17,12 @@
     {
       "uri": "https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg",
       "path": "../../vivo-rdf/agent_pid.rqg"
+    }
+  ],
+  "documentset": [
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/organization/documentset/organization.graphql",
+      "path": "documentset/organization.graphql"
     }
   ]
 }

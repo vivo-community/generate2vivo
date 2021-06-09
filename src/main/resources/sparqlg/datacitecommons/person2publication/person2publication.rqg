@@ -1,11 +1,7 @@
 PREFIX iter: <http://w3id.org/sparql-generate/iter/>
 PREFIX fun: <http://w3id.org/sparql-generate/fn/>
 
-GENERATE  <person2publication>(?orcid, ?after) {
-
-### map person data
-    GENERATE <https://projects.tib.eu/tapir/datacitecommons/person/person_mapping.rqg>( ?person_data ) .
-
+GENERATE  <person2publication>(?orcid, ?person_id, ?after) {
 
 ### map work data
 ### and for every work: create a connection to person
@@ -17,14 +13,11 @@ GENERATE  <person2publication>(?orcid, ?after) {
     ITERATOR iter:JSONPath(?person_data, '$.publications.nodes[*][?(!@.versions.nodes[0])]') AS ?work_data
     WHERE{
         BIND(<https://projects.tib.eu/tapir/datacitecommons/work/work_id.rqg>(?work_data) AS ?work_id)
-        BIND(<https://projects.tib.eu/tapir/datacitecommons/person/person_id.rqg>(?person_data) AS ?person_id)
     } .
 
 
 ############################# call this query again if hasNextPage =true  #############################################
-    GENERATE{
-      GENERATE <https://projects.tib.eu/tapir/datacitecommons/person2publication/person2publication.rqg>( ?orcid, ?cursor ) .
-    }
+    GENERATE <https://projects.tib.eu/tapir/datacitecommons/person2publication/person2publication.rqg>( ?orcid, ?person_id, ?cursor )
     WHERE{
       BIND(fun:JSONPath(?person, '$.publications.pageInfo.hasNextPage' ) AS ?hasNextPage)
       BIND(fun:JSONPath(?person, '$.publications.pageInfo.endCursor' ) AS ?endCursor)

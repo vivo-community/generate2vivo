@@ -3,10 +3,6 @@
   "query": "person_source.rqg",
   "namedqueries": [
     {
-      "uri": "https://projects.tib.eu/tapir/datacitecommons/person/documentset/person.graphql",
-      "path": "documentset/person.graphql"
-    },
-    {
       "uri": "https://projects.tib.eu/tapir/datacitecommons/person/person_mapping.rqg",
       "path": "person_mapping.rqg"
     },
@@ -21,6 +17,12 @@
     {
       "uri": "https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg",
       "path": "../../vivo-rdf/agent_pid.rqg"
+    }
+  ],
+  "documentset": [
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/person/documentset/person.graphql",
+      "path": "documentset/person.graphql"
     }
   ]
 }

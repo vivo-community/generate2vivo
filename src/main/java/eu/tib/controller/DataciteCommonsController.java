@@ -61,6 +61,24 @@ public class DataciteCommonsController {
         return result;
     }
 
+    @GetMapping(value = "/organizationPlusPersonsPlusPublications", produces = "application/json")
+    public ResponseEntity<String> getOrganizationPlusPersonsPlusPublications(
+            @Valid @Pattern(regexp = InputValidator.ror)
+            @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
+            @RequestParam String ror) {
+
+        final String id = "sparqlg/datacitecommons/orga2person2publication";
+        log.info("Incoming Request for " + id + " with ror: " + ror);
+        StopWatch stopWatch = new StopWatch(id);
+        stopWatch.start(id);
+
+        ResponseEntity result = responseService.buildResponse(id, Collections.singletonMap("ror", ror));
+
+        stopWatch.stop();
+        log.info(id + " took " + stopWatch.getTotalTimeSeconds() + "s");
+        return result;
+    }
+
     @GetMapping(value = "/person", produces = "application/json")
     public ResponseEntity<String> getPerson(
             @Valid @Pattern(regexp = InputValidator.orcid)
