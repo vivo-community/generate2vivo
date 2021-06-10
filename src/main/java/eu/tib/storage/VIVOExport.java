@@ -19,14 +19,22 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 @Repository
 public class VIVOExport {
+
     private static final int CHUNK_SIZE = 2500;  // triples per 'chunk'
 
-    /**
-     *  taken from https://github.com/WheatVIVO/datasources/blob/master/datasources/src/main/java/org/wheatinitiative/vivo/datasource/util/sparql/SparqlEndpoint.java
-     *  and modified to send chunk and free it for garbage collection
-     **/
     public void exportData(Model data, VIVOProperties vivo) {
+        if (data.isEmpty()) {
+            log.info("No data was generated, Model is empty.");
+        } else {
+            exportInChunks(data, vivo);
+        }
+    }
 
+    /**
+     * taken from https://github.com/WheatVIVO/datasources/blob/master/datasources/src/main/java/org/wheatinitiative/vivo/datasource/util/sparql/SparqlEndpoint.java
+     * and modified to send chunk and free it for garbage collection
+     **/
+    public void exportInChunks(Model data, VIVOProperties vivo) {
         StmtIterator sit = data.listStatements();
         int i = 0;
         Model currentChunk = ModelFactory.createDefaultModel();
@@ -37,8 +45,9 @@ public class VIVOExport {
 
             if (i >= CHUNK_SIZE || !sit.hasNext()) {
                 send2VIVO(currentChunk, vivo);
+                //reset variables
                 currentChunk = ModelFactory.createDefaultModel();
-                i=0;
+                i = 0;
             }
         }
     }

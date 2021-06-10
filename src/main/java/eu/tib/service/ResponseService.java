@@ -31,17 +31,9 @@ public class ResponseService {
 
         if (vivoProperties.isValid()) {
             log.info("Found VIVO properties");
-
-            String status = "{\"status\":\"%s\"}";
-            if (result.isEmpty()) {
-                log.info("No data was generated, Model is empty.");
-                status = String.format(status, "No data was generated.");
-            } else {
-                vivoExport.exportData(result, vivoProperties);
-                status = String.format(status, "SPARQL update accepted.");
-            }
+            vivoExport.exportData(result, vivoProperties);
+            String status = String.format("{\"status\":\"%s\"}", "SPARQL update accepted.");
             return ResponseEntity.status(HttpStatus.OK).body(status);
-
         } else {
             log.info("Returning JSON-LD");
             StringWriter stringWriter = new StringWriter();
