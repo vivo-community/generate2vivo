@@ -1,0 +1,17 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+
+GENERATE <person_source>(?orcid) {
+    GENERATE <https://projects.tib.eu/tapir/datacitecommons/person/person_mapping.rqg>( ?person_data ) .
+}
+SOURCE <https://projects.tib.eu/tapir/datacitecommons/person/documentset/person.graphql> AS ?graphqlquery
+WHERE {
+    # replace whitespace in graphql query (compress message)
+    BIND(REPLACE(?graphqlquery, "\\s+", " ") AS ?graphql)
+    BIND ("""\{"variables":\{"orcid":"{?orcid}"},"query":"{?graphql}"}""" AS ?postbody)
+
+    # build http post request
+    BIND( fun:HTTPPost(<https://api.datacite.org/graphql>, "Content-type: application/json" , ?postbody) AS ?response )
+    FILTER( fun:HTTPExtractResponseCode( ?response ) = 200 )
+    BIND( fun:HTTPExtractBody( ?response ) AS ?body )
+    BIND( fun:JSONPath( ?body, "$.data.person" ) AS ?person_data )
+}

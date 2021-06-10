@@ -1,6 +1,6 @@
 package eu.tib.controller;
 
-import eu.tib.controller.validation.Validator;
+import eu.tib.controller.validation.InputValidator;
 import eu.tib.service.ResponseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -25,9 +25,9 @@ public class OrcidController {
     @Autowired
     private ResponseService responseService;
 
-    @GetMapping(value = "/person", produces = "application/json")
-    public ResponseEntity<String> getPerson(
-            @Valid @Pattern(regexp = Validator.orcid)
+    @GetMapping(value = "/personPlusPublications", produces = "application/json")
+    public ResponseEntity<String> getPersonPlusPublications(
+            @Valid @Pattern(regexp = InputValidator.orcid)
             @ApiParam("Complete Orcid URL consisting of https://orcid.org/ plus id")
             @RequestParam String orcid) {
 
@@ -46,9 +46,9 @@ public class OrcidController {
     }
 
 
-    @GetMapping(value = "/currentEmployees", produces = "application/json")
-    public ResponseEntity<String> getCurrentEmployees(
-            @Valid @Pattern(regexp = Validator.ror)
+    @GetMapping(value = "/currentEmployeesPlusPublications", produces = "application/json")
+    public ResponseEntity<String> getCurrentEmployeesPlusPublications(
+            @Valid @Pattern(regexp = InputValidator.ror)
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) {
 

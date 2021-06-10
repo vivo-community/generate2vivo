@@ -1,0 +1,41 @@
+PREFIX iter: <http://w3id.org/sparql-generate/iter/>
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+
+GENERATE  <orga2person2publication>(?ror, ?orga_id, ?after) {
+
+### map person data
+### and for every person: create a connection to organization
+    GENERATE {
+        GENERATE <https://projects.tib.eu/tapir/datacitecommons/person2publication/person2publication.rqg>( ?orcid, ?person_id, ?undef ) .
+
+        GENERATE <https://projects.tib.eu/tapir/vivo-rdf/position.rqg>(?person_id, ?orga_id, ?role, ?start_date, ?end_date) .
+    }
+    ITERATOR iter:JSONPath(?orga_data, '$.people.nodes[*]') AS ?person_data
+    WHERE{
+        BIND(<https://projects.tib.eu/tapir/datacitecommons/person/person_id.rqg>(?person_data) AS ?person_id)
+        BIND(CONCAT("https://orcid.org/", ?person_id) AS ?orcid)
+    } .
+
+
+############################# call this query again if hasNextPage =true  #############################################
+    GENERATE <https://projects.tib.eu/tapir/datacitecommons/orga2person2publication/orga2person2publication.rqg>( ?ror, ?orga_id,?cursor )
+    WHERE{
+      BIND(fun:JSONPath(?orga_data, '$.people.pageInfo.hasNextPage' ) AS ?hasNextPage)
+      BIND(fun:JSONPath(?orga_data, '$.people.pageInfo.endCursor' ) AS ?endCursor)
+      BIND(IF(STR(?hasNextPage)="true", ?endCursor, ?undef) AS ?cursor )
+      FILTER( BOUND(?cursor) ).
+     }.
+}
+SOURCE <https://projects.tib.eu/tapir/datacitecommons/orga2person2publication/documentset/orga2person.graphql> AS ?graphqlquery
+WHERE {
+    # replace whitespace in graphql query (compress message)
+    BIND(REPLACE(?graphqlquery, "\\s+", " ") AS ?graphql)
+    BIND(IF(BOUND(?after), ?after, "") AS ?after)
+    BIND ("""\{"variables":\{"ror":"{?ror}", "after":"{?after}"},"query":"{?graphql}"}""" AS ?postbody)
+
+    # build http post request
+    BIND(  fun:HTTPPost(<https://api.datacite.org/graphql>, "Content-type: application/json" , ?postbody) AS ?response )
+    FILTER( fun:HTTPExtractResponseCode( ?response ) = 200 )
+    BIND( fun:HTTPExtractBody( ?response ) AS ?body )
+    BIND( fun:JSONPath( ?body, "$.data.organization" ) AS ?orga_data )
+}

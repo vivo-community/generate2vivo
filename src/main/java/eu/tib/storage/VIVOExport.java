@@ -3,6 +3,8 @@ package eu.tib.storage;
 import eu.tib.exception.VIVOExportException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.StmtIterator;
 import org.springframework.stereotype.Repository;
 
 import java.io.ByteArrayOutputStream;
@@ -18,7 +20,40 @@ import java.nio.charset.StandardCharsets;
 @Repository
 public class VIVOExport {
 
+    private static final int CHUNK_SIZE = 2500;  // triples per 'chunk'
+
     public void exportData(Model data, VIVOProperties vivo) {
+        if (data.isEmpty()) {
+            log.info("No data was generated, Model is empty.");
+        } else {
+            exportInChunks(data, vivo);
+        }
+    }
+
+    /**
+     * taken from https://github.com/WheatVIVO/datasources/blob/master/datasources/src/main/java/org/wheatinitiative/vivo/datasource/util/sparql/SparqlEndpoint.java
+     * and modified to send chunk and free it for garbage collection
+     **/
+    public void exportInChunks(Model data, VIVOProperties vivo) {
+        StmtIterator sit = data.listStatements();
+        int i = 0;
+        Model currentChunk = ModelFactory.createDefaultModel();
+
+        while (sit.hasNext()) {
+            currentChunk.add(sit.nextStatement());
+            i++;
+
+            if (i >= CHUNK_SIZE || !sit.hasNext()) {
+                send2VIVO(currentChunk, vivo);
+                //reset variables
+                currentChunk = ModelFactory.createDefaultModel();
+                i = 0;
+            }
+        }
+    }
+
+    public void send2VIVO(Model data, VIVOProperties vivo) {
+        log.info("Writing " + data.size() + " new statements to VIVO");
         String sparqlInsertQuery = buildInsertQuery(data, vivo.getGraph());
         log.debug("Sparql Insert Query: \n" + sparqlInsertQuery);
 

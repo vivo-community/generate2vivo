@@ -1,0 +1,9 @@
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+
+GENERATE <authorship> (?person_id, ?work_id){
+
+    <{?person_id}-to-{?work_id}> a vivo:Authorship ;
+        vivo:relates <{?person_id}> ;
+        vivo:relates <{?work_id}> .
+
+}

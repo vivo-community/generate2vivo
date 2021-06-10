@@ -3,7 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
-- Query ORCID and filter for current employees.
+- Query ORCID for person and current employees at ROR organization.
+- refactor all queries to follow three steps: source, mapping, vivo-rdf
+- make all Controller use HTTP Get requests
+- centralize input validation
 
 ## [Renamed Project] - 2021-05-25
 As new datsources were integrated and the name datacitecommons2vivo was not reflecting

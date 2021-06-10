@@ -1,10 +1,6 @@
 query person($orcid :ID!, $after:String){
     person(id: $orcid) {
-        familyName
-        givenName
-        id
-
-        publications(first:100, after: $after) {
+        publications(first:1000, after: $after) {
             pageInfo {
                 endCursor
                 hasNextPage
