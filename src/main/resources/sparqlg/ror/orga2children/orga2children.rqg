@@ -1,19 +1,17 @@
 PREFIX iter: <http://w3id.org/sparql-generate/iter/>
 PREFIX fun: <http://w3id.org/sparql-generate/fn/>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-PREFIX obo: <http://purl.obolibrary.org/obo/>
 
-GENERATE <orga2children>(?ror) {
+GENERATE <orga2children>(?parent_id, ?ror) {
 
-  GENERATE <https://projects.tib.eu/tapir/ror/organization/queryset/organization.rqg>( ?orga ) .
+  ### use the organization mapping already defined in orga_mapping.rqg
+  GENERATE <https://projects.tib.eu/tapir/ror/organization/orga_mapping.rqg>( ?orga_data ) .
 
-  GENERATE {
-    <{?id}> obo:BFO_0000051 <{?child_id}> .
+  ### connection organization & sub-organization
+  GENERATE <https://projects.tib.eu/tapir/vivo-rdf/orga2suborga.rqg>(?parent_id, ?id ) .
 
-    GENERATE <https://projects.tib.eu/tapir/ror/orga2children/orga2children.rqg>(?child_ror ) .
-  }
-  ITERATOR iter:JSONPath(?orga, '$.relationships[*]') AS ?relationships
+  ### call this query recursively for all children
+  GENERATE <https://projects.tib.eu/tapir/ror/orga2children/orga2children.rqg>(?id, ?child_ror )
+  ITERATOR iter:JSONPath(?orga_data, '$.relationships[*]') AS ?relationships
   WHERE {
     BIND(fun:JSONPath(?relationships, '$.label' ) AS ?rel_label)
     BIND(fun:JSONPath(?relationships, '$.type' ) AS ?rel_type)
@@ -26,7 +24,7 @@ GENERATE <orga2children>(?ror) {
   }  .
 
 }
-SOURCE <https://api.ror.org/organizations/{?ror}> AS ?orga
-WHERE {
-    BIND(REPLACE(fun:JSONPath(?orga, '$.id' ), "https://ror.org/" , "" ) AS ?id)
+SOURCE <https://api.ror.org/organizations/{?ror}> AS ?orga_data
+WHERE{
+    BIND(<https://projects.tib.eu/tapir/ror/organization/orga_id.rqg>(?orga_data) AS ?id)
 }

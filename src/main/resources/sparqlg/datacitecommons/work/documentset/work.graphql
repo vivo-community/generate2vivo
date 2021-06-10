@@ -1,0 +1,12 @@
+query work($doi :ID!){
+    work(id: $doi) {
+        doi
+        titles {
+            title
+        }
+        publicationYear
+        types {
+            citeproc
+        }
+    }
+}

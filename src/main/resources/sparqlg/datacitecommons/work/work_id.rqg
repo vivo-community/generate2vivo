@@ -1,0 +1,5 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+
+FUNCTION <func>(?work_data) {
+    REPLACE(fun:JSONPath(?work_data, '$.doi' ),  "\\W", "", "i")
+}

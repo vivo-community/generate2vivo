@@ -1,0 +1,23 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+## extract properties of employment data for mapping
+GENERATE <employment_mapping>(?person_id, ?orga_id, ?employment) {
+
+   GENERATE <https://projects.tib.eu/tapir/vivo-rdf/position.rqg>(?person_id, ?orga_id, ?role, ?start_date, ?end_date) .
+}
+WHERE{
+    BIND(fun:JSONPath(?employment, '$.summaries[0].employment-summary.role-title' ) AS ?role)
+
+    BIND(fun:JSONPath(?employment, '$.summaries[0].employment-summary.start-date' ) AS ?start)
+    BIND(fun:JSONPath(?start, '$.year.value') as ?start_year)
+    BIND(fun:JSONPath(?start, '$.month.value') as ?start_month)
+    BIND(fun:JSONPath(?start, '$.day.value') as ?start_day)
+    BIND(xsd:dateTime(CONCAT(?start_year, "-", ?start_month, "-", ?start_day, "T00:00:00")) as ?start_date)
+
+    BIND(fun:JSONPath(?employment, '$.summaries[0].employment-summary.end-date' ) AS ?end)
+    BIND(fun:JSONPath(?end, '$.year.value') as ?end_year)
+    BIND(fun:JSONPath(?end, '$.month.value') as ?end_month)
+    BIND(fun:JSONPath(?end, '$.day.value') as ?end_day)
+    BIND(xsd:dateTime(CONCAT(?end_year, "-", ?end_month, "-", ?end_day, "T00:00:00")) as ?end_date)
+}

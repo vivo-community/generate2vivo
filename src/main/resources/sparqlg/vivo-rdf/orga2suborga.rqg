@@ -1,0 +1,5 @@
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+
+GENERATE <orga2suborga>(?parent_id, ?id){
+    <{?parent_id}> obo:BFO_0000051 <{?id}> .
+}

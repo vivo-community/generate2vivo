@@ -1,0 +1,54 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+
+GENERATE <position> (?person_id, ?orga_id, ?role, ?start_date, ?end_date){
+
+    <{?position_id}> a vivo:Position ;
+        rdfs:label ?role_value ;
+        vivo:relates <{?person_id}> ;
+        vivo:relates <{?orga_id}> .
+
+
+### position dates : TRIPLES FOR POSITION DATES
+   GENERATE{
+        <{?position_id}> vivo:dateTimeInterval <{?position_id}-dti> .
+   }
+   WHERE {
+     FILTER( BOUND(?start_date) || BOUND(?end_date) ).
+   } .
+
+   GENERATE{
+      <{?position_id}-dti>  vivo:start <{?position_id}-start> .
+
+      <{?position_id}-start> a vivo:DateTimeValue ;
+        vivo:dateTime ?start_date ;
+        vivo:dateTimePrecision vivo:yearPrecision .
+   }
+   WHERE {
+     FILTER( BOUND(?start_date) ).
+   } .
+
+  GENERATE{
+    <{?position_id}-dti> vivo:end <{?position_id}-end> .
+
+    <{?position_id}-end> a vivo:DateTimeValue ;
+        vivo:dateTime ?end_date ;
+        vivo:dateTimePrecision vivo:yearPrecision .
+  }
+  WHERE {
+     FILTER( BOUND(?end_date) ).
+  } .
+
+}
+WHERE {
+    # set default values if empty or unbound
+    BIND(IF(BOUND(?role) && strlen(?role)>0, ?role, "Unknown") AS ?role_value)
+    BIND(REPLACE(?role_value,  "\\W", "", "i") AS ?role_clean)
+
+    BIND(IF(BOUND(?start_date) && strlen(?start_date)>0, STR(?start_date), "") AS ?start_value)
+
+    # create (hopefully) unique id
+    BIND("{?person_id}-{?role_clean}-{?start_value}" AS ?position_id)
+
+    FILTER( BOUND(?person_id) && BOUND(?orga_id) ).
+}
