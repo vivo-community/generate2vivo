@@ -11,6 +11,14 @@
       "path": "organization/orga_id.rqg"
     },
     {
+      "uri": "https://projects.tib.eu/tapir/vivo-rdf/organization.rqg",
+      "path": "../../vivo-rdf/organization.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg",
+      "path": "../../vivo-rdf/agent_pid.rqg"
+    },
+    {
       "uri": "https://projects.tib.eu/tapir/orcid/employees/employees_filter.rqg",
       "path": "employees_filter.rqg"
     },
@@ -35,12 +43,16 @@
       "path": "../../vivo-rdf/position.rqg"
     },
     {
-      "uri": "https://projects.tib.eu/tapir/vivo-rdf/organization.rqg",
-      "path": "../../vivo-rdf/organization.rqg"
+      "uri": "https://projects.tib.eu/tapir/orcid/person/work/work_mapping.rqg",
+      "path": "../person/work/work_mapping.rqg"
     },
     {
-      "uri": "https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg",
-      "path": "../../vivo-rdf/agent_pid.rqg"
+      "uri": "https://projects.tib.eu/tapir/vivo-rdf/research.rqg",
+      "path": "../../vivo-rdf/research.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/vivo-rdf/authorship.rqg",
+      "path": "../../vivo-rdf/authorship.rqg"
     }
   ]
 }

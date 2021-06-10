@@ -13,7 +13,6 @@ GENERATE <employees_filter>(?orga_id, ?ringgold_id, ?grid_id){
             ## create person in vivo ontology, if current employee
             GENERATE <https://projects.tib.eu/tapir/orcid/person/person_mapping.rqg>(?orcid_data) .
 
-
             ## connect person to organization via current employment
             GENERATE <https://projects.tib.eu/tapir/orcid/employees/employment_mapping.rqg>(?person_id, ?orga_id, ?employment) .
         }

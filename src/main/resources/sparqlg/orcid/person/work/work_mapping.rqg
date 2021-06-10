@@ -14,7 +14,7 @@ WHERE {
     BIND(fun:JSONPath(?work_summary, '$.publication-date.year.value' ) AS ?pubyear)
     BIND(fun:JSONPath(?work_summary, '$.external-ids.external-id[?(@.external-id-type==\'doi\')]' ) AS ?all_dois)
     BIND(fun:JSONPath(?all_dois, '$.[0].external-id-value' ) AS ?doi)
-    BIND(bibo:Document AS ?pubtype)
+    BIND(bibo:Article AS ?pubtype)
 
     BIND(REPLACE(?doi,  "\\W", "", "i") AS ?work_id)
 }

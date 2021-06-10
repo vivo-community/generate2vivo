@@ -25,8 +25,8 @@ public class OrcidController {
     @Autowired
     private ResponseService responseService;
 
-    @GetMapping(value = "/person", produces = "application/json")
-    public ResponseEntity<String> getPerson(
+    @GetMapping(value = "/personPlusPublications", produces = "application/json")
+    public ResponseEntity<String> getPersonPlusPublications(
             @Valid @Pattern(regexp = InputValidator.orcid)
             @ApiParam("Complete Orcid URL consisting of https://orcid.org/ plus id")
             @RequestParam String orcid) {
@@ -46,8 +46,8 @@ public class OrcidController {
     }
 
 
-    @GetMapping(value = "/currentEmployees", produces = "application/json")
-    public ResponseEntity<String> getCurrentEmployees(
+    @GetMapping(value = "/currentEmployeesPlusPublications", produces = "application/json")
+    public ResponseEntity<String> getCurrentEmployeesPlusPublications(
             @Valid @Pattern(regexp = InputValidator.ror)
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) {
