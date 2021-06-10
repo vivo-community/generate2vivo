@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - refactor all queries to follow three steps: source, mapping, vivo-rdf
 - make all Controller use HTTP Get requests
 - centralize input validation
+- export to VIVO in chunks
 
 ## [Renamed Project] - 2021-05-25
 As new datsources were integrated and the name datacitecommons2vivo was not reflecting
