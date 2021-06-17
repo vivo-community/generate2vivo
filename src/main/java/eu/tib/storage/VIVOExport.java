@@ -31,7 +31,7 @@ public class VIVOExport {
     }
 
     /**
-     * taken from https://github.com/WheatVIVO/datasources/blob/master/datasources/src/main/java/org/wheatinitiative/vivo/datasource/util/sparql/SparqlEndpoint.java
+     * method taken from https://github.com/WheatVIVO/datasources/blob/master/datasources/src/main/java/org/wheatinitiative/vivo/datasource/util/sparql/SparqlEndpoint.java
      * and modified to send chunk and free it for garbage collection
      **/
     public void exportInChunks(Model data, VIVOProperties vivo) {

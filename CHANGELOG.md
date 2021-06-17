@@ -3,9 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
-- Query ORCID for person and current employees at ROR organization.
-- refactor all queries to follow three steps: source, mapping, vivo-rdf
-- make all Controller use HTTP Get requests
+- query ORCID for person and current employees at ROR organization
+- refactor all queries to follow three steps: source, extraction, mapping to vivo-rdf
+- make all controller use HTTP-Get requests
 - centralize input validation
 - export to VIVO in chunks
 
