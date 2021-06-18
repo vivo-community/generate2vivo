@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 - make all controller use HTTP-Get requests
 - centralize input validation
 - export to VIVO in chunks
+- simplify error handling
+- document methods in swagger-UI and remove default responses
 
 ## [Renamed Project] - 2021-05-25
 As new datsources were integrated and the name datacitecommons2vivo was not reflecting
