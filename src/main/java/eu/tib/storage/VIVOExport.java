@@ -94,15 +94,12 @@ public class VIVOExport {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() != 200) {
-                log.info("Error while exporting data to VIVO: " + response.statusCode());
-                log.info(response.body());
-                throw new VIVOExportException(VIVOExport.class, "errorCode", Integer.toString(response.statusCode()),
-                        "errorMessage", response.body());
+                log.error(response.body());
+                throw new VIVOExportException("Error while exporting data to VIVO: " + response.statusCode());
             }
 
         } catch (IOException | InterruptedException e) {
-            log.error("Error while exporting data to VIVO", e);
-            throw new VIVOExportException(VIVOExport.class, "error", e.getClass().getName());
+            throw new VIVOExportException("Error while exporting data to VIVO");
         }
     }
 }
