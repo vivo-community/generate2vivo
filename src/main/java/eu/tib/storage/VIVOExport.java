@@ -23,11 +23,7 @@ public class VIVOExport {
     private static final int CHUNK_SIZE = 2500;  // triples per 'chunk'
 
     public void exportData(Model data, VIVOProperties vivo) {
-        if (data.isEmpty()) {
-            log.info("No data was generated, Model is empty.");
-        } else {
-            exportInChunks(data, vivo);
-        }
+        if (!data.isEmpty()) exportInChunks(data, vivo);
     }
 
     /**

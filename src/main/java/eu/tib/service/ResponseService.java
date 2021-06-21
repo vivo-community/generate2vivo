@@ -29,11 +29,15 @@ public class ResponseService {
         Model result = pipeline.run(queryName, input);
         log.info("Finished pipeline for " + queryName);
 
+        if (result.isEmpty()) log.info("No data was generated.");
+
         if (vivoProperties.isValid()) {
             log.info("Found VIVO properties");
             vivoExport.exportData(result, vivoProperties);
-            String status = String.format("{\"status\":\"%s\"}", "SPARQL update accepted.");
-            return ResponseEntity.status(HttpStatus.OK).body(status);
+
+            String msg = (result.isEmpty()) ? "No data was generated." : "SPARQL update accepted.";
+            String statusJSON = String.format("{\"status\":\"%s\"}", msg);
+            return ResponseEntity.status(HttpStatus.OK).body(statusJSON);
         } else {
             log.info("Returning JSON-LD");
             StringWriter stringWriter = new StringWriter();
