@@ -63,9 +63,9 @@ public class DataciteCommonsController {
         log.info(id + " took " + stopWatch.getTotalTimeSeconds() + "s");
         return result;
     }
-    @ApiOperation(value = "Retrieve data about an organization and its affiliated people and their respective works from Datacite Commons", notes = "This method gets data about an organization and its affiliated people and their respective works from Datacite Commons by passing a ROR id.")
-    @GetMapping(value = "/organizationPlusPeoplePlusWorks", produces = "application/json")
-    public ResponseEntity<String> getOrganizationPlusPeoplePlusWorks(
+    @ApiOperation(value = "Retrieve data about an organization and its affiliated people and their respective publications from Datacite Commons", notes = "This method gets data about an organization and its affiliated people and their respective publications from Datacite Commons by passing a ROR id.")
+    @GetMapping(value = "/organizationPlusPeoplePlusPublications", produces = "application/json")
+    public ResponseEntity<String> getOrganizationPlusPeoplePlusPublications(
             @Valid @Pattern(regexp = InputValidator.ror)
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) {
@@ -101,9 +101,9 @@ public class DataciteCommonsController {
         return result;
     }
 
-    @ApiOperation(value = "Retrieve data about a person and their works from Datacite Commons", notes = "This method gets data about a person and their works from Datacite Commons by passing an ORCID id.")
-    @GetMapping(value = "/personPlusWorks", produces = "application/json")
-    public ResponseEntity<String> getPersonPlusWorks(
+    @ApiOperation(value = "Retrieve data about a person and their publications from Datacite Commons", notes = "This method gets data about a person and their publications from Datacite Commons by passing an ORCID id.")
+    @GetMapping(value = "/personPlusPublications", produces = "application/json")
+    public ResponseEntity<String> getPersonPlusPublications(
             @Valid @Pattern(regexp = InputValidator.orcid)
             @ApiParam("Complete Orcid URL consisting of https://orcid.org/ plus id")
             @RequestParam String orcid) {

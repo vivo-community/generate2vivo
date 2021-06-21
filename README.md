@@ -21,9 +21,9 @@ The datasources and queries that are currently available are listed below.
 For Datacite Commons the following queries are available:
 * `organization` : This method gets data about an organization by passing a ROR id.
 * `organizationPlusPeople`: This method gets data about an organization and its affiliated people by passing a ROR id.
-* `organizationPlusPeoplePlusWorks`:This method gets data about an organization and its affiliated people and their respective works by passing a ROR id.
+* `organizationPlusPeoplePlusPublications`:This method gets data about an organization and its affiliated people and their respective publications by passing a ROR id.
 * `person`: This method gets data about a person by passing an ORCID id.
-* `personPlusWorks`: This method gets data about a person and their works by passing an ORCID id.
+* `personPlusPublications`: This method gets data about a person and their publications by passing an ORCID id.
 * `work`: This method gets data about a work by passing an DOI.
 
 ##### ROR
