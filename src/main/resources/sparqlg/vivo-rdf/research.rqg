@@ -1,0 +1,19 @@
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX bibo: <http://purl.org/ontology/bibo/>
+
+GENERATE <research> (?id, ?pubtype, ?title, ?doi, ?pubyear) {
+
+        <{?id}> a ?pubtype ;
+            rdfs:label ?title ;
+            bibo:doi ?doi ;
+            vivo:dateTimeValue <{?id}-dtv> .
+
+        <{?id}-dtv> a vivo:DateTimeValue ;
+            vivo:dateTime ?pubyear ;
+            vivo:dateTimePrecision vivo:yearPrecision .
+
+}
+WHERE {
+  FILTER( BOUND(?id) && BOUND(?pubtype) ).
+}

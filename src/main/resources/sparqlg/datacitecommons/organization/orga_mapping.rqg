@@ -1,0 +1,18 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+GENERATE <orga_mapping>(?orga_data) {
+    ## fill in blanks in organization definition in vivo ontology
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/organization.rqg>( ?id, ?name, ?established_dtv, ?email, ?website, ?city, ?state, ?country, ?lat, ?lng) .
+
+    ## add ROR as PID
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg>(?id, "https://ror.org/", ?id) .
+}
+WHERE {
+    ### basic properties of organization
+    BIND(<https://projects.tib.eu/tapir/datacitecommons/organization/orga_id.rqg>(?orga_data) AS ?id)
+    BIND(fun:JSONPath(?orga_data, '$.name' ) AS ?name)
+
+    BIND(xsd:decimal(fun:JSONPath(?orga_data, '$.geolocation.pointLatitude' )) AS ?lat)
+    BIND(xsd:decimal(fun:JSONPath(?orga_data, '$.geolocation.pointLongitude' )) AS ?lng)
+}

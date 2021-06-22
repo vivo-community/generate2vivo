@@ -1,7 +1,6 @@
 package eu.tib.service;
 
-import eu.tib.exception.ConfigLoadingException;
-import eu.tib.exception.SparqlParsingException;
+import eu.tib.exception.SparqlExecutionException;
 import fr.mines_stetienne.ci.sparql_generate.FileConfigurations;
 import fr.mines_stetienne.ci.sparql_generate.stream.LocationMapperAccept;
 import fr.mines_stetienne.ci.sparql_generate.stream.LookUpRequest;
@@ -43,7 +42,7 @@ public class GeneratePipelineTest {
     @Test
     void failReadConfigTest() {
         String nonExistingPath = "xxxxxxxxx";
-        assertThrows(ConfigLoadingException.class, () -> pip.readConfig(nonExistingPath));
+        assertThrows(SparqlExecutionException.class, () -> pip.readConfig(nonExistingPath));
     }
 
     @Test
@@ -57,9 +56,9 @@ public class GeneratePipelineTest {
     @Test
     void failParseSparqlGenerateQueryTest() {
         String nonExistingPath = "xxxxxxxxx";
-        assertThrows(SparqlParsingException.class, () -> pip.parseSparqlGenerateQuery(nonExistingPath, config));
+        assertThrows(SparqlExecutionException.class, () -> pip.parseSparqlGenerateQuery(nonExistingPath, config));
         String notAQueryPath = confPath + File.separator + CONF_FILE;
-        assertThrows(SparqlParsingException.class, () -> pip.parseSparqlGenerateQuery(notAQueryPath, config));
+        assertThrows(SparqlExecutionException.class, () -> pip.parseSparqlGenerateQuery(notAQueryPath, config));
     }
 
     @Test

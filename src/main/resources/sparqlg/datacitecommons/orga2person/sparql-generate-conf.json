@@ -1,14 +1,56 @@
 {
   "base": "http://vivo.mydomain.edu/individual/",
-  "query": "orga2person.rqg",
-  "documentset": [
+  "query": "orga_source.rqg",
+  "namedqueries": [
     {
       "uri": "https://projects.tib.eu/tapir/datacitecommons/orga2person/orga2person.rqg",
       "path": "orga2person.rqg"
     },
     {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/organization/orga_source.rqg",
+      "path": "../organization/orga_source.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/organization/orga_mapping.rqg",
+      "path": "../organization/orga_mapping.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/organization/orga_id.rqg",
+      "path": "../organization/orga_id.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/vivo-rdf/organization.rqg",
+      "path": "../../vivo-rdf/organization.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/person/person_mapping.rqg",
+      "path": "../person/person_mapping.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/person/person_id.rqg",
+      "path": "../person/person_id.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/vivo-rdf/person.rqg",
+      "path": "../../vivo-rdf/person.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg",
+      "path": "../../vivo-rdf/agent_pid.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/vivo-rdf/position.rqg",
+      "path": "../../vivo-rdf/position.rqg"
+    }
+  ],
+  "documentset": [
+    {
       "uri": "https://projects.tib.eu/tapir/datacitecommons/orga2person/documentset/orga2person.graphql",
       "path": "documentset/orga2person.graphql"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/organization/documentset/organization.graphql",
+      "path": "../organization/documentset/organization.graphql"
     }
   ]
 }

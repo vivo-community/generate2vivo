@@ -1,0 +1,10 @@
+query organization($ror: ID!) {
+    organization(id: $ror) {
+        id
+        name
+        geolocation {
+            pointLatitude
+            pointLongitude
+        }
+    }
+}

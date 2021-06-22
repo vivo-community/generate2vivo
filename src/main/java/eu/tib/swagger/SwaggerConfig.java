@@ -19,6 +19,7 @@ public class SwaggerConfig {
                 .apis( RequestHandlerSelectors.basePackage( "eu.tib" ) )
                 .paths(PathSelectors.any())
                 .build()
+                .useDefaultResponseMessages(false)
                 .pathMapping("/")
                 .apiInfo(apiInfo());
     }
@@ -26,8 +27,8 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("generate2vivo")
-                .description("Data Ingest from different datasources like Datacite Commons or ROR to VIVO")
-                .version("1.0.0")
+                .description("Extensible Data Ingest Tool for VIVO. Contains data sources like Datacite Commons, ORCID and ROR.")
+                .version("1.1.0")
                 .build();
     }
 }
