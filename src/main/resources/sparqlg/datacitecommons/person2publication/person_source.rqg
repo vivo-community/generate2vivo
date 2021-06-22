@@ -17,8 +17,10 @@ WHERE {
     BIND( fun:HTTPPost(<https://api.datacite.org/graphql>, "Content-type: application/json" , ?postbody) AS ?response )
     FILTER( fun:HTTPExtractResponseCode( ?response ) = 200 )
     BIND( fun:HTTPExtractBody( ?response ) AS ?body )
+
+    BIND( fun:JSONPath( ?body, "$.errors" ) AS ?errors )
+    FILTER( !BOUND(?errors) )
+
     BIND( fun:JSONPath( ?body, "$.data.person" ) AS ?person_data )
-
     BIND(<https://projects.tib.eu/tapir/datacitecommons/person/person_id.rqg>(?person_data) AS ?person_id)
-
 }

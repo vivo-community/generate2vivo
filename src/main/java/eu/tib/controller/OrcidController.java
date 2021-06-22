@@ -3,6 +3,7 @@ package eu.tib.controller;
 import eu.tib.controller.validation.InputValidator;
 import eu.tib.service.ResponseService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,9 @@ public class OrcidController {
     @Autowired
     private ResponseService responseService;
 
-    @GetMapping(value = "/personPlusPublications", produces = "application/json")
-    public ResponseEntity<String> getPersonPlusPublications(
+    @ApiOperation(value = "Retrieve data about a person and their works from ORCID", notes = "This method gets data about a person and their works from ORCID by passing an ORCID id.")
+    @GetMapping(value = "/personPlusWorks", produces = "application/json")
+    public ResponseEntity<String> getPersonPlusWorks(
             @Valid @Pattern(regexp = InputValidator.orcid)
             @ApiParam("Complete Orcid URL consisting of https://orcid.org/ plus id")
             @RequestParam String orcid) {
@@ -46,8 +48,9 @@ public class OrcidController {
     }
 
 
-    @GetMapping(value = "/currentEmployeesPlusPublications", produces = "application/json")
-    public ResponseEntity<String> getCurrentEmployeesPlusPublications(
+    @ApiOperation(value = "Retrieve data about an organization's current employees and their works from ORCID", notes = "This method gets data about an organization's current employees and their works from ORCID by passing a ROR id.")
+    @GetMapping(value = "/currentEmployeesPlusWorks", produces = "application/json")
+    public ResponseEntity<String> getCurrentEmployeesPlusWorks(
             @Valid @Pattern(regexp = InputValidator.ror)
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) {

@@ -3,6 +3,7 @@ package eu.tib.controller;
 import eu.tib.controller.validation.InputValidator;
 import eu.tib.service.ResponseService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class DataciteCommonsController {
     @Autowired
     private ResponseService responseService;
 
+    @ApiOperation(value = "Retrieve organization data from Datacite Commons", notes = "This method gets data about an organization from Datacite Commons by passing a ROR id.")
     @GetMapping(value = "/organization", produces = "application/json")
     public ResponseEntity<String> getOrganization(
             @Valid @Pattern(regexp = InputValidator.ror)
@@ -43,8 +45,9 @@ public class DataciteCommonsController {
         return result;
     }
 
-    @GetMapping(value = "/organizationPlusPersons", produces = "application/json")
-    public ResponseEntity<String> getOrganizationPlusPersons(
+    @ApiOperation(value = "Retrieve data about an organization and its affiliated people from Datacite Commons", notes = "This method gets data about an organization and its affiliated people from Datacite Commons by passing a ROR id.")
+    @GetMapping(value = "/organizationPlusPeople", produces = "application/json")
+    public ResponseEntity<String> getOrganizationPlusPeople(
             @Valid @Pattern(regexp = InputValidator.ror)
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) {
@@ -60,9 +63,9 @@ public class DataciteCommonsController {
         log.info(id + " took " + stopWatch.getTotalTimeSeconds() + "s");
         return result;
     }
-
-    @GetMapping(value = "/organizationPlusPersonsPlusPublications", produces = "application/json")
-    public ResponseEntity<String> getOrganizationPlusPersonsPlusPublications(
+    @ApiOperation(value = "Retrieve data about an organization and its affiliated people and their respective publications from Datacite Commons", notes = "This method gets data about an organization and its affiliated people and their respective publications from Datacite Commons by passing a ROR id.")
+    @GetMapping(value = "/organizationPlusPeoplePlusPublications", produces = "application/json")
+    public ResponseEntity<String> getOrganizationPlusPeoplePlusPublications(
             @Valid @Pattern(regexp = InputValidator.ror)
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) {
@@ -79,6 +82,7 @@ public class DataciteCommonsController {
         return result;
     }
 
+    @ApiOperation(value = "Retrieve data about a person from Datacite Commons", notes = "This method gets data about a person from Datacite Commons by passing an ORCID id.")
     @GetMapping(value = "/person", produces = "application/json")
     public ResponseEntity<String> getPerson(
             @Valid @Pattern(regexp = InputValidator.orcid)
@@ -97,6 +101,7 @@ public class DataciteCommonsController {
         return result;
     }
 
+    @ApiOperation(value = "Retrieve data about a person and their publications from Datacite Commons", notes = "This method gets data about a person and their publications from Datacite Commons by passing an ORCID id.")
     @GetMapping(value = "/personPlusPublications", produces = "application/json")
     public ResponseEntity<String> getPersonPlusPublications(
             @Valid @Pattern(regexp = InputValidator.orcid)
@@ -115,8 +120,9 @@ public class DataciteCommonsController {
         return result;
     }
 
-    @GetMapping(value = "/publications", produces = "application/json")
-    public ResponseEntity<String> getPublications(
+    @ApiOperation(value = "Retrieve data about a work from Datacite Commons", notes = "This method gets data about a work from Datacite Commons by passing an DOI.")
+    @GetMapping(value = "/work", produces = "application/json")
+    public ResponseEntity<String> getWork(
             @Valid @Pattern(regexp = InputValidator.doi)
             @ApiParam("DOI of the publication")
             @RequestParam String doi) {

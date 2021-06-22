@@ -3,7 +3,7 @@ FROM maven:3.6.3-jdk-11-slim AS build-env
 WORKDIR /app
 COPY ./pom.xml ./pom.xml
 COPY ./src ./src
-RUN mvn clean install -Dmaven.test.skip=true && cp target/*.jar app.jar
+RUN mvn clean install -Dmaven.test.skip=true && cp target/generate2vivo-*.jar app.jar
 
 #-------- NEXT STAGE -----------
 

@@ -1,16 +1,42 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 ## generate2vivo
-generate2vivo is a Data Ingest Tool for the Open-Source-Software VIVO. 
-It queries metadata from the Datacite Commons PID-Graph and the ROR API, 
-maps it to the VIVO ontology using [sparql-generate](https://ci.mines-stetienne.fr/sparql-generate/index.html) and optionally imports it into a VIVO instance.
+generate2vivo is an extensible Data Ingest Tool for the Open-Source-Software VIVO. 
+It currently queries metadata from Datacite Commons, ROR and ORCID
+and maps them to the VIVO ontology using [sparql-generate](https://ci.mines-stetienne.fr/sparql-generate/index.html).
+The resulting RDF data can be exported to a VIVO instance directly or returned in a HTTP response.
 
+- [Available queries](#available-queries)
+  + [Datacite Commons](#datacite-commons)
+  + [ROR](#ror)
+  + [ORCID](#orcid)
 - [Installation](#installation)
-- [Usage](#usage)
-    + [Datacite Commons](#datacite-commons)
-    + [ROR](#ror)
 - [Run in Command Line](#run-in-command-line)
 - [Extensible](#extensible)
+
+### Available queries
+The datasources and queries that are currently available are listed below.
+
+##### Datacite Commons
+For Datacite Commons the following queries are available:
+* `organization` : This method gets data about an organization by passing a ROR id.
+* `organizationPlusPeople`: This method gets data about an organization and its affiliated people by passing a ROR id.
+* `organizationPlusPeoplePlusPublications`:This method gets data about an organization and its affiliated people and their respective publications by passing a ROR id.
+* `person`: This method gets data about a person by passing an ORCID id.
+* `personPlusPublications`: This method gets data about a person and their publications by passing an ORCID id.
+* `work`: This method gets data about a work by passing an DOI.
+
+##### ROR
+For ROR there are 2 queries available:
+* `organization`: This method gets data about an organization by passing a ROR id.
+* `organizationPlusChildren`: This method gets data about an organization and all their sub-organizations by passing a ROR id.
+
+##### ORCID
+For ORCID the following queries are available:
+* `personPlusWorks`: This method gets data about a person and their works by passing an ORCID id.
+* `currentEmployeesPlusWorks`: This method gets data about an organization's current employees and their works by passing a ROR id.
+
+
 
 ### Installation
 1. Clone the repository to a local folder using `git clone https://github.com/vivo-community/generate2vivo.git`
@@ -33,32 +59,16 @@ maps it to the VIVO ontology using [sparql-generate](https://ci.mines-stetienne.
 
 5. A minimal swagger-ui will be available at `http://localhost:9000/swagger-ui/`.
 
-### Usage
-Go to `http://localhost:9000/swagger-ui/` in your browser and choose Datacite Commons or ROR as a data source. 
-  
-##### Datacite Commons
-For Datacite Commons there are 2 queries available:
-* `getOrganizationPlusPersons`: Queries Datacite Commons for the organization and its affiliated people.
-* `getPersonPlusPublications`: Queries Datacite Commons for the person and its affiliated publications. 
-
-##### ROR
-For ROR there are 2 queries available:
-* `getOrganization`: Queries ROR for the organization.
-* `getOrganizationPlusChildren`: Queries ROR for the organization and all of its sub-organizations recursively.
-
-The program will return a 200 Status, if the data was imported to VIVO or if you chose not to provide your VIVO details,
-it will return the RDF-data as a result in format JSON-LD.
-
 ### Run in Command Line
 Alternatively you can run the queries from the command line using the sparql-generate executable JAR-file.
 All queries are placed in folder `src/main/resources/sparqlg` and come with a `sparql-generate-conf.json`. 
 Its structure and use are explained in detail on the [sparql-generate website](https://ci.mines-stetienne.fr/sparql-generate/language-cli.html).
 
 ### Extensible
-The software is easily extensible, meaning you can add and remove datasources without touching the code.
+The software is easily extensible, meaning you can add and remove datasources.
 
 For example, if you are not interested in using Datacite Commons, just remove the folder from `src/main/resources/sparqlg`
-and the respective controller in the package `eu.tib.controller` and it's gone.
+and the respective controller in the package `eu.tib.controller`.
 
 On the other hand, if you would like to add a datasource:
 * add a folder with your queries under `src/main/resources/sparqlg` and include a `sparql-generate-conf.json` 

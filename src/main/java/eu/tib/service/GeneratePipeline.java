@@ -2,10 +2,7 @@ package eu.tib.service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import eu.tib.exception.ConfigLoadingException;
 import eu.tib.exception.SparqlExecutionException;
-import eu.tib.exception.SparqlParsingException;
-import eu.tib.exception.StreamManagerException;
 import eu.tib.utils.ResourceUtils;
 import fr.mines_stetienne.ci.sparql_generate.FileConfigurations;
 import fr.mines_stetienne.ci.sparql_generate.SPARQLExt;
@@ -69,7 +66,7 @@ public class GeneratePipeline {
             return output;
         } catch (Exception e) {
             log.error("Error while executing SPARQL-Generate.", e);
-            throw new SparqlExecutionException(GeneratePipeline.class);
+            throw new SparqlExecutionException("Error while executing SPARQL-Generate.");
         }
     }
 
@@ -79,8 +76,8 @@ public class GeneratePipeline {
             FileConfigurations config = (new Gson()).fromJson(conf, FileConfigurations.class);
             return config;
         } catch (IOException | NullPointerException | JsonSyntaxException e) {
-            log.error("Error while reading the config file.", e);
-            throw new ConfigLoadingException(GeneratePipeline.class, "configFile", confFilePath);
+            log.error("Error while reading config file " + confFilePath, e);
+            throw new SparqlExecutionException("Error while reading config file " + confFilePath);
         }
     }
 
@@ -92,10 +89,10 @@ public class GeneratePipeline {
             return q;
         } catch (IOException | NullPointerException e) {
             log.error(String.format("No query file %s was found.", queryPath), e);
-            throw new SparqlParsingException(GeneratePipeline.class, "queryName", queryPath);
+            throw new SparqlExecutionException(String.format("No query file %s was found.", queryPath));
         } catch (QueryException e) {
             log.error(String.format("Query %s could not be parsed.", queryPath), e);
-            throw new SparqlParsingException(GeneratePipeline.class, "queryName", queryPath);
+            throw new SparqlExecutionException(String.format("Query %s could not be parsed.", queryPath));
         }
     }
 
@@ -144,7 +141,7 @@ public class GeneratePipeline {
                     mapper.addAltEntry(doc.uri, docpath);
                 } catch (Exception e) {
                     log.error(String.format("No named query was found at %s.", docpath), e);
-                    throw new StreamManagerException(GeneratePipeline.class, "namedQuery", docpath);
+                    throw new SparqlExecutionException(String.format("No named query was found at %s.", docpath));
                 }
             });
         }
@@ -156,7 +153,7 @@ public class GeneratePipeline {
                     mapper.addAltEntry(doc.uri, docpath);
                 } catch (Exception e) {
                     log.error(String.format("No documentset was found at %s.", docpath), e);
-                    throw new StreamManagerException(GeneratePipeline.class, "documentset", docpath);
+                    throw new SparqlExecutionException(String.format("No documentset was found at %s.", docpath));
                 }
             });
         }
@@ -167,8 +164,8 @@ public class GeneratePipeline {
                 try {
                     mapper.addAltEntry(doc.uri, docpath);
                 } catch (Exception e) {
-                    log.error(String.format("No named graph was found at %s.", docpath), e);
-                    throw new StreamManagerException(GeneratePipeline.class, "namedGraph", docpath);
+                    log.error(String.format("No named graph was found at %s.", docpath),e);
+                    throw new SparqlExecutionException(String.format("No named graph was found at %s.", docpath));
                 }
             });
         }
