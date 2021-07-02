@@ -1,0 +1,4 @@
+{
+  "base": "http://vivo.mydomain.edu/individual/",
+  "query": "../../vivo-rdf/organization.rqg"
+}
