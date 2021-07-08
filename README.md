@@ -1,7 +1,7 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 ## generate2vivo
-generate2vivo is an extensible Data Ingest Tool for the Open-Source-Software VIVO. 
+generate2vivo is an extensible Data Ingest Tool for the open source software VIVO. 
 It currently queries metadata from Datacite Commons, ROR and ORCID
 and maps them to the VIVO ontology using [sparql-generate](https://ci.mines-stetienne.fr/sparql-generate/index.html).
 The resulting RDF data can be exported to a VIVO instance directly or returned in a HTTP response.
@@ -15,10 +15,10 @@ The resulting RDF data can be exported to a VIVO instance directly or returned i
 - [Extensible](#extensible)
 
 ### Available queries
-The datasources and queries that are currently available are listed below.
+The data sources and queries that are currently available are listed below.
 
 ##### Datacite Commons
-For Datacite Commons the following queries are available:
+For [Datacite Commons](https://commons.datacite.org/) the following queries are available:
 * `organization` : This method gets data about an organization by passing a ROR id.
 * `organizationPlusPeople`: This method gets data about an organization and its affiliated people by passing a ROR id.
 * `organizationPlusPeoplePlusPublications`:This method gets data about an organization and its affiliated people and their respective publications by passing a ROR id.
@@ -27,12 +27,12 @@ For Datacite Commons the following queries are available:
 * `work`: This method gets data about a work by passing an DOI.
 
 ##### ROR
-For ROR there are 2 queries available:
+For [ROR](https://ror.org/) there are 2 queries available:
 * `organization`: This method gets data about an organization by passing a ROR id.
 * `organizationPlusChildren`: This method gets data about an organization and all their sub-organizations by passing a ROR id.
 
 ##### ORCID
-For ORCID the following queries are available:
+For [ORCID](https://orcid.org/) the following queries are available:
 * `personPlusWorks`: This method gets data about a person and their works by passing an ORCID id.
 * `currentEmployeesPlusWorks`: This method gets data about an organization's current employees and their works by passing a ROR id.
 
@@ -65,15 +65,15 @@ All queries are placed in folder `src/main/resources/sparqlg` and come with a `s
 Its structure and use are explained in detail on the [sparql-generate website](https://ci.mines-stetienne.fr/sparql-generate/language-cli.html).
 
 ### Extensible
-The software is easily extensible, meaning you can add and remove datasources.
+The software is easily extensible, meaning you can add and remove data sources.
 
 For example, if you are not interested in using Datacite Commons, just remove the folder from `src/main/resources/sparqlg`
 and the respective controller in the package `eu.tib.controller`.
 
-On the other hand, if you would like to add a datasource:
+On the other hand, if you would like to add a data source:
 * add a folder with your queries under `src/main/resources/sparqlg` and include a `sparql-generate-conf.json` 
   (its structure is described on the [sparql-generate website](https://ci.mines-stetienne.fr/sparql-generate/language-cli.html)).
 * add a controller in `eu.tib.controller` that retrieves your input and calls your query like `responseService.buildResponse(queryid, input)`
-    * the connection between controller and the according query is made by the queryid. You need to supply the path within the resources folder to your `sparql-generate-conf.json`.
+    * the connection between controller and the according query is made by the `queryid`. You need to supply the path within the resources folder to your `sparql-generate-conf.json`.
     * put your input into a Map and every key-value-pair will be available in your query as a binding, where ?key will be replaced with value.
 
