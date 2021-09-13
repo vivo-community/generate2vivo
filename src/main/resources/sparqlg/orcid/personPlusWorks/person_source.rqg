@@ -8,7 +8,8 @@ GENERATE <person_source>(?orcid) {
 }
 WHERE {
     # query person data from ORCID
-    BIND(<https://pub.orcid.org/v3.0/{?orcid}> as ?orcid_url)
+    BIND(REPLACE(?orcid, "https://orcid.org/", "", "i") AS ?orcid_id)
+    BIND(<https://pub.orcid.org/v3.0/{?orcid_id}> as ?orcid_url)
     BIND(  fun:HTTPGet(?orcid_url, "Accept: application/json") AS ?orcid_response )
     FILTER( fun:HTTPExtractResponseCode( ?orcid_response ) = 200 )
     BIND( fun:HTTPExtractBody( ?orcid_response ) AS ?orcid_data )
