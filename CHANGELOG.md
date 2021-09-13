@@ -2,7 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-
+### Added
+- refactor all controllers so get-path matches resource path and add tests
 
 ## [1.1.0] - 2021-06-22
 ### Added
