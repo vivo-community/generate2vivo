@@ -52,7 +52,7 @@ public class DataciteCommonsController {
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) {
 
-        final String id = "sparqlg/datacitecommons/orga2person";
+        final String id = "sparqlg/datacitecommons/organizationPlusPeople";
         log.info("Incoming Request for " + id + " with ror: " + ror);
         StopWatch stopWatch = new StopWatch(id);
         stopWatch.start(id);
@@ -70,7 +70,7 @@ public class DataciteCommonsController {
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) {
 
-        final String id = "sparqlg/datacitecommons/orga2person2publication";
+        final String id = "sparqlg/datacitecommons/organizationPlusPeoplePlusPublications";
         log.info("Incoming Request for " + id + " with ror: " + ror);
         StopWatch stopWatch = new StopWatch(id);
         stopWatch.start(id);
@@ -108,7 +108,7 @@ public class DataciteCommonsController {
             @ApiParam("Complete Orcid URL consisting of https://orcid.org/ plus id")
             @RequestParam String orcid) {
 
-        final String id = "sparqlg/datacitecommons/person2publication";
+        final String id = "sparqlg/datacitecommons/personPlusPublications";
         log.info("Incoming Request for " + id + " with orcid: " + orcid);
         StopWatch stopWatch = new StopWatch(id);
         stopWatch.start(id);

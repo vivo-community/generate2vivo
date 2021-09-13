@@ -33,14 +33,13 @@ public class OrcidController {
             @ApiParam("Complete Orcid URL consisting of https://orcid.org/ plus id")
             @RequestParam String orcid) {
 
-        final String id = "sparqlg/orcid/person";
+        final String id = "sparqlg/orcid/personPlusWorks";
         log.info("Incoming Request for " + id + " with orcid: " + orcid);
         StopWatch stopWatch = new StopWatch(id);
         stopWatch.start(id);
 
-        String orcid_id = orcid.replaceFirst("https://orcid.org/","");
         ResponseEntity result = responseService.buildResponse(id,
-                Collections.singletonMap("orcid", orcid_id));
+                Collections.singletonMap("orcid", orcid));
 
         stopWatch.stop();
         log.info(id + " took " + stopWatch.getTotalTimeSeconds() + "s");
@@ -55,7 +54,7 @@ public class OrcidController {
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) {
 
-        final String id = "sparqlg/orcid/employees";
+        final String id = "sparqlg/orcid/currentEmployeesPlusWorks";
         log.info("Incoming Request for " + id + " with ror: " + ror);
         StopWatch stopWatch = new StopWatch(id);
         stopWatch.start(id);

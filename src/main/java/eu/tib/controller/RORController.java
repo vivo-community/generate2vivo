@@ -52,7 +52,7 @@ public class RORController {
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) {
 
-        final String id = "sparqlg/ror/orga2children";
+        final String id = "sparqlg/ror/organizationPlusChildren";
         log.info("Incoming Request for " + id + " with ror: " + ror);
         StopWatch stopWatch = new StopWatch(id);
         stopWatch.start(id);
