@@ -8,9 +8,11 @@ import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StopWatch;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
@@ -35,14 +37,8 @@ public class RORController {
 
         final String id = "sparqlg/ror/organization";
         log.info("Incoming Request for " + id + " with ror: " + ror);
-        StopWatch stopWatch = new StopWatch(id);
-        stopWatch.start(id);
 
-        ResponseEntity result = responseService.buildResponse(id, Collections.singletonMap("ror", ror));
-
-        stopWatch.stop();
-        log.info(id + " took " + stopWatch.getTotalTimeSeconds() + "s");
-        return result;
+        return responseService.buildResponse(id, Collections.singletonMap("ror", ror));
     }
 
     @ApiOperation(value = "Retrieve data about an organization and all their sub-organizations from ROR", notes = "This method gets data about an organization and all their sub-organizations from ROR by passing a ROR id.")
@@ -54,13 +50,7 @@ public class RORController {
 
         final String id = "sparqlg/ror/organizationPlusChildren";
         log.info("Incoming Request for " + id + " with ror: " + ror);
-        StopWatch stopWatch = new StopWatch(id);
-        stopWatch.start(id);
 
-        ResponseEntity result = responseService.buildResponse(id, Collections.singletonMap("ror", ror));
-
-        stopWatch.stop();
-        log.info(id + " took " + stopWatch.getTotalTimeSeconds() + "s");
-        return result;
+        return responseService.buildResponse(id, Collections.singletonMap("ror", ror));
     }
 }
