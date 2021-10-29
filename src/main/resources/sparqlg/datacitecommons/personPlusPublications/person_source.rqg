@@ -5,7 +5,7 @@ GENERATE <person_source>(?orcid) {
     GENERATE <https://projects.tib.eu/tapir/datacitecommons/person/person_mapping.rqg>( ?person_data ) .
 
     # go into loop
-    GENERATE <https://projects.tib.eu/tapir/datacitecommons/person2publication/person2publication.rqg>( ?orcid, ?person_id, ?undef ) .
+    GENERATE <https://projects.tib.eu/tapir/datacitecommons/personPlusPublications/person2publication.rqg>( ?orcid, ?person_id, ?undef ) .
 }
 SOURCE <https://projects.tib.eu/tapir/datacitecommons/person/documentset/person.graphql> AS ?graphqlquery
 WHERE {

@@ -17,7 +17,7 @@ GENERATE  <person2publication>(?orcid, ?person_id, ?after) {
 
 
 ############################# call this query again if hasNextPage =true  #############################################
-    GENERATE <https://projects.tib.eu/tapir/datacitecommons/person2publication/person2publication.rqg>( ?orcid, ?person_id, ?cursor )
+    GENERATE <https://projects.tib.eu/tapir/datacitecommons/personPlusPublications/person2publication.rqg>( ?orcid, ?person_id, ?cursor )
     WHERE{
       BIND(fun:JSONPath(?person, '$.publications.pageInfo.hasNextPage' ) AS ?hasNextPage)
       BIND(fun:JSONPath(?person, '$.publications.pageInfo.endCursor' ) AS ?endCursor)
@@ -26,7 +26,7 @@ GENERATE  <person2publication>(?orcid, ?person_id, ?after) {
      }.
 
 }
-SOURCE <https://projects.tib.eu/tapir/datacitecommons/person2publication/documentset/person2publication.graphql> AS ?graphqlquery
+SOURCE <https://projects.tib.eu/tapir/datacitecommons/personPlusPublications/documentset/person2publication.graphql> AS ?graphqlquery
 WHERE {
     # replace whitespace in graphql query (compress message)
     BIND(REPLACE(?graphqlquery, "\\s+", " ") AS ?graphql)

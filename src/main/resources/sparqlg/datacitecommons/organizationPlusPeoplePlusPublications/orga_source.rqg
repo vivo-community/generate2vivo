@@ -5,7 +5,7 @@ GENERATE <orga_source>(?ror) {
     GENERATE <https://projects.tib.eu/tapir/datacitecommons/organization/orga_mapping.rqg>( ?orga_data ) .
 
     # go into loop
-    GENERATE <https://projects.tib.eu/tapir/datacitecommons/orga2person2publication/orga2person2publication.rqg>( ?ror, ?orga_id, ?undef ) .
+    GENERATE <https://projects.tib.eu/tapir/datacitecommons/organizationPlusPeoplePlusPublications/orga2person2publication.rqg>( ?ror, ?orga_id, ?undef ) .
 }
 SOURCE <https://projects.tib.eu/tapir/datacitecommons/organization/documentset/organization.graphql> AS ?graphqlquery
 WHERE {

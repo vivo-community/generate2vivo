@@ -6,7 +6,7 @@ GENERATE  <orga2person2publication>(?ror, ?orga_id, ?after) {
 ### map person data
 ### and for every person: create a connection to organization
     GENERATE {
-        GENERATE <https://projects.tib.eu/tapir/datacitecommons/person2publication/person2publication.rqg>( ?orcid, ?person_id, ?undef ) .
+        GENERATE <https://projects.tib.eu/tapir/datacitecommons/personPlusPublications/person2publication.rqg>( ?orcid, ?person_id, ?undef ) .
 
         GENERATE <https://projects.tib.eu/tapir/vivo-rdf/position.rqg>(?person_id, ?orga_id, ?role, ?start_date, ?end_date) .
     }
@@ -18,7 +18,7 @@ GENERATE  <orga2person2publication>(?ror, ?orga_id, ?after) {
 
 
 ############################# call this query again if hasNextPage =true  #############################################
-    GENERATE <https://projects.tib.eu/tapir/datacitecommons/orga2person2publication/orga2person2publication.rqg>( ?ror, ?orga_id,?cursor )
+    GENERATE <https://projects.tib.eu/tapir/datacitecommons/organizationPlusPeoplePlusPublications/orga2person2publication.rqg>( ?ror, ?orga_id,?cursor )
     WHERE{
       BIND(fun:JSONPath(?orga_data, '$.people.pageInfo.hasNextPage' ) AS ?hasNextPage)
       BIND(fun:JSONPath(?orga_data, '$.people.pageInfo.endCursor' ) AS ?endCursor)
@@ -26,7 +26,7 @@ GENERATE  <orga2person2publication>(?ror, ?orga_id, ?after) {
       FILTER( BOUND(?cursor) ).
      }.
 }
-SOURCE <https://projects.tib.eu/tapir/datacitecommons/orga2person2publication/documentset/orga2person.graphql> AS ?graphqlquery
+SOURCE <https://projects.tib.eu/tapir/datacitecommons/organizationPlusPeoplePlusPublications/documentset/orga2person.graphql> AS ?graphqlquery
 WHERE {
     # replace whitespace in graphql query (compress message)
     BIND(REPLACE(?graphqlquery, "\\s+", " ") AS ?graphql)

@@ -17,7 +17,7 @@ GENERATE  <orga2person>(?ror, ?orga_id,  ?after) {
 
 
 ############################# call this query again if hasNextPage =true  #############################################
-    GENERATE <https://projects.tib.eu/tapir/datacitecommons/orga2person/orga2person.rqg>( ?ror, ?orga_id, ?cursor )
+    GENERATE <https://projects.tib.eu/tapir/datacitecommons/organizationPlusPeople/orga2person.rqg>( ?ror, ?orga_id, ?cursor )
     WHERE{
       BIND(fun:JSONPath(?orga_data, '$.people.pageInfo.hasNextPage' ) AS ?hasNextPage)
       BIND(fun:JSONPath(?orga_data, '$.people.pageInfo.endCursor' ) AS ?endCursor)
@@ -25,7 +25,7 @@ GENERATE  <orga2person>(?ror, ?orga_id,  ?after) {
       FILTER( BOUND(?cursor) ).
      }.
 }
-SOURCE <https://projects.tib.eu/tapir/datacitecommons/orga2person/documentset/orga2person.graphql> AS ?graphqlquery
+SOURCE <https://projects.tib.eu/tapir/datacitecommons/organizationPlusPeople/documentset/orga2person.graphql> AS ?graphqlquery
 WHERE {
     # replace whitespace in graphql query (compress message)
     BIND(REPLACE(?graphqlquery, "\\s+", " ") AS ?graphql)
