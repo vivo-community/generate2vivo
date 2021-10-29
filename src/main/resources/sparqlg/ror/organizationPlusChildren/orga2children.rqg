@@ -10,7 +10,7 @@ GENERATE <orga2children>(?parent_id, ?ror) {
   GENERATE <https://projects.tib.eu/tapir/vivo-rdf/orga2suborga.rqg>(?parent_id, ?id ) .
 
   ### call this query recursively for all children
-  GENERATE <https://projects.tib.eu/tapir/ror/orga2children/orga2children.rqg>(?id, ?child_ror )
+  GENERATE <https://projects.tib.eu/tapir/ror/organizationPlusChildren/orga2children.rqg>(?id, ?child_ror )
   ITERATOR iter:JSONPath(?orga_data, '$.relationships[*]') AS ?relationships
   WHERE {
     BIND(fun:JSONPath(?relationships, '$.label' ) AS ?rel_label)

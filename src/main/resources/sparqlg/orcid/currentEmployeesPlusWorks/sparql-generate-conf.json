@@ -3,11 +3,11 @@
   "query": "employees_source.rqg",
   "namedqueries": [
     {
-      "uri": "https://projects.tib.eu/tapir/orcid/employees/organization/orga_placeholder.rqg",
+      "uri": "https://projects.tib.eu/tapir/orcid/currentEmployeesPlusWorks/organization/orga_placeholder.rqg",
       "path": "organization/orga_placeholder.rqg"
     },
     {
-      "uri": "https://projects.tib.eu/tapir/orcid/employees/organization/orga_id.rqg",
+      "uri": "https://projects.tib.eu/tapir/orcid/currentEmployeesPlusWorks/organization/orga_id.rqg",
       "path": "organization/orga_id.rqg"
     },
     {
@@ -19,20 +19,20 @@
       "path": "../../vivo-rdf/agent_pid.rqg"
     },
     {
-      "uri": "https://projects.tib.eu/tapir/orcid/employees/employees_filter.rqg",
+      "uri": "https://projects.tib.eu/tapir/orcid/currentEmployeesPlusWorks/employees_filter.rqg",
       "path": "employees_filter.rqg"
     },
     {
-      "uri": "https://projects.tib.eu/tapir/orcid/employees/employment_mapping.rqg",
+      "uri": "https://projects.tib.eu/tapir/orcid/currentEmployeesPlusWorks/employment_mapping.rqg",
       "path": "employment_mapping.rqg"
     },
     {
-      "uri": "https://projects.tib.eu/tapir/orcid/person/person_mapping.rqg",
-      "path": "../person/person_mapping.rqg"
+      "uri": "https://projects.tib.eu/tapir/orcid/personPlusWorks/person_mapping.rqg",
+      "path": "../personPlusWorks/person_mapping.rqg"
     },
     {
-      "uri": "https://projects.tib.eu/tapir/orcid/person/person_id.rqg",
-      "path": "../person/person_id.rqg"
+      "uri": "https://projects.tib.eu/tapir/orcid/personPlusWorks/person_id.rqg",
+      "path": "../personPlusWorks/person_id.rqg"
     },
     {
       "uri": "https://projects.tib.eu/tapir/vivo-rdf/person.rqg",
@@ -43,8 +43,8 @@
       "path": "../../vivo-rdf/position.rqg"
     },
     {
-      "uri": "https://projects.tib.eu/tapir/orcid/person/work/work_mapping.rqg",
-      "path": "../person/work/work_mapping.rqg"
+      "uri": "https://projects.tib.eu/tapir/orcid/personPlusWorks/work/work_mapping.rqg",
+      "path": "../personPlusWorks/work/work_mapping.rqg"
     },
     {
       "uri": "https://projects.tib.eu/tapir/vivo-rdf/research.rqg",

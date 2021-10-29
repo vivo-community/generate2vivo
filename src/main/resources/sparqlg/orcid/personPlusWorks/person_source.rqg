@@ -3,7 +3,7 @@ PREFIX fun: <http://w3id.org/sparql-generate/fn/>
 ### query data about person from ORCID
 GENERATE <person_source>(?orcid) {
 
-    GENERATE <https://projects.tib.eu/tapir/orcid/person/person_mapping.rqg>( ?orcid_data ) .
+    GENERATE <https://projects.tib.eu/tapir/orcid/personPlusWorks/person_mapping.rqg>( ?orcid_data ) .
 
 }
 WHERE {

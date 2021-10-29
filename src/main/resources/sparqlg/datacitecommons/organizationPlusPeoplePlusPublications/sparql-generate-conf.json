@@ -3,7 +3,7 @@
   "query": "orga_source.rqg",
   "namedqueries": [
     {
-      "uri": "https://projects.tib.eu/tapir/datacitecommons/orga2person2publication/orga2person2publication.rqg",
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/organizationPlusPeoplePlusPublications/orga2person2publication.rqg",
       "path": "orga2person2publication.rqg"
     },
     {
@@ -27,8 +27,8 @@
       "path": "../person/person_id.rqg"
     },
     {
-      "uri": "https://projects.tib.eu/tapir/datacitecommons/person2publication/person2publication.rqg",
-      "path": "../person2publication/person2publication.rqg"
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/personPlusPublications/person2publication.rqg",
+      "path": "../personPlusPublications/person2publication.rqg"
     },
     {
       "uri": "https://projects.tib.eu/tapir/vivo-rdf/person.rqg",
@@ -61,12 +61,12 @@
   ],
   "documentset": [
     {
-      "uri": "https://projects.tib.eu/tapir/datacitecommons/orga2person2publication/documentset/orga2person.graphql",
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/organizationPlusPeoplePlusPublications/documentset/orga2person.graphql",
       "path": "documentset/orga2person.graphql"
     },
     {
-      "uri": "https://projects.tib.eu/tapir/datacitecommons/person2publication/documentset/person2publication.graphql",
-      "path": "../person2publication/documentset/person2publication.graphql"
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/personPlusPublications/documentset/person2publication.graphql",
+      "path": "../personPlusPublications/documentset/person2publication.graphql"
     },
     {
       "uri": "https://projects.tib.eu/tapir/datacitecommons/organization/documentset/organization.graphql",

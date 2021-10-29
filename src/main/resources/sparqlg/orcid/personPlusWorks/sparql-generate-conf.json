@@ -3,11 +3,11 @@
   "query": "person_source.rqg",
   "namedqueries": [
     {
-      "uri": "https://projects.tib.eu/tapir/orcid/person/person_mapping.rqg",
+      "uri": "https://projects.tib.eu/tapir/orcid/personPlusWorks/person_mapping.rqg",
       "path": "person_mapping.rqg"
     },
     {
-      "uri": "https://projects.tib.eu/tapir/orcid/person/person_id.rqg",
+      "uri": "https://projects.tib.eu/tapir/orcid/personPlusWorks/person_id.rqg",
       "path": "person_id.rqg"
     },
     {
@@ -19,7 +19,7 @@
       "path": "../../vivo-rdf/agent_pid.rqg"
     },
     {
-      "uri": "https://projects.tib.eu/tapir/orcid/person/work/work_mapping.rqg",
+      "uri": "https://projects.tib.eu/tapir/orcid/personPlusWorks/work/work_mapping.rqg",
       "path": "work/work_mapping.rqg"
     },
     {

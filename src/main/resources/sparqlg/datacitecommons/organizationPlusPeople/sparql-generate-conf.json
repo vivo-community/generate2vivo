@@ -3,7 +3,7 @@
   "query": "orga_source.rqg",
   "namedqueries": [
     {
-      "uri": "https://projects.tib.eu/tapir/datacitecommons/orga2person/orga2person.rqg",
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/organizationPlusPeople/orga2person.rqg",
       "path": "orga2person.rqg"
     },
     {
@@ -45,7 +45,7 @@
   ],
   "documentset": [
     {
-      "uri": "https://projects.tib.eu/tapir/datacitecommons/orga2person/documentset/orga2person.graphql",
+      "uri": "https://projects.tib.eu/tapir/datacitecommons/organizationPlusPeople/documentset/orga2person.graphql",
       "path": "documentset/orga2person.graphql"
     },
     {
