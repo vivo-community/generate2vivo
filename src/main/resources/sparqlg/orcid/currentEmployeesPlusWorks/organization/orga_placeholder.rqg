@@ -20,6 +20,6 @@ GENERATE <orga_placeholder>( ?ror_data, ?wikidata_id, ?ringgold_id, ?grid_id ) {
 }
 WHERE {
     ### basic properties of organization
-    BIND(<https://projects.tib.eu/tapir/orcid/employees/organization/orga_id.rqg>(?ror_data) AS ?id)
+    BIND(<https://projects.tib.eu/tapir/orcid/currentEmployeesPlusWorks/organization/orga_id.rqg>(?ror_data) AS ?id)
     BIND(fun:JSONPath(?ror_data, '$.name' ) AS ?name)
 }

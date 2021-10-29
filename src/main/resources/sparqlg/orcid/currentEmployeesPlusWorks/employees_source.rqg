@@ -5,9 +5,9 @@ GENERATE <employees_source>(?ror) {
 
     ### if ROR is included, you could use GENERATE <https://projects.tib.eu/tapir/ror/organization/orga_mapping.rqg>( ?ror_data ) .
     ### but to keep data sources independent:
-    GENERATE <https://projects.tib.eu/tapir/orcid/employees/organization/orga_placeholder.rqg>( ?ror_data, ?wikidata_id, ?ringgold_id, ?grid_id ) .
+    GENERATE <https://projects.tib.eu/tapir/orcid/currentEmployeesPlusWorks/organization/orga_placeholder.rqg>( ?ror_data, ?wikidata_id, ?ringgold_id, ?grid_id ) .
 
-    GENERATE <https://projects.tib.eu/tapir/orcid/employees/employees_filter.rqg>(?orga_id, ?ror_id, ?ringgold_id, ?grid_id ) .
+    GENERATE <https://projects.tib.eu/tapir/orcid/currentEmployeesPlusWorks/employees_filter.rqg>(?orga_id, ?ror_id, ?ringgold_id, ?grid_id ) .
 
 }
 SOURCE <https://api.ror.org/organizations/{?ror}> AS ?ror_data
@@ -25,6 +25,6 @@ WHERE{
   BIND(fun:JSONPath(?wikidata_body, '$.entities.{?wikidata_id}.claims.P2427[0].mainsnak.datavalue.value' ) AS ?grid_id)
 
   # after creating organization, get its id to make the orga-person connection
-  BIND(<https://projects.tib.eu/tapir/orcid/employees/organization/orga_id.rqg>(?ror_data) AS ?ror_id)
+  BIND(<https://projects.tib.eu/tapir/orcid/currentEmployeesPlusWorks/organization/orga_id.rqg>(?ror_data) AS ?ror_id)
   BIND(?ror_id AS ?orga_id)
 }

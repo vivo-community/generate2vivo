@@ -11,14 +11,14 @@ GENERATE <employees_filter>(?orga_id, ?ror_id, ?ringgold_id, ?grid_id){
         ## current = employees where orga_id is same as ringgold or grid AND no end-date
         GENERATE {
             ## create person in vivo ontology, if current employee
-            GENERATE <https://projects.tib.eu/tapir/orcid/person/person_mapping.rqg>(?orcid_data) .
+            GENERATE <https://projects.tib.eu/tapir/orcid/personPlusWorks/person_mapping.rqg>(?orcid_data) .
 
             ## connect person to organization via current employment
-            GENERATE <https://projects.tib.eu/tapir/orcid/employees/employment_mapping.rqg>(?person_id, ?orga_id, ?employment) .
+            GENERATE <https://projects.tib.eu/tapir/orcid/currentEmployeesPlusWorks/employment_mapping.rqg>(?person_id, ?orga_id, ?employment) .
         }
         ITERATOR iter:JSONPath(?orcid_data, '$.activities-summary.employments.affiliation-group[*]') AS ?employment
         WHERE{
-            BIND(<https://projects.tib.eu/tapir/orcid/person/person_id.rqg>(?orcid_data) AS ?person_id)
+            BIND(<https://projects.tib.eu/tapir/orcid/personPlusWorks/person_id.rqg>(?orcid_data) AS ?person_id)
 
             BIND(fun:JSONPath(?employment, '$.summaries[0].employment-summary.organization.disambiguated-organization.disambiguated-organization-identifier' ) AS ?disamb_orga)
             BIND(fun:JSONPath(?employment, '$.summaries[0].employment-summary.end-date' ) AS ?end_date)
