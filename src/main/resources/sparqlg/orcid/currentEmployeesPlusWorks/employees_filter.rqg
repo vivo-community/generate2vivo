@@ -2,7 +2,7 @@ PREFIX fun: <http://w3id.org/sparql-generate/fn/>
 PREFIX iter: <http://w3id.org/sparql-generate/iter/>
 
 ## get all people affiliated with the organization
-GENERATE <employees_filter>(?orga_id, ?ringgold_id, ?grid_id){
+GENERATE <employees_filter>(?orga_id, ?ror_id, ?ringgold_id, ?grid_id){
 
     ## get orcid data for each person
     GENERATE{
@@ -22,7 +22,7 @@ GENERATE <employees_filter>(?orga_id, ?ringgold_id, ?grid_id){
 
             BIND(fun:JSONPath(?employment, '$.summaries[0].employment-summary.organization.disambiguated-organization.disambiguated-organization-identifier' ) AS ?disamb_orga)
             BIND(fun:JSONPath(?employment, '$.summaries[0].employment-summary.end-date' ) AS ?end_date)
-            FILTER( !BOUND(?end_date) && (?disamb_orga = ?grid_id || ?disamb_orga = ?ringgold_id) ).
+            FILTER( !BOUND(?end_date) && (?disamb_orga = ?grid_id || ?disamb_orga = ?ringgold_id || ?disamb_orga = ?ror_id) ).
         }.
 
     }
@@ -38,12 +38,25 @@ GENERATE <employees_filter>(?orga_id, ?ringgold_id, ?grid_id){
     } .
 }
 WHERE{
-  ### call orcid with ringgold and grid-id for affiliated employees
-  BIND(IF(BOUND(?ringgold_id) && BOUND(?grid_id), "%20OR%20", "") AS ?connector)
-  BIND(IF(BOUND(?ringgold_id), "ringgold-org-id:{?ringgold_id}", "") AS ?ringgold_search)
-  BIND(IF(BOUND(?grid_id), "grid-org-id:{?grid_id}", "") AS ?grid_search)
+  ### build query search terms into url
+  BIND("https://pub.orcid.org/v3.0/expanded-search/?q=" as ?basic_url)
 
-  BIND("https://pub.orcid.org/v3.0/expanded-search/?q={?ringgold_search}{?connector}{?grid_search}" as ?orcid_employees_url)
+  # add ror
+  BIND(IF(BOUND(?ror_id), "ror-org-id:{?ror_id}", "") AS ?ror_search)
+  BIND(CONCAT(?basic_url, ?ror_search) AS ?basic_url_ror)
+
+  # add ringgold
+  BIND(IF(BOUND(?ringgold_id), "ringgold-org-id:{?ringgold_id}", "") AS ?ringgold_search)
+  BIND(IF(BOUND(?ringgold_id) && BOUND(?ror_id), "%20OR%20", "") AS ?connector)
+  BIND(CONCAT(?basic_url_ror, ?connector, ?ringgold_search) AS ?basic_url_ror_ringgold)
+
+  # add grid
+  BIND(IF(BOUND(?grid_id), "grid-org-id:{?grid_id}", "") AS ?grid_search)
+  BIND(IF((BOUND(?ringgold_id) || BOUND(?ror_id)) && BOUND(?grid_id), "%20OR%20", "") AS ?connector2)
+  BIND(CONCAT(?basic_url_ror_ringgold, ?connector2, ?grid_search) AS ?basic_url_ror_ringgold_grid)
+
+  ### call orcid with ror, ringgold and grid-id for affiliated employees
+  BIND(?basic_url_ror_ringgold_grid as ?orcid_employees_url)
   BIND(fun:HTTPGet(IRI(?orcid_employees_url), "Accept: application/json") AS ?orcid_employees_response)
   FILTER(fun:HTTPExtractResponseCode( ?orcid_employees_response ) = 200)
   BIND(fun:HTTPExtractBody( ?orcid_employees_response ) AS ?orcid_employees)
