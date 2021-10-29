@@ -3,7 +3,7 @@
   "query": "orga2children.rqg",
   "namedqueries": [
     {
-      "uri": "https://projects.tib.eu/tapir/ror/orga2children/orga2children.rqg",
+      "uri": "https://projects.tib.eu/tapir/ror/organizationPlusChildren/orga2children.rqg",
       "path": "orga2children.rqg"
     },
     {
