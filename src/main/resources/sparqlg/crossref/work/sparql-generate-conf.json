@@ -1,0 +1,18 @@
+{
+  "base": "http://vivo.mydomain.edu/individual/",
+  "query": "work_source.rqg",
+  "namedqueries": [
+    {
+      "uri": "https://projects.tib.eu/tapir/crossref/work/work_mapping.rqg",
+      "path": "work_mapping.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/crossref/work/work_id.rqg",
+      "path": "work_id.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/vivo-rdf/research.rqg",
+      "path": "../../vivo-rdf/research.rqg"
+    }
+  ]
+}
