@@ -29,6 +29,21 @@ public class CrossrefController {
     @Autowired
     private ResponseService responseService;
 
+    @ApiOperation(value = "Retrieve data about a person and their works from Crossref", notes = "This method gets data about a person and their works from Crossref by passing an ORCID id.")
+    @GetMapping(value = "/personPlusWorks", produces = "application/json")
+    public ResponseEntity<String> getPersonPlusWorks(
+            @Valid @Pattern(regexp = InputValidator.orcid)
+            @ApiParam("Complete Orcid URL consisting of https://orcid.org/ plus id")
+            @RequestParam String orcid,
+            @ApiParam("email for polite requests")
+            @RequestParam(defaultValue = "") String email) {
+
+        final String id = "sparqlg/crossref/personPlusWorks";
+        log.info("Incoming Request for " + id + " with orcid: " + orcid);
+
+        return responseService.buildResponse(id, Map.of("orcid", orcid, "polite_mail", email));
+    }
+
     @ApiOperation(value = "Retrieve data about a work from Crossref", notes = "This method gets data about a work from Crossref by passing an DOI.")
     @GetMapping(value = "/work", produces = "application/json")
     public ResponseEntity<String> getWork(
@@ -36,7 +51,7 @@ public class CrossrefController {
             @ApiParam("DOI of the publication")
             @RequestParam String doi,
             @ApiParam("email for polite requests")
-            @RequestParam(defaultValue  = "") String email) {
+            @RequestParam(defaultValue = "") String email) {
 
         final String id = "sparqlg/crossref/work";
         log.info("Incoming Request for " + id + " with doi: " + doi);
