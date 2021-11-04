@@ -41,7 +41,10 @@ public class CrossrefController {
         final String id = "sparqlg/crossref/personPlusWorks";
         log.info("Incoming Request for " + id + " with orcid: " + orcid);
 
-        return responseService.buildResponse(id, Map.of("orcid", orcid, "polite_mail", email));
+        final String CURSOR = "*"; // starting cursor for pagination
+        return responseService.buildResponse(id, Map.of("orcid", orcid,
+                "polite_mail", email,
+                "cursor", CURSOR));
     }
 
     @ApiOperation(value = "Retrieve data about a work from Crossref", notes = "This method gets data about a work from Crossref by passing an DOI.")

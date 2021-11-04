@@ -7,6 +7,10 @@
       "path": "person_mapping.rqg"
     },
     {
+      "uri": "https://projects.tib.eu/tapir/crossref/personPlusWorks/person_source.rqg",
+      "path": "person_source.rqg"
+    },
+    {
       "uri": "https://projects.tib.eu/tapir/crossref/personPlusWorks/person_id.rqg",
       "path": "person_id.rqg"
     },
