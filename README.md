@@ -22,8 +22,7 @@ The resulting RDF data can be exported to a VIVO instance (or any SPARQL endpoin
 ![generate2vivo features](https://raw.githubusercontent.com/wiki/vivo-community/generate2vivo/images/generate2vivo.png)
 
 Starting point was the sparql-generate library that we use as an engine for our transformations, which are
-defined in different GENERATE queries. \
-Notice that code and queries are separate, this allows users
+defined in different GENERATE queries. Notice that code and queries are separate, this allows users
 * to write or change queries without going into the code
 * to reuse queries (meaning you can dump the code and only use the queries for example with the command line
   tool provided on the sparql-generate website)
@@ -43,6 +42,7 @@ JSON-LD and do some post-processing with it.
 3. Open `src/main/resources/application.properties` and change your VIVO details accordingly.
    If you don't provide a vivo.url, vivo.email or vivo.password, the application will not import the mapped data to VIVO but return the triples in format JSON-LD.
 3. Run the application:
+
 * If you have maven and a JDK for Java 11 installed, you can run the application directly via `mvn spring-boot:run`.
 
 * Alternatively you can compile & run the application in Docker (with or without Java setup):
