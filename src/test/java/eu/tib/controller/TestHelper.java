@@ -2,13 +2,12 @@ package eu.tib.controller;
 
 import eu.tib.service.ResponseService;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Collections;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,7 +34,7 @@ public class TestHelper {
 
         verify(service).buildResponse(idCaptor.capture(), paramCaptor.capture());
         assertEquals(mappingPath2resPath(mappingPath), idCaptor.getValue());
-        assertEquals(Collections.singletonMap(ror,validROR), paramCaptor.getValue());
+        assertTrue(isMapSubsetOf(paramCaptor.getValue(), Map.of(ror, validROR)));
     }
 
     public void invalidROR(String mappingPath, ResponseService service, MockMvc mockMvc) throws Exception {
@@ -51,7 +50,7 @@ public class TestHelper {
 
         verify(service).buildResponse(idCaptor.capture(), paramCaptor.capture());
         assertEquals(mappingPath2resPath(mappingPath), idCaptor.getValue());
-        assertEquals(Collections.singletonMap(orcid,validORCID), paramCaptor.getValue());
+        assertTrue(isMapSubsetOf(paramCaptor.getValue(), Map.of(orcid, validORCID)));
     }
 
     public void invalidORCID(String mappingPath, ResponseService service, MockMvc mockMvc) throws Exception {
@@ -67,7 +66,7 @@ public class TestHelper {
 
         verify(service).buildResponse(idCaptor.capture(), paramCaptor.capture());
         assertEquals(mappingPath2resPath(mappingPath), idCaptor.getValue());
-        assertEquals(Collections.singletonMap(doi,validDOI), paramCaptor.getValue());
+        assertTrue(isMapSubsetOf(paramCaptor.getValue(), Map.of(doi, validDOI)));
     }
 
     public void invalidDOI(String mappingPath, ResponseService service, MockMvc mockMvc) throws Exception {
@@ -78,5 +77,9 @@ public class TestHelper {
 
     private String mappingPath2resPath(String mappingPath) {
         return "sparqlg" + mappingPath;
+    }
+
+    private boolean isMapSubsetOf(Map<String, String> set, Map<String, String> subset) {
+        return set.entrySet().containsAll(subset.entrySet());
     }
 }
