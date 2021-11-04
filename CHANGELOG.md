@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+- add new parameter for ROR affiliation to ORCID query
+- add queries for Crossref work and personPlusWorks
+- improve README
+- remove Dockerfiles and instead use Spring Docker capabilities
+- add tests for all controllers
 
 
 ## [1.1.0] - 2021-06-22
