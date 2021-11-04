@@ -8,9 +8,11 @@ import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StopWatch;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
@@ -33,18 +35,10 @@ public class OrcidController {
             @ApiParam("Complete Orcid URL consisting of https://orcid.org/ plus id")
             @RequestParam String orcid) {
 
-        final String id = "sparqlg/orcid/person";
+        final String id = "sparqlg/orcid/personPlusWorks";
         log.info("Incoming Request for " + id + " with orcid: " + orcid);
-        StopWatch stopWatch = new StopWatch(id);
-        stopWatch.start(id);
 
-        String orcid_id = orcid.replaceFirst("https://orcid.org/","");
-        ResponseEntity result = responseService.buildResponse(id,
-                Collections.singletonMap("orcid", orcid_id));
-
-        stopWatch.stop();
-        log.info(id + " took " + stopWatch.getTotalTimeSeconds() + "s");
-        return result;
+        return responseService.buildResponse(id, Collections.singletonMap("orcid", orcid));
     }
 
 
@@ -55,15 +49,9 @@ public class OrcidController {
             @ApiParam("Complete ROR URL consisting of https://ror.org/ plus id")
             @RequestParam String ror) {
 
-        final String id = "sparqlg/orcid/employees";
+        final String id = "sparqlg/orcid/currentEmployeesPlusWorks";
         log.info("Incoming Request for " + id + " with ror: " + ror);
-        StopWatch stopWatch = new StopWatch(id);
-        stopWatch.start(id);
 
-        ResponseEntity result = responseService.buildResponse(id, Collections.singletonMap("ror", ror));
-
-        stopWatch.stop();
-        log.info(id + " took " + stopWatch.getTotalTimeSeconds() + "s");
-        return result;
+        return responseService.buildResponse(id, Collections.singletonMap("ror", ror));
     }
 }

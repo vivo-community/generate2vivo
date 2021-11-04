@@ -1,0 +1,36 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX iter: <http://w3id.org/sparql-generate/iter/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+GENERATE <person_mapping>(?person_works_data, ?orcid_id) {
+
+    ## fill in blanks in person definition in vivo ontology
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/person.rqg> (?person_id, ?orcid_id, ?familyName, ?givenName) .
+
+    ## add ORCID as PID
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg>(?person_id, "https://orcid.org/", ?orcid_id) .
+
+    ### map work data
+    ### and for every work: create a connection to person
+    GENERATE {
+        GENERATE <https://projects.tib.eu/tapir/crossref/work/work_mapping.rqg>( ?work_data ) .
+
+        GENERATE <https://projects.tib.eu/tapir/vivo-rdf/authorship.rqg>(?person_id, ?work_id) .
+    }
+    ITERATOR iter:JSONPath(?person_works_data, '$.items[*]') AS ?work_data
+    WHERE{
+        BIND(<https://projects.tib.eu/tapir/crossref/work/work_id.rqg>(?work_data) AS ?work_id)
+    } .
+}
+# loop through authors of first listed work
+ITERATOR iter:JSONPath(?person_works_data, '$.items[0].author[*]') AS ?author_data
+WHERE {
+    # find the author data where ORCID IDs match
+    BIND(fun:JSONPath(?author_data, '$.ORCID') AS ?authors_orcid)
+    FILTER(BOUND(?authors_orcid) && STRENDS(?authors_orcid, ?orcid_id))
+
+    # and extract data from this author
+    BIND( fun:JSONPath( ?author_data, "$.given" ) AS ?givenName )
+    BIND( fun:JSONPath( ?author_data, "$.family" ) AS ?familyName )
+    BIND(<https://projects.tib.eu/tapir/crossref/personPlusWorks/person_id.rqg>(?author_data) AS ?person_id)
+}

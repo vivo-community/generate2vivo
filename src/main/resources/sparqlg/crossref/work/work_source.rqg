@@ -1,0 +1,19 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+
+# parameter polite_mail uses an email adress to access polite servers of CrossRef
+# see https://github.com/CrossRef/rest-api-doc#good-manners--more-reliable-service
+
+GENERATE <work_source>(?doi, ?polite_mail) {
+    GENERATE <https://projects.tib.eu/tapir/crossref/work/work_mapping.rqg>( ?work_data ) .
+}
+WHERE {
+    # add mailto parameter to make polite request
+    BIND(IF(BOUND(?polite_mail) && strlen(?polite_mail)>0 , "mailto:{?polite_mail}", "") AS ?mailto)
+    BIND(CONCAT("Content-type: application/json", ?mailto) AS ?header)
+
+    # make http request
+    BIND( fun:HTTPGet(<https://api.crossref.org/works/{?doi}>, ?header ) AS ?response )
+    FILTER( fun:HTTPExtractResponseCode( ?response ) = 200 )
+    BIND( fun:HTTPExtractBody( ?response ) AS ?body )
+    BIND( fun:JSONPath( ?body, "$.message" ) AS ?work_data )
+}

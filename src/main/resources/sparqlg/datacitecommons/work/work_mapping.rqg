@@ -9,10 +9,8 @@ GENERATE <work_mapping>(?work_data) {
     GENERATE <https://projects.tib.eu/tapir/vivo-rdf/research.rqg> (?id, ?pubtype, ?title, ?doi, ?pubyear_dtv) .
 }
 WHERE {
-    ### basic properties of organization
+    # basic properties of a publication
     BIND(<https://projects.tib.eu/tapir/datacitecommons/work/work_id.rqg>(?work_data) AS ?id)
-
-    # basic properties of a publication in json
     BIND(fun:JSONPath(?work_data, '$.doi' ) AS ?doi)
     BIND(fun:JSONPath(?work_data, '$.titles[0].title' ) AS ?title)
 

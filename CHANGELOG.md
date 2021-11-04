@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 - add new parameter for ROR affiliation to ORCID query
 
 ### Changed
-- refactor all controllers so get-path matches resource path
+- refactor all controllers so GET-path matches resource path
 - improve README
 - remove Dockerfiles and instead use Spring Docker capabilities
 

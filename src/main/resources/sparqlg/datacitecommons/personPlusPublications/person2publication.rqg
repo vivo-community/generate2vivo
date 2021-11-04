@@ -1,0 +1,45 @@
+PREFIX iter: <http://w3id.org/sparql-generate/iter/>
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+
+GENERATE  <person2publication>(?orcid, ?person_id, ?after) {
+
+### map work data
+### and for every work: create a connection to person
+    GENERATE {
+        GENERATE <https://projects.tib.eu/tapir/datacitecommons/work/work_mapping.rqg>( ?work_data ) .
+
+        GENERATE <https://projects.tib.eu/tapir/vivo-rdf/authorship.rqg>(?person_id, ?work_id) .
+    }
+    ITERATOR iter:JSONPath(?person_data, '$.publications.nodes[*][?(!@.versions.nodes[0])]') AS ?work_data
+    WHERE{
+        BIND(<https://projects.tib.eu/tapir/datacitecommons/work/work_id.rqg>(?work_data) AS ?work_id)
+    } .
+
+
+############################# call this query again if hasNextPage =true  #############################################
+    GENERATE <https://projects.tib.eu/tapir/datacitecommons/personPlusPublications/person2publication.rqg>( ?orcid, ?person_id, ?cursor )
+    WHERE{
+      BIND(fun:JSONPath(?person, '$.publications.pageInfo.hasNextPage' ) AS ?hasNextPage)
+      BIND(fun:JSONPath(?person, '$.publications.pageInfo.endCursor' ) AS ?endCursor)
+      BIND(IF(STR(?hasNextPage)="true", ?endCursor, ?undef) AS ?cursor )
+      FILTER( BOUND(?cursor) ).
+     }.
+
+}
+SOURCE <https://projects.tib.eu/tapir/datacitecommons/personPlusPublications/documentset/person2publication.graphql> AS ?graphqlquery
+WHERE {
+    # replace whitespace in graphql query (compress message)
+    BIND(REPLACE(?graphqlquery, "\\s+", " ") AS ?graphql)
+    BIND(IF(BOUND(?after), ?after, "") AS ?after)
+    BIND ("""\{"variables":\{"orcid":"{?orcid}", "after":"{?after}"},"query":"{?graphql}"}""" AS ?postbody)
+
+    # build http post request
+    BIND(  fun:HTTPPost(<https://api.datacite.org/graphql>, "Content-type: application/json" , ?postbody) AS ?response )
+    FILTER( fun:HTTPExtractResponseCode( ?response ) = 200 )
+    BIND( fun:HTTPExtractBody( ?response ) AS ?body )
+
+    BIND( fun:JSONPath( ?body, "$.errors" ) AS ?errors )
+    FILTER( !BOUND(?errors) )
+
+    BIND( fun:JSONPath( ?body, "$.data.person" ) AS ?person_data )
+}
