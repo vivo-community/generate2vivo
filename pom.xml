@@ -86,6 +86,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <layers>
+                        <enabled>true</enabled>
+                    </layers>
+                    <image>
+                        <name>generate2vivo</name>
+                    </image>
+                </configuration>
             </plugin>
         </plugins>
     </build>
