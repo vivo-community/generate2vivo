@@ -37,29 +37,23 @@ JSON-LD and do some post-processing with it.
 
 
 ### Installation
+0. Prerequisites: You need to have maven and a JDK for Java 11 installed.
 1. Clone the repository to a local folder using `git clone https://github.com/vivo-community/generate2vivo.git`
 2. Change into the folder where the repository has been cloned.
 3. Open `src/main/resources/application.properties` and change your VIVO details accordingly.
    If you don't provide a vivo.url, vivo.email or vivo.password, the application will not import the mapped data to VIVO but return the triples in format JSON-LD.
-3. Run the application:
-
-* If you have maven and a JDK for Java 11 installed, you can run the application directly via `mvn spring-boot:run`.
-
-* Alternatively you can compile & run the application in Docker (with or without Java setup):
-  ```dockerfile
-  # with Java setup:
-  mvn package
-  docker build -t g2v .
-  docker run -p 9000:9000 -t g2v
-  
-  # without Java setup
-  docker build -f DockerfileBuild -t g2v .
-  docker run -p 9000:9000 -t g2v
+4. Run the application:
+* You can run the application directly via `mvn spring-boot:run`.
+* Or alternatively you can run the application in Docker:
+  ```bash
+  mvn spring-boot:build-image
+  docker run -p 9000:9000 generate2vivo:latest
+  ```
 
 5. A minimal swagger-ui will be available at `http://localhost:9000/swagger-ui/`.
 
 ### Wiki resources
-Additional resources are available in the wiki, e.g.
+Additional resources are available in the GitHub wiki, e.g.
 
 * _[data sources & queries](https://github.com/vivo-community/generate2vivo/wiki/data-sources-&-queries)_ :
 A detailed overview of the data sources and their queries.
