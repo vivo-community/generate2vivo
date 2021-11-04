@@ -4,11 +4,11 @@ PREFIX vivo: <http://vivoweb.org/ontology/core#>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
 
-GENERATE <person> (?id, ?orcid, ?familyName, ?givenName){
+GENERATE <person> (?id, ?orcid_id, ?familyName, ?givenName){
 
     <{?id}> a foaf:Person ;
         rdfs:label ?completeName ;
-        vivo:orcidId <https://orcid.org/{?orcid}> .
+        vivo:orcidId <https://orcid.org/{?orcid_id}> .
 
 
 ### vcard : TRIPLES TO ADD VCARD
