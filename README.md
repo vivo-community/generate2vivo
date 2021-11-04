@@ -19,7 +19,7 @@ The resulting RDF data can be exported to a VIVO instance (or any SPARQL endpoin
 
 
 ### Features
-[[https://github.com/vivo-community/generate2vivo/images/generate2vivo.png]]
+![generate2vivo features](https://raw.githubusercontent.com/wiki/vivo-community/generate2vivo/images/generate2vivo.png)
 
 Starting point was the sparql-generate library that we use as an engine for our transformations, which are
 defined in different GENERATE queries. \
