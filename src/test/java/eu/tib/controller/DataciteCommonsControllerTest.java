@@ -1,6 +1,6 @@
 package eu.tib.controller;
 
-import eu.tib.service.ResponseService;
+import eu.tib.service.WriteResultService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class DataciteCommonsControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ResponseService service;
+    private WriteResultService service;
 
     TestHelper helper = new TestHelper();
 
@@ -30,7 +30,7 @@ public class DataciteCommonsControllerTest {
     @Test
     void whenInvalidROR_thenOrganizationReturns400() throws Exception {
         String mappingPath = "/datacitecommons/organization";
-        helper.invalidROR(mappingPath, service, mockMvc);
+        helper.invalidROR(mappingPath, mockMvc);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class DataciteCommonsControllerTest {
     @Test
     void whenInvalidROR_thenOrganizationPlusPeopleReturns400() throws Exception {
         String mappingPath = "/datacitecommons/organizationPlusPeople";
-        helper.invalidROR(mappingPath, service, mockMvc);
+        helper.invalidROR(mappingPath, mockMvc);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class DataciteCommonsControllerTest {
     @Test
     void whenInvalidROR_thenOrganizationPlusPeoplePlusPublicationsReturns400() throws Exception {
         String mappingPath = "/datacitecommons/organizationPlusPeoplePlusPublications";
-        helper.invalidROR(mappingPath, service, mockMvc);
+        helper.invalidROR(mappingPath, mockMvc);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class DataciteCommonsControllerTest {
     @Test
     void whenInvalidORCID_thenPersonReturns400() throws Exception {
         String mappingPath = "/datacitecommons/person";
-        helper.invalidORCID(mappingPath, service, mockMvc);
+        helper.invalidORCID(mappingPath, mockMvc);
     }
 
     @Test
@@ -78,7 +78,7 @@ public class DataciteCommonsControllerTest {
     @Test
     void whenInvalidORCID_thenPersonPlusPublicationsReturns400() throws Exception {
         String mappingPath = "/datacitecommons/personPlusPublications";
-        helper.invalidORCID(mappingPath, service, mockMvc);
+        helper.invalidORCID(mappingPath, mockMvc);
     }
 
     @Test
@@ -90,6 +90,6 @@ public class DataciteCommonsControllerTest {
     @Test
     void whenInvalidDOI_thenWorkReturns400() throws Exception {
         String mappingPath = "/datacitecommons/work";
-        helper.invalidDOI(mappingPath, service, mockMvc);
+        helper.invalidDOI(mappingPath, mockMvc);
     }
 }

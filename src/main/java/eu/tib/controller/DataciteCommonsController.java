@@ -1,7 +1,7 @@
 package eu.tib.controller;
 
 import eu.tib.controller.validation.InputValidator;
-import eu.tib.service.ResponseService;
+import eu.tib.service.WriteResultService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -26,7 +26,7 @@ import java.util.Collections;
 public class DataciteCommonsController {
 
     @Autowired
-    private ResponseService responseService;
+    private WriteResultService wrService;
 
     @ApiOperation(value = "Retrieve organization data from Datacite Commons", notes = "This method gets data about an organization from Datacite Commons by passing a ROR id.")
     @GetMapping(value = "/organization", produces = "application/json")
@@ -38,7 +38,7 @@ public class DataciteCommonsController {
         final String id = "sparqlg/datacitecommons/organization";
         log.info("Incoming Request for " + id + " with ror: " + ror);
 
-        return responseService.buildResponse(id, Collections.singletonMap("ror", ror));
+        return wrService.execute(id, Collections.singletonMap("ror", ror));
     }
 
     @ApiOperation(value = "Retrieve data about an organization and its affiliated people from Datacite Commons", notes = "This method gets data about an organization and its affiliated people from Datacite Commons by passing a ROR id.")
@@ -51,7 +51,7 @@ public class DataciteCommonsController {
         final String id = "sparqlg/datacitecommons/organizationPlusPeople";
         log.info("Incoming Request for " + id + " with ror: " + ror);
 
-        return responseService.buildResponse(id, Collections.singletonMap("ror", ror));
+        return wrService.execute(id, Collections.singletonMap("ror", ror));
     }
 
     @ApiOperation(value = "Retrieve data about an organization and its affiliated people and their respective publications from Datacite Commons", notes = "This method gets data about an organization and its affiliated people and their respective publications from Datacite Commons by passing a ROR id.")
@@ -64,7 +64,7 @@ public class DataciteCommonsController {
         final String id = "sparqlg/datacitecommons/organizationPlusPeoplePlusPublications";
         log.info("Incoming Request for " + id + " with ror: " + ror);
 
-        return responseService.buildResponse(id, Collections.singletonMap("ror", ror));
+        return wrService.execute(id, Collections.singletonMap("ror", ror));
     }
 
     @ApiOperation(value = "Retrieve data about a person from Datacite Commons", notes = "This method gets data about a person from Datacite Commons by passing an ORCID id.")
@@ -77,7 +77,7 @@ public class DataciteCommonsController {
         final String id = "sparqlg/datacitecommons/person";
         log.info("Incoming Request for " + id + " with orcid: " + orcid);
 
-        return responseService.buildResponse(id, Collections.singletonMap("orcid", orcid));
+        return wrService.execute(id, Collections.singletonMap("orcid", orcid));
     }
 
     @ApiOperation(value = "Retrieve data about a person and their publications from Datacite Commons", notes = "This method gets data about a person and their publications from Datacite Commons by passing an ORCID id.")
@@ -90,7 +90,7 @@ public class DataciteCommonsController {
         final String id = "sparqlg/datacitecommons/personPlusPublications";
         log.info("Incoming Request for " + id + " with orcid: " + orcid);
 
-        return responseService.buildResponse(id, Collections.singletonMap("orcid", orcid));
+        return wrService.execute(id, Collections.singletonMap("orcid", orcid));
     }
 
     @ApiOperation(value = "Retrieve data about a work from Datacite Commons", notes = "This method gets data about a work from Datacite Commons by passing an DOI.")
@@ -103,6 +103,6 @@ public class DataciteCommonsController {
         final String id = "sparqlg/datacitecommons/work";
         log.info("Incoming Request for " + id + " with doi: " + doi);
 
-        return responseService.buildResponse(id, Collections.singletonMap("doi", doi));
+        return wrService.execute(id, Collections.singletonMap("doi", doi));
     }
 }

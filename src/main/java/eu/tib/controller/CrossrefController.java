@@ -1,7 +1,7 @@
 package eu.tib.controller;
 
 import eu.tib.controller.validation.InputValidator;
-import eu.tib.service.ResponseService;
+import eu.tib.service.WriteResultService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
-import java.util.Collections;
 import java.util.Map;
 
 @Slf4j
@@ -27,7 +26,7 @@ import java.util.Map;
 public class CrossrefController {
 
     @Autowired
-    private ResponseService responseService;
+    private WriteResultService wrService;
 
     @ApiOperation(value = "Retrieve data about a person and their works from Crossref", notes = "This method gets data about a person and their works from Crossref by passing an ORCID id.")
     @GetMapping(value = "/personPlusWorks", produces = "application/json")
@@ -42,7 +41,7 @@ public class CrossrefController {
         log.info("Incoming Request for " + id + " with orcid: " + orcid);
 
         final String CURSOR = "*"; // starting cursor for pagination
-        return responseService.buildResponse(id, Map.of("orcid", orcid,
+        return wrService.execute(id, Map.of("orcid", orcid,
                 "polite_mail", email,
                 "cursor", CURSOR));
     }
@@ -59,6 +58,6 @@ public class CrossrefController {
         final String id = "sparqlg/crossref/work";
         log.info("Incoming Request for " + id + " with doi: " + doi);
 
-        return responseService.buildResponse(id, Map.of("doi", doi, "polite_mail", email));
+        return wrService.execute(id, Map.of("doi", doi, "polite_mail", email));
     }
 }

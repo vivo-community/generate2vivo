@@ -1,6 +1,6 @@
 package eu.tib.controller;
 
-import eu.tib.service.ResponseService;
+import eu.tib.service.WriteResultService;
 import org.mockito.ArgumentCaptor;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -27,49 +27,49 @@ public class TestHelper {
     ArgumentCaptor<String> idCaptor = ArgumentCaptor.forClass(String.class);
     ArgumentCaptor<Map<String, String>> paramCaptor = ArgumentCaptor.forClass(Map.class);
 
-    public void validROR(String mappingPath, ResponseService service, MockMvc mockMvc) throws Exception {
+    public void validROR(String mappingPath, WriteResultService service, MockMvc mockMvc) throws Exception {
         mockMvc.perform(get(mappingPath)
                         .param(ror, validROR))
                 .andExpect(status().isOk());
 
-        verify(service).buildResponse(idCaptor.capture(), paramCaptor.capture());
+        verify(service).execute(idCaptor.capture(), paramCaptor.capture());
         assertEquals(mappingPath2resPath(mappingPath), idCaptor.getValue());
         assertTrue(isMapSubsetOf(paramCaptor.getValue(), Map.of(ror, validROR)));
     }
 
-    public void invalidROR(String mappingPath, ResponseService service, MockMvc mockMvc) throws Exception {
+    public void invalidROR(String mappingPath, MockMvc mockMvc) throws Exception {
         mockMvc.perform(get(mappingPath)
                         .param(ror, invalidROR))
                 .andExpect(status().isBadRequest());
     }
 
-    public void validORCID(String mappingPath, ResponseService service, MockMvc mockMvc) throws Exception {
+    public void validORCID(String mappingPath, WriteResultService service, MockMvc mockMvc) throws Exception {
         mockMvc.perform(get(mappingPath)
                         .param(orcid, validORCID))
                 .andExpect(status().isOk());
 
-        verify(service).buildResponse(idCaptor.capture(), paramCaptor.capture());
+        verify(service).execute(idCaptor.capture(), paramCaptor.capture());
         assertEquals(mappingPath2resPath(mappingPath), idCaptor.getValue());
         assertTrue(isMapSubsetOf(paramCaptor.getValue(), Map.of(orcid, validORCID)));
     }
 
-    public void invalidORCID(String mappingPath, ResponseService service, MockMvc mockMvc) throws Exception {
+    public void invalidORCID(String mappingPath, MockMvc mockMvc) throws Exception {
         mockMvc.perform(get(mappingPath)
                         .param(orcid, invalidORCID))
                 .andExpect(status().isBadRequest());
     }
 
-    public void validDOI(String mappingPath, ResponseService service, MockMvc mockMvc) throws Exception {
+    public void validDOI(String mappingPath, WriteResultService service, MockMvc mockMvc) throws Exception {
         mockMvc.perform(get(mappingPath)
                         .param(doi, validDOI))
                 .andExpect(status().isOk());
 
-        verify(service).buildResponse(idCaptor.capture(), paramCaptor.capture());
+        verify(service).execute(idCaptor.capture(), paramCaptor.capture());
         assertEquals(mappingPath2resPath(mappingPath), idCaptor.getValue());
         assertTrue(isMapSubsetOf(paramCaptor.getValue(), Map.of(doi, validDOI)));
     }
 
-    public void invalidDOI(String mappingPath, ResponseService service, MockMvc mockMvc) throws Exception {
+    public void invalidDOI(String mappingPath, MockMvc mockMvc) throws Exception {
         mockMvc.perform(get(mappingPath)
                         .param(doi, invalidDOI))
                 .andExpect(status().isBadRequest());
