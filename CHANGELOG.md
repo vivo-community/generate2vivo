@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [1.2.0] - 2021-11-05
 ### Added
 - add queries for Crossref work and personPlusWorks
 - add tests for all controllers
