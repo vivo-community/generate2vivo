@@ -1,7 +1,7 @@
 package eu.tib.controller;
 
 import eu.tib.controller.validation.InputValidator;
-import eu.tib.service.WriteResultService;
+import eu.tib.service.MainService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -26,7 +26,7 @@ import java.util.Collections;
 public class OrcidController {
 
     @Autowired
-    private WriteResultService wrService;
+    private MainService mainService;
 
     @ApiOperation(value = "Retrieve data about a person and their works from ORCID", notes = "This method gets data about a person and their works from ORCID by passing an ORCID id.")
     @GetMapping(value = "/personPlusWorks", produces = "application/json")
@@ -38,7 +38,7 @@ public class OrcidController {
         final String id = "sparqlg/orcid/personPlusWorks";
         log.info("Incoming Request for " + id + " with orcid: " + orcid);
 
-        return wrService.execute(id, Collections.singletonMap("orcid", orcid));
+        return mainService.execute(id, Collections.singletonMap("orcid", orcid));
     }
 
 
@@ -52,6 +52,6 @@ public class OrcidController {
         final String id = "sparqlg/orcid/currentEmployeesPlusWorks";
         log.info("Incoming Request for " + id + " with ror: " + ror);
 
-        return wrService.execute(id, Collections.singletonMap("ror", ror));
+        return mainService.execute(id, Collections.singletonMap("ror", ror));
     }
 }

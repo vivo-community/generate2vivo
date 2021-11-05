@@ -1,6 +1,6 @@
 package eu.tib.controller;
 
-import eu.tib.service.WriteResultService;
+import eu.tib.service.MainService;
 import org.mockito.ArgumentCaptor;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -27,7 +27,7 @@ public class TestHelper {
     ArgumentCaptor<String> idCaptor = ArgumentCaptor.forClass(String.class);
     ArgumentCaptor<Map<String, String>> paramCaptor = ArgumentCaptor.forClass(Map.class);
 
-    public void validROR(String mappingPath, WriteResultService service, MockMvc mockMvc) throws Exception {
+    public void validROR(String mappingPath, MainService service, MockMvc mockMvc) throws Exception {
         mockMvc.perform(get(mappingPath)
                         .param(ror, validROR))
                 .andExpect(status().isOk());
@@ -43,7 +43,7 @@ public class TestHelper {
                 .andExpect(status().isBadRequest());
     }
 
-    public void validORCID(String mappingPath, WriteResultService service, MockMvc mockMvc) throws Exception {
+    public void validORCID(String mappingPath, MainService service, MockMvc mockMvc) throws Exception {
         mockMvc.perform(get(mappingPath)
                         .param(orcid, validORCID))
                 .andExpect(status().isOk());
@@ -59,7 +59,7 @@ public class TestHelper {
                 .andExpect(status().isBadRequest());
     }
 
-    public void validDOI(String mappingPath, WriteResultService service, MockMvc mockMvc) throws Exception {
+    public void validDOI(String mappingPath, MainService service, MockMvc mockMvc) throws Exception {
         mockMvc.perform(get(mappingPath)
                         .param(doi, validDOI))
                 .andExpect(status().isOk());

@@ -1,7 +1,7 @@
 package eu.tib.controller;
 
 import eu.tib.controller.validation.InputValidator;
-import eu.tib.service.WriteResultService;
+import eu.tib.service.MainService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -26,7 +26,7 @@ import java.util.Map;
 public class CrossrefController {
 
     @Autowired
-    private WriteResultService wrService;
+    private MainService mainService;
 
     @ApiOperation(value = "Retrieve data about a person and their works from Crossref", notes = "This method gets data about a person and their works from Crossref by passing an ORCID id.")
     @GetMapping(value = "/personPlusWorks", produces = "application/json")
@@ -41,7 +41,7 @@ public class CrossrefController {
         log.info("Incoming Request for " + id + " with orcid: " + orcid);
 
         final String CURSOR = "*"; // starting cursor for pagination
-        return wrService.execute(id, Map.of("orcid", orcid,
+        return mainService.execute(id, Map.of("orcid", orcid,
                 "polite_mail", email,
                 "cursor", CURSOR));
     }
@@ -58,6 +58,6 @@ public class CrossrefController {
         final String id = "sparqlg/crossref/work";
         log.info("Incoming Request for " + id + " with doi: " + doi);
 
-        return wrService.execute(id, Map.of("doi", doi, "polite_mail", email));
+        return mainService.execute(id, Map.of("doi", doi, "polite_mail", email));
     }
 }

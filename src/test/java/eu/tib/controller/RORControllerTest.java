@@ -1,6 +1,6 @@
 package eu.tib.controller;
 
-import eu.tib.service.WriteResultService;
+import eu.tib.service.MainService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class RORControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private WriteResultService service;
+    private MainService service;
 
     TestHelper helper = new TestHelper();
 

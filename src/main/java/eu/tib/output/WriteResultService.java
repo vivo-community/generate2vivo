@@ -1,9 +1,10 @@
-package eu.tib.service;
+package eu.tib.output;
 
+import org.apache.jena.rdf.model.Model;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
 
 public interface WriteResultService {
-    ResponseEntity<String> execute(String queryName, Map<String, String> input);
+    ResponseEntity<String> write(Model result);
 }
