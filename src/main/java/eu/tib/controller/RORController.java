@@ -1,7 +1,7 @@
 package eu.tib.controller;
 
 import eu.tib.controller.validation.InputValidator;
-import eu.tib.service.ResponseService;
+import eu.tib.service.WriteResultService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -26,7 +26,7 @@ import java.util.Collections;
 public class RORController {
 
     @Autowired
-    private ResponseService responseService;
+    private WriteResultService wrService;
 
     @ApiOperation(value = "Retrieve data about an organization from ROR", notes = "This method gets data about an organization from ROR by passing a ROR id.")
     @GetMapping(value = "/organization", produces = "application/json")
@@ -38,7 +38,7 @@ public class RORController {
         final String id = "sparqlg/ror/organization";
         log.info("Incoming Request for " + id + " with ror: " + ror);
 
-        return responseService.buildResponse(id, Collections.singletonMap("ror", ror));
+        return wrService.execute(id, Collections.singletonMap("ror", ror));
     }
 
     @ApiOperation(value = "Retrieve data about an organization and all their sub-organizations from ROR", notes = "This method gets data about an organization and all their sub-organizations from ROR by passing a ROR id.")
@@ -51,6 +51,6 @@ public class RORController {
         final String id = "sparqlg/ror/organizationPlusChildren";
         log.info("Incoming Request for " + id + " with ror: " + ror);
 
-        return responseService.buildResponse(id, Collections.singletonMap("ror", ror));
+        return wrService.execute(id, Collections.singletonMap("ror", ror));
     }
 }

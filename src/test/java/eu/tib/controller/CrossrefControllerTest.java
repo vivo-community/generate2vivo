@@ -1,6 +1,6 @@
 package eu.tib.controller;
 
-import eu.tib.service.ResponseService;
+import eu.tib.service.WriteResultService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class CrossrefControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ResponseService service;
+    private WriteResultService service;
 
     TestHelper helper = new TestHelper();
 
@@ -30,7 +30,7 @@ public class CrossrefControllerTest {
     @Test
     void whenInvalidORCID_thenPersonPlusWorksReturns400() throws Exception {
         String mappingPath = "/crossref/personPlusWorks";
-        helper.invalidORCID(mappingPath, service, mockMvc);
+        helper.invalidORCID(mappingPath, mockMvc);
     }
 
     @Test
@@ -42,6 +42,6 @@ public class CrossrefControllerTest {
     @Test
     void whenInvalidDOI_thenWorkReturns400() throws Exception {
         String mappingPath = "/crossref/work";
-        helper.invalidDOI(mappingPath, service, mockMvc);
+        helper.invalidDOI(mappingPath, mockMvc);
     }
 }
