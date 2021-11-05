@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - refactor all controllers so GET-path matches resource path
 - improve README
 - remove Dockerfiles and instead use Spring Docker capabilities
+- use Spring profiles to determine how and where data is written
 
 
 ## [1.1.0] - 2021-06-22
