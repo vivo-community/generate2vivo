@@ -1,0 +1,35 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+
+# parameter polite_mail uses an email adress to access polite servers of CrossRef
+# see https://github.com/CrossRef/rest-api-doc#good-manners--more-reliable-service
+
+GENERATE <person_source>(?orcid, ?polite_mail, ?cursor) {
+
+    GENERATE <https://projects.tib.eu/tapir/crossref/personPlusWorks/person_mapping.rqg>( ?person_works_data, ?orcid_id ) .
+
+    GENERATE <https://projects.tib.eu/tapir/crossref/personPlusWorks/person_source.rqg>( ?orcid, ?polite_mail, ?next_cursor )
+    WHERE {
+        ## continue looping only if next-cursor is available and there are more items to show
+        BIND( fun:JSONPath( ?person_works_data, "$.next-cursor" ) AS ?next_cursor )
+        FILTER( BOUND ( ?next_cursor ) )
+
+        BIND( fun:JSONPath( ?person_works_data, "$.items.length()" ) AS ?itemcount)
+        BIND( fun:JSONPath( ?person_works_data, "$.items-per-page" ) AS ?itemsperpage)
+        FILTER( ?itemcount >= ?itemsperpage )
+    } .
+
+}
+WHERE {
+    # add mailto parameter to make polite request
+    BIND(IF(BOUND(?polite_mail) && strlen(?polite_mail)>0 , "mailto:{?polite_mail}", "") AS ?mailto)
+    BIND(CONCAT("Content-type: application/json", ?mailto) AS ?header)
+
+    # make http request
+    BIND(REPLACE(?orcid, "https://orcid.org/", "", "i") AS ?orcid_id)
+    BIND( IF( BOUND ( ?cursor) , ?cursor, "" ) AS ?cursor_param)
+    BIND(<http://api.crossref.org/v1/works?filter=orcid:{?orcid_id}&cursor={?cursor_param}> AS ?query_url)
+    BIND( fun:HTTPGet(?query_url, ?header ) AS ?response )
+    FILTER( fun:HTTPExtractResponseCode( ?response ) = 200 )
+    BIND( fun:HTTPExtractBody( ?response ) AS ?body )
+    BIND( fun:JSONPath( ?body, "$.message" ) AS ?person_works_data )
+}

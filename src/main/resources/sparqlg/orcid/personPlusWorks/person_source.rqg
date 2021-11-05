@@ -1,0 +1,16 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+
+### query data about person from ORCID
+GENERATE <person_source>(?orcid) {
+
+    GENERATE <https://projects.tib.eu/tapir/orcid/personPlusWorks/person_mapping.rqg>( ?orcid_data ) .
+
+}
+WHERE {
+    # query person data from ORCID
+    BIND(REPLACE(?orcid, "https://orcid.org/", "", "i") AS ?orcid_id)
+    BIND(<https://pub.orcid.org/v3.0/{?orcid_id}> as ?orcid_url)
+    BIND(  fun:HTTPGet(?orcid_url, "Accept: application/json") AS ?orcid_response )
+    FILTER( fun:HTTPExtractResponseCode( ?orcid_response ) = 200 )
+    BIND( fun:HTTPExtractBody( ?orcid_response ) AS ?orcid_data )
+}
