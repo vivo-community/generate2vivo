@@ -1,0 +1,25 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+GENERATE <orga_placeholder>( ?ror_data, ?wikidata_id, ?ringgold_id, ?grid_id ) {
+
+    ## fill in blanks in organization definition in vivo ontology
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/organization.rqg>(?id, ?name, ?established_dtv, ?email, ?website, ?city, ?state, ?country, ?lat, ?lng) .
+
+    ## add ROR as PID
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg>(?id, "https://ror.org/", ?id) .
+
+    ## add Wikidata as PID
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg>(?id, "https://www.wikidata.org/wiki/", ?wikidata_id) .
+
+    ## add Grid as PID
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg>(?id, "https://www.grid.ac/institutes/", ?grid_id) .
+
+    ## add Ringgold as PID
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg>(?id, "https://www.ringgold.com/", ?ringgold_id) .
+}
+WHERE {
+    ### basic properties of organization
+    BIND(<https://projects.tib.eu/tapir/orcid/currentEmployeesPlusWorks/organization/orga_id.rqg>(?ror_data) AS ?id)
+    BIND(fun:JSONPath(?ror_data, '$.name' ) AS ?name)
+}

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.StmtIterator;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.ByteArrayOutputStream;
@@ -18,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Repository
+@Profile("vivo")
 public class VIVOExport {
 
     private static final int CHUNK_SIZE = 2500;  // triples per 'chunk'

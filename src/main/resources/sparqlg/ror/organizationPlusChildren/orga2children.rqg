@@ -1,0 +1,30 @@
+PREFIX iter: <http://w3id.org/sparql-generate/iter/>
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+
+GENERATE <orga2children>(?parent_id, ?ror) {
+
+  ### use the organization mapping already defined in orga_mapping.rqg
+  GENERATE <https://projects.tib.eu/tapir/ror/organization/orga_mapping.rqg>( ?orga_data ) .
+
+  ### connection organization & sub-organization
+  GENERATE <https://projects.tib.eu/tapir/vivo-rdf/orga2suborga.rqg>(?parent_id, ?id ) .
+
+  ### call this query recursively for all children
+  GENERATE <https://projects.tib.eu/tapir/ror/organizationPlusChildren/orga2children.rqg>(?id, ?child_ror )
+  ITERATOR iter:JSONPath(?orga_data, '$.relationships[*]') AS ?relationships
+  WHERE {
+    BIND(fun:JSONPath(?relationships, '$.label' ) AS ?rel_label)
+    BIND(fun:JSONPath(?relationships, '$.type' ) AS ?rel_type)
+    BIND(fun:JSONPath(?relationships, '$.id' ) AS ?rel_id)
+
+    BIND( IF( STR(?rel_type)="Child" , ?rel_id , ?undef ) AS ?child_ror )
+    BIND(REPLACE(?child_ror, "https://ror.org/" , "" ) AS ?child_id)
+    BIND( IF( STR(?rel_type)="Child" , ?rel_label , ?undef ) AS ?child_name )
+    FILTER( BOUND(?child_ror) )
+  }  .
+
+}
+SOURCE <https://api.ror.org/organizations/{?ror}> AS ?orga_data
+WHERE{
+    BIND(<https://projects.tib.eu/tapir/ror/organization/orga_id.rqg>(?orga_data) AS ?id)
+}

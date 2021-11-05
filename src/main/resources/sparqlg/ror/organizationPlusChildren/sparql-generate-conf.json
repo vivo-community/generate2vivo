@@ -1,0 +1,30 @@
+{
+  "base": "http://vivo.mydomain.edu/individual/",
+  "query": "orga2children.rqg",
+  "namedqueries": [
+    {
+      "uri": "https://projects.tib.eu/tapir/ror/organizationPlusChildren/orga2children.rqg",
+      "path": "orga2children.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/ror/organization/orga_mapping.rqg",
+      "path": "../organization/orga_mapping.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/ror/organization/orga_id.rqg",
+      "path": "../organization/orga_id.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/vivo-rdf/organization.rqg",
+      "path": "../../vivo-rdf/organization.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/vivo-rdf/orga2suborga.rqg",
+      "path": "../../vivo-rdf/orga2suborga.rqg"
+    },
+    {
+      "uri": "https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg",
+      "path": "../../vivo-rdf/agent_pid.rqg"
+    }
+  ]
+}
