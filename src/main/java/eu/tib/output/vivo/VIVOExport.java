@@ -1,4 +1,4 @@
-package eu.tib.storage;
+package eu.tib.output.vivo;
 
 import eu.tib.exception.VIVOExportException;
 import lombok.extern.slf4j.Slf4j;
