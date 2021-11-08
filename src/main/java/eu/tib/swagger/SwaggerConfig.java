@@ -28,7 +28,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("generate2vivo")
                 .description("Extensible Data Ingest Tool for VIVO. Contains data sources like Datacite Commons, ORCID and ROR.")
-                .version("1.2.0")
+                .version("1.2.1")
                 .build();
     }
 }

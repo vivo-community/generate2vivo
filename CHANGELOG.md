@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+
+## [1.2.1] - 2021-11-08
+### Fixed
+- fixed connection in Crossref query between author and publication
+
+
 ## [1.2.0] - 2021-11-05
 ### Added
 - add queries for Crossref work and personPlusWorks
