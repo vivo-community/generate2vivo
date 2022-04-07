@@ -1,0 +1,58 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX bibo: <http://purl.org/ontology/bibo/>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+GENERATE <work_mapping>(?work_data) {
+
+    ## fill in blanks in work definition in vivo ontology
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/research.rqg> (?id, ?pubtype, ?title, ?doi, ?pubyear_dtv) .
+}
+WHERE {
+    # basic properties of a publication
+    BIND(<https://projects.tib.eu/tapir/openalex/work/work_id.rqg>(?work_data) AS ?id)
+    BIND(fun:JSONPath(?work_data, '$.title' ) AS ?title)
+    BIND(
+        REPLACE(fun:JSONPath(?work_data, '$.doi' ), "https://doi.org/" , "" )
+     AS ?doi)
+
+   BIND(fun:JSONPath(?work_data, '$.publication_year' ) AS ?pubyear)
+   BIND(xsd:dateTime(CONCAT(STR(?pubyear), "-01-01T00:00:00"))  AS ?pubyear_dtv)
+
+    # same types as Crossref uses, see https://docs.openalex.org/about-the-data/work#type
+    BIND(fun:JSONPath(?work_data, '$.type' ) AS ?type)
+    # mapping taken from VIVO (claim DOI functionality)
+    BIND (
+     IRI(COALESCE(
+
+       IF(?type = "book", bibo:Book, 1/0),
+       IF(?type = "reference-book", bibo:Book, 1/0),
+       IF(?type = "book-chapter", bibo:Chapter, 1/0),
+       IF(?type = "book-part", bibo:DocumentPart, 1/0),
+       IF(?type = "book-section", bibo:BookSection, 1/0),
+       IF(?type = "edited-book", bibo:EditedBook, 1/0),
+       IF(?type = "book-set", bibo:Collection, 1/0),
+       IF(?type = "book-track", bibo:Document, 1/0),
+
+       IF(?type = "journal", bibo:Journal, 1/0),
+       IF(?type = "journal-volume", bibo:Journal, 1/0),
+       IF(?type = "journal-issue", bibo:Issue, 1/0),
+       IF(?type = "journal-article", bibo:AcademicArticle, 1/0),
+       IF(?type = "proceedings-article", bibo:Article, 1/0),
+
+       IF(?type = "dataset", vivo:Dataset, 1/0),
+       IF(?type = "proceedings", bibo:Proceedings, 1/0),
+       IF(?type = "standard", bibo:Standard, 1/0),
+       IF(STRENDS(?type, "series"), bibo:Series, 1/0),
+       IF(?type = "component", bibo:DocumentPart, 1/0),
+       IF(?type = "report", bibo:Report, 1/0),
+       IF(?type = "peer-review", vivo:Review, 1/0),
+       IF(?type = "posted-content", vivo:BlogPosting, 1/0),
+       IF(?type = "dissertation", bibo:Thesis, 1/0),
+       IF(?type = "monograph", bibo:Document, 1/0),
+       IF(?type = "reference-entry", bibo:DocumentPart, 1/0),
+
+       bibo:Document  #default if nothing else fits
+     )) AS ?pubtype
+    )
+}
