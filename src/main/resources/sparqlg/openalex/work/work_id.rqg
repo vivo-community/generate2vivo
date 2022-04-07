@@ -2,6 +2,8 @@ PREFIX fun: <http://w3id.org/sparql-generate/fn/>
 
 FUNCTION <func>(?work_data) {
     REPLACE(
-        REPLACE(fun:JSONPath(?work_data, '$.doi' ), "https://doi.org/" , "" )
-    , "\\W", "", "i")
+        REPLACE(
+            COALESCE(fun:JSONPath(?work_data, "$.doi"), "")
+         ,"https://doi.org/" , "" )   # first rm url to get DOI
+    ,"\\W", "", "i")                  # then rm special characters
 }

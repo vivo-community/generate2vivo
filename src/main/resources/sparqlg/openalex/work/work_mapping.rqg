@@ -11,10 +11,10 @@ GENERATE <work_mapping>(?work_data) {
 WHERE {
     # basic properties of a publication
     BIND(<https://projects.tib.eu/tapir/openalex/work/work_id.rqg>(?work_data) AS ?id)
-    BIND(fun:JSONPath(?work_data, '$.title' ) AS ?title)
-    BIND(
-        REPLACE(fun:JSONPath(?work_data, '$.doi' ), "https://doi.org/" , "" )
-     AS ?doi)
+    BIND( fun:JSONPath(?work_data, '$.title' ) AS ?title)
+    BIND( fun:JSONPath(?work_data, '$.doi' ) as ?doi_url)
+    FILTER( BOUND(?doi_url) && STRLEN(?doi_url)>0 )
+    BIND( REPLACE(?doi_url, "https://doi.org/" , "" ) AS ?doi)
 
    BIND(fun:JSONPath(?work_data, '$.publication_year' ) AS ?pubyear)
    BIND(xsd:dateTime(CONCAT(STR(?pubyear), "-01-01T00:00:00"))  AS ?pubyear_dtv)

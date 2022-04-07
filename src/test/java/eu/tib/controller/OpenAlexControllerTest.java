@@ -32,4 +32,16 @@ public class OpenAlexControllerTest {
         String mappingPath = "/openalex/work";
         helper.invalidDOI(mappingPath, mockMvc);
     }
+
+    @Test
+    void whenValidORCID_thenPersonPlusWorksReturns200() throws Exception {
+        String mappingPath = "/openalex/personPlusWorks";
+        helper.validORCID(mappingPath, service, mockMvc);
+    }
+
+    @Test
+    void whenInvalidORCID_thenPersonPlusWorksReturns400() throws Exception {
+        String mappingPath = "/openalex/personPlusWorks";
+        helper.invalidORCID(mappingPath, mockMvc);
+    }
 }

@@ -1,0 +1,5 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+
+FUNCTION <func>(?orcid) {
+    REPLACE(?orcid, "https?://orcid.org/" , "" )
+}

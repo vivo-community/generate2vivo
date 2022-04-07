@@ -24,6 +24,7 @@ import java.util.Map;
 @RequestMapping(value = "/openalex")
 @Api(value = "Controller", tags = {"openalex"})
 public class OpenAlexController {
+    final String PAGE = "1"; // starting page for pagination
 
     @Autowired
     private MainService mainService;
@@ -42,5 +43,23 @@ public class OpenAlexController {
         log.info("Incoming Request for " + id + " with doi: " + doi);
 
         return mainService.execute(id, Map.of("doi", doi, "polite_mail", email));
+    }
+
+    @ApiOperation(value = "Retrieve data about a person and their works from OpenAlex",
+            notes = "This method gets data about a person and their works from OpenAlex by passing an ORCID id.")
+    @GetMapping(value = "/personPlusWorks", produces = "application/json")
+    public ResponseEntity<String> getPersonPlusWorks(
+            @Valid @Pattern(regexp = InputValidator.orcid)
+            @ApiParam("Complete Orcid URL consisting of https://orcid.org/ plus id")
+            @RequestParam String orcid,
+            @ApiParam("email for polite requests")
+            @RequestParam(defaultValue = "") String email) {
+
+        final String id = "sparqlg/openalex/personPlusWorks";
+        log.info("Incoming Request for " + id + " with orcid: " + orcid);
+
+        return mainService.execute(id, Map.of("orcid", orcid,
+                "polite_mail", email,
+                "page", PAGE));
     }
 }

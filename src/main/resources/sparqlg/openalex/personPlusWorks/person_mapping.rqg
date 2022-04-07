@@ -1,0 +1,32 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX iter: <http://w3id.org/sparql-generate/iter/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+GENERATE <person_mapping>(?person_works_data, ?orcid) {
+
+    ## fill in blanks in person definition in vivo ontology
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/person.rqg> (?person_id, ?orcid_id, ?familyName, ?givenName) .
+
+    ## add ORCID as PID
+    GENERATE <https://projects.tib.eu/tapir/vivo-rdf/agent_pid.rqg>(?person_id, "https://orcid.org/", ?orcid_id) .
+
+    ### for every work: create a connection to person
+    GENERATE {
+        GENERATE <https://projects.tib.eu/tapir/openalex/work/work_mapping.rqg>( ?work_data ) .
+
+        GENERATE <https://projects.tib.eu/tapir/vivo-rdf/authorship.rqg>(?person_id, ?work_id) .
+    }
+    ITERATOR iter:JSONPath(?person_works_data, '$.results[*]') AS ?work_data
+    WHERE{
+        BIND(<https://projects.tib.eu/tapir/openalex/work/work_id.rqg>(?work_data) AS ?work_id)
+        FILTER (BOUND(?work_id) && STRLEN(?work_id)>0)
+    } .
+}
+WHERE {
+    # extract data from this author
+    BIND(<https://projects.tib.eu/tapir/openalex/personPlusWorks/person_id.rqg>(?orcid) AS ?person_id)
+    BIND (REPLACE(?orcid, "https?://orcid.org/" , "" ) AS ?orcid_id)
+
+    # family and given name can not be extracted from OpenAlex data
+    # there is only "display_name", no further distinction
+}

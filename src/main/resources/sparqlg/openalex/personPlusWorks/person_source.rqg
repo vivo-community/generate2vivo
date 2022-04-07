@@ -1,0 +1,33 @@
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+# parameter polite_mail uses an email adress to access polite pool of OpenAlex
+# see https://docs.openalex.org/api#the-polite-pool
+
+GENERATE <person_source>(?orcid, ?polite_mail, ?page) {
+
+    GENERATE <https://projects.tib.eu/tapir/openalex/personPlusWorks/person_mapping.rqg>( ?person_works_data, ?orcid ) .
+
+    ## continue looping for person only if there are more pages
+    GENERATE <https://projects.tib.eu/tapir/openalex/personPlusWorks/person_source.rqg>( ?orcid, ?polite_mail, ?next_page )
+    WHERE {
+        BIND( xsd:integer(fun:JSONPath( ?meta, "$.count" )) AS ?item_count)
+        BIND( xsd:integer(fun:JSONPath( ?meta, "$.per_page" )) AS ?items_per_page )
+        BIND( xsd:integer(?page) as ?page_int)
+        FILTER( ?item_count > ?items_per_page * ?page_int )
+        BIND (STR(?page_int + 1) AS ?next_page)
+    } .
+
+}
+WHERE {
+    # add mailto parameter to make polite request
+    BIND(IF(BOUND(?polite_mail) && strlen(?polite_mail)>0 , "mailto:{?polite_mail}", "") AS ?mailto)
+    BIND(CONCAT("Accept: application/json", ?mailto) AS ?header)
+
+    # make http request
+    BIND( fun:HTTPGet(<https://api.openalex.org/works?filter=authorships.author.orcid:{?orcid}&page={?page}>, ?header) AS ?response)
+    FILTER( fun:HTTPExtractResponseCode( ?response ) = 200 )
+    BIND( fun:HTTPExtractBody( ?response ) AS ?body )
+    BIND( ?body AS ?person_works_data )
+    BIND( fun:JSONPath( ?body, "$.meta" ) AS ?meta )
+}
